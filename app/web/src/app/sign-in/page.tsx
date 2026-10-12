@@ -1,11 +1,21 @@
 import { SignIn } from "@clerk/nextjs";
+import { headers } from "next/headers";
 import Link from "next/link";
 import { LockKeyhole, ChevronRight } from "lucide-react";
 import { getLandingOrigin } from "@/lib/public-urls";
+import { resolveSignInRedirect } from "@/lib/sign-in-redirect";
 
-export default function SignInPage() {
+export default async function SignInPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ redirect_url?: string | string[] }>;
+}) {
   const landingUrl = getLandingOrigin();
-  const dashboardUrl = "/dashboard";
+  const { redirect_url } = await searchParams;
+  const requestHeaders = await headers();
+  const host = requestHeaders.get("x-forwarded-host") ?? requestHeaders.get("host");
+  // Return to the page that required sign-in (e.g. /admin); default to the dashboard.
+  const dashboardUrl = resolveSignInRedirect(redirect_url, host);
 
   return (
     <div className="min-h-screen bg-[#F1F3F5] px-4 py-10 md:px-8 md:py-16">

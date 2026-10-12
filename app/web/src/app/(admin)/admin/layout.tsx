@@ -16,7 +16,7 @@ export default async function AdminLayout({
   const initialLocale = resolveLocale(cookieStore.get("ibpa-locale")?.value);
 
   if (adminAuth.status === "unauthenticated") {
-    redirect("/sign-in");
+    redirect("/sign-in?redirect_url=%2Fadmin");
   }
 
   if (adminAuth.status === "forbidden") {
