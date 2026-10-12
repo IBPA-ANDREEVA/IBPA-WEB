@@ -47,10 +47,10 @@ export default clerkMiddleware(async (auth, req) => {
     return adminAuthErrorResponse("unauthenticated");
   }
 
-  // Admin pages: only top-level document navigations may be redirected to
-  // sign-in. RSC/prefetch requests get a 401 instead, which makes the Next.js
-  // router retry as a full navigation (where the Clerk handshake can refresh
-  // an expired session) instead of yanking the admin to the sign-in page.
+  // Admin and dashboard pages: only top-level document navigations may be
+  // redirected to sign-in. RSC/prefetch requests get a 401 instead, which makes
+  // the Next.js router retry as a full navigation (where the Clerk handshake
+  // can refresh an expired session) instead of yanking the user to sign-in.
   if (unauthenticatedAdminPageAction(req.headers) === "redirect-to-sign-in") {
     return authObject.redirectToSignIn({ returnBackUrl: req.url });
   }

@@ -1,4 +1,10 @@
 import { ClerkProvider } from "@clerk/nextjs";
+import type { ComponentProps } from "react";
+
+type AppClerkProviderProps = {
+  children: React.ReactNode;
+  localization?: ComponentProps<typeof ClerkProvider>["localization"];
+};
 
 /**
  * Shared Clerk provider used by the route groups that need clerk-js on the
@@ -7,9 +13,13 @@ import { ClerkProvider } from "@clerk/nextjs";
  * must load it: clerk-js is what keeps the short-lived session cookie fresh,
  * and admin API mutations start failing with 401 without it.
  */
-export function AppClerkProvider({ children }: { children: React.ReactNode }) {
+export function AppClerkProvider({
+  children,
+  localization,
+}: AppClerkProviderProps) {
   return (
     <ClerkProvider
+      localization={localization}
       signInUrl="/sign-in"
       signInForceRedirectUrl="/dashboard"
       signInFallbackRedirectUrl="/dashboard"

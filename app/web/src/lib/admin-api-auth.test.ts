@@ -56,10 +56,20 @@ describe("classifyProxyPath", () => {
     assert.equal(classifyProxyPath("/admin/applications"), "admin-page");
   });
 
+  it("treats member dashboard pages as protected pages", () => {
+    assert.equal(classifyProxyPath("/dashboard"), "dashboard-page");
+    assert.equal(classifyProxyPath("/dashboard/community"), "dashboard-page");
+    assert.equal(classifyProxyPath("/dashboard/membership/change/success"), "dashboard-page");
+  });
+
+  it("keeps the post-checkout /dashboard/success page public", () => {
+    assert.equal(classifyProxyPath("/dashboard/success"), "public");
+    assert.equal(classifyProxyPath("/dashboard/success/"), "public");
+  });
+
   it("leaves everything else (including the sign-in page) ungated", () => {
     assert.equal(classifyProxyPath("/"), "public");
     assert.equal(classifyProxyPath("/sign-in"), "public");
-    assert.equal(classifyProxyPath("/dashboard"), "public");
     assert.equal(classifyProxyPath("/api/content"), "public");
     assert.equal(classifyProxyPath("/api/orders"), "public");
   });

@@ -116,8 +116,22 @@ export type ProxyPathKind =
   | "protected-api"
   /** Admin pages; unauthenticated documents redirect to sign-in. */
   | "admin-page"
+  /** Member dashboard pages; unauthenticated documents redirect to sign-in. */
+  | "dashboard-page"
   /** Everything else — middleware does not gate it. */
   | "public";
+
+function isDashboardPagePath(pathname: string): boolean {
+  return pathname === "/dashboard" || pathname.startsWith("/dashboard/");
+}
+
+/**
+ * Post-checkout landing page: buyers arrive signed out and create or sign in
+ * to their account there, so it must stay reachable without a session.
+ */
+function isPublicDashboardPagePath(pathname: string): boolean {
+  return pathname.replace(/\/+$/, "") === "/dashboard/success";
+}
 
 /** Single source of truth for what the middleware protects. */
 export function classifyProxyPath(pathname: string): ProxyPathKind {
@@ -133,6 +147,9 @@ export function classifyProxyPath(pathname: string): ProxyPathKind {
   }
   if (pathname.startsWith("/admin")) {
     return "admin-page";
+  }
+  if (isDashboardPagePath(pathname) && !isPublicDashboardPagePath(pathname)) {
+    return "dashboard-page";
   }
   return "public";
 }
