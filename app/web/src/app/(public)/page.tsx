@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Hero } from "@/components/landing/Hero";
@@ -15,9 +16,12 @@ import { CTASection } from "@/components/landing/CTASection";
 import { resolveLocale } from "@/lib/locale";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/seo/json-ld";
 import { buildPageMetadata } from "@/lib/seo/metadata";
-import { PAGE_SEO } from "@/lib/seo/pages";
+import { getLocalizedPageSeo } from "@/lib/seo/pages";
 
-export const metadata = buildPageMetadata({ ...PAGE_SEO.home, absoluteTitle: true });
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = resolveLocale((await cookies()).get("ibpa-locale")?.value);
+  return buildPageMetadata({ ...getLocalizedPageSeo("home", locale), absoluteTitle: true, locale });
+}
 
 export default async function Home() {
   const cookieStore = await cookies();
@@ -27,7 +31,7 @@ export default async function Home() {
   return (
     <div className="overflow-x-hidden bg-white selection:bg-[#72A0C1] selection:text-white">
       <JsonLd data={organizationJsonLd()} />
-      <JsonLd data={websiteJsonLd()} />
+      <JsonLd data={websiteJsonLd(locale)} />
       <Hero locale={locale} />
       <AboutSection />
       <BrandTickerSection locale={locale} />

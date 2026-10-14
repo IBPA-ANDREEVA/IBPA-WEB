@@ -247,15 +247,15 @@ const dictionaries: Record<Locale, PublicDictionary> = {
         titleBottom: "Professionals Association",
         subtitle: "Where Beauty Becomes Community",
         description:
-          "IBPA connects beauty professionals, educators, and brands to advance industry standards, education, and global growth",
+          "IBPA is an international beauty professional association for specialists, educators, salon owners, and brands. Membership supports education, professional standards, industry recognition, events, and global networking.",
         primaryCta: "Become a Member",
         secondaryCta: "Partner / Sponsor",
         ticker: ["Professional Standards", "International Collaboration", "Beauty Industry Community"],
       },
       about: {
-        title: "Elevating Beauty Standards Globally",
+        title: "An International Beauty Association for Professionals",
         subtitle:
-          "The International Beauty Professionals Association is a professional nonprofit organization dedicated to supporting excellence in the beauty industry.",
+          "IBPA serves beauty specialists, educators, salon owners, and brands through professional standards, education, recognition, industry events, and an international network.",
         commitmentLabel: "We are committed to:",
         commitmentItems: [
           "professional growth",
@@ -265,7 +265,7 @@ const dictionaries: Record<Locale, PublicDictionary> = {
         ],
         quote:
           "Our goal is to strengthen the beauty industry as a respected professional field built on expertise, ethics, and quality.",
-        readMore: "About IBPA",
+        readMore: "About the International Beauty Professionals Association",
       },
       audience: {
         title: "Who the Association Is For",
@@ -311,8 +311,8 @@ const dictionaries: Record<Locale, PublicDictionary> = {
       },
       benefits: {
         eyebrow: "Membership Benefits",
-        title: "Why Join IBPA",
-        detailsCta: "All Membership Details",
+        title: "Beauty Professional Membership Benefits",
+        detailsCta: "Explore Beauty Association Membership",
         items: [
           {
             title: "Education",
@@ -338,12 +338,12 @@ const dictionaries: Record<Locale, PublicDictionary> = {
       },
       events: {
         eyebrow: "Upcoming Events",
-        title: "Future Events",
+        title: "Beauty Industry Events & Networking",
         description:
           "IBPA regularly organizes professional events that support education, networking, and collaboration within the beauty industry.",
         subdescription:
           "Each event brings together experts, educators, brands, and professionals to exchange knowledge and experience.",
-        viewAll: "View All Events",
+        viewAll: "Explore Beauty Industry Events",
         register: "Register Now",
         upcoming: "Upcoming",
         items: [
@@ -484,15 +484,15 @@ const dictionaries: Record<Locale, PublicDictionary> = {
         titleBottom: "Professionals Association",
         subtitle: "Где красота создает сообщество",
         description:
-          "IBPA объединяет бьюти-специалистов, преподавателей и бренды для развития отраслевых стандартов, образования и глобального роста.",
+          "IBPA — международная ассоциация для beauty-специалистов, преподавателей, владельцев салонов и брендов. Членство открывает доступ к образованию, профессиональным стандартам, событиям, признанию и международному нетворкингу.",
         primaryCta: "Подать заявку",
         secondaryCta: "Партнер / Спонсор",
         ticker: ["Профессиональные стандарты", "Международное сотрудничество", "Сообщество индустрии красоты"],
       },
       about: {
-        title: "Поднимаем стандарты красоты во всем мире",
+        title: "Международная ассоциация для beauty-профессионалов",
         subtitle:
-          "International Beauty Professionals Association — это профессиональная некоммерческая организация, поддерживающая высокий уровень экспертизы в индустрии красоты.",
+          "IBPA объединяет beauty-специалистов, преподавателей, владельцев салонов и бренды вокруг профессиональных стандартов, образования, признания, отраслевых событий и международного нетворкинга.",
         commitmentLabel: "Мы развиваем:",
         commitmentItems: [
           "профессиональный рост",
@@ -502,7 +502,7 @@ const dictionaries: Record<Locale, PublicDictionary> = {
         ],
         quote:
           "Наша цель — укреплять индустрию красоты как уважаемую профессиональную сферу, основанную на экспертизе, этике и качестве.",
-        readMore: "Подробнее",
+        readMore: "О Международной ассоциации beauty-профессионалов",
       },
       audience: {
         title: "Для кого создана ассоциация",
@@ -548,8 +548,8 @@ const dictionaries: Record<Locale, PublicDictionary> = {
       },
       benefits: {
         eyebrow: "Преимущества сообщества",
-        title: "Почему IBPA",
-        detailsCta: "Все тарифы и пакеты",
+        title: "Преимущества профессионального членства",
+        detailsCta: "Изучить членство в beauty-ассоциации",
         items: [
           {
             title: "Образование",
@@ -575,12 +575,12 @@ const dictionaries: Record<Locale, PublicDictionary> = {
       },
       events: {
         eyebrow: "Ближайшие события",
-        title: "Будущие события",
+        title: "События beauty-индустрии и нетворкинг",
         description:
           "IBPA регулярно организует профессиональные события, которые поддерживают образование, нетворкинг и сотрудничество в индустрии красоты.",
         subdescription:
           "Каждое событие объединяет экспертов, преподавателей, бренды и специалистов для обмена знаниями и опытом.",
-        viewAll: "Смотреть все события",
+        viewAll: "Изучить события beauty-индустрии",
         register: "Зарегистрироваться",
         upcoming: "Скоро",
         items: [
@@ -721,15 +721,15 @@ const dictionaries: Record<Locale, PublicDictionary> = {
         titleBottom: "Professionals Association",
         subtitle: "Де краса створює спільноту",
         description:
-          "IBPA об’єднує beauty-професіоналів, викладачів і бренди для розвитку галузевих стандартів, освіти та глобального зростання.",
+          "IBPA — міжнародна асоціація для beauty-фахівців, викладачів, власників салонів і брендів. Членство відкриває доступ до освіти, професійних стандартів, подій, визнання та міжнародного нетворкінгу.",
         primaryCta: "Подати заявку",
         secondaryCta: "Партнер / Спонсор",
         ticker: ["Професійні стандарти", "Міжнародна співпраця", "Спільнота індустрії краси"],
       },
       about: {
-        title: "Підвищуємо стандарти краси у всьому світі",
+        title: "Міжнародна асоціація для beauty-професіоналів",
         subtitle:
-          "International Beauty Professionals Association — це професійна неприбуткова організація, що підтримує високий рівень експертизи в індустрії краси.",
+          "IBPA об’єднує beauty-фахівців, викладачів, власників салонів і бренди навколо професійних стандартів, освіти, визнання, галузевих подій і міжнародного нетворкінгу.",
         commitmentLabel: "Ми розвиваємо:",
         commitmentItems: [
           "професійне зростання",
@@ -739,7 +739,7 @@ const dictionaries: Record<Locale, PublicDictionary> = {
         ],
         quote:
           "Наша мета — зміцнювати індустрію краси як шановану професійну сферу, побудовану на експертизі, етиці та якості.",
-        readMore: "Детальніше",
+        readMore: "Про Міжнародну асоціацію beauty-професіоналів",
       },
       audience: {
         title: "Для кого створена асоціація",
@@ -785,8 +785,8 @@ const dictionaries: Record<Locale, PublicDictionary> = {
       },
       benefits: {
         eyebrow: "Переваги спільноти",
-        title: "Чому IBPA",
-        detailsCta: "Усі тарифи та пакети",
+        title: "Переваги професійного членства",
+        detailsCta: "Ознайомитися з членством у beauty-асоціації",
         items: [
           {
             title: "Освіта",
@@ -812,12 +812,12 @@ const dictionaries: Record<Locale, PublicDictionary> = {
       },
       events: {
         eyebrow: "Найближчі події",
-        title: "Майбутні події",
+        title: "Події beauty-індустрії та нетворкінг",
         description:
           "IBPA регулярно організовує професійні події, що підтримують освіту, нетворкінг і співпрацю в індустрії краси.",
         subdescription:
           "Кожна подія об’єднує експертів, викладачів, бренди та професіоналів для обміну знаннями й досвідом.",
-        viewAll: "Переглянути всі події",
+        viewAll: "Переглянути події beauty-індустрії",
         register: "Зареєструватися",
         upcoming: "Незабаром",
         items: [

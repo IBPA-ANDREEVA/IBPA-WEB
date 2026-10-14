@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 
 import { TITLE_SUFFIX, buildPageMetadata } from "./metadata";
-import { PAGE_SEO } from "./pages";
+import { getLocalizedPageSeo, PAGE_SEO, type LocalizedPageSeoKey } from "./pages";
 import { INDEXABLE_ROUTES } from "./routes";
 
 const entries = Object.entries(PAGE_SEO);
@@ -79,4 +79,36 @@ test("buildPageMetadata keeps the full title for absolute titles and supports no
 
   const hidden = buildPageMetadata({ ...PAGE_SEO.apply, noindex: true });
   assert.deepEqual(hidden.robots, { index: false, follow: false });
+});
+
+test("core page metadata is unique, concise, and localized for every supported language", () => {
+  const keys: LocalizedPageSeoKey[] = ["home", "about", "membership", "standards", "events"];
+
+  for (const locale of ["en", "ru", "uk"] as const) {
+    const titles = new Set<string>();
+    const descriptions = new Set<string>();
+
+    for (const key of keys) {
+      const page = getLocalizedPageSeo(key, locale);
+      const title = displayedTitle(key, page.title);
+      assert.ok(title.length <= 65, `${locale}/${key} title is ${title.length} chars: "${title}"`);
+      assert.ok(page.description.length >= 70 && page.description.length <= 160,
+        `${locale}/${key} description is ${page.description.length} chars`);
+      assert.ok(!titles.has(title), `${locale}/${key} repeats a localized title`);
+      assert.ok(!descriptions.has(page.description), `${locale}/${key} repeats a localized description`);
+      assert.equal(page.path, PAGE_SEO[key].path);
+      titles.add(title);
+      descriptions.add(page.description);
+    }
+  }
+});
+
+test("localized metadata keeps one canonical URL and identifies the rendered Open Graph locale", () => {
+  const russian = buildPageMetadata({ ...getLocalizedPageSeo("events", "ru"), locale: "ru" });
+  const ukrainian = buildPageMetadata({ ...getLocalizedPageSeo("events", "uk"), locale: "uk" });
+
+  assert.deepEqual(russian.alternates, { canonical: "https://www.ibpassociations.org/events" });
+  assert.equal((russian.openGraph as { locale: string }).locale, "ru_RU");
+  assert.deepEqual(ukrainian.alternates, { canonical: "https://www.ibpassociations.org/events" });
+  assert.equal((ukrainian.openGraph as { locale: string }).locale, "uk_UA");
 });

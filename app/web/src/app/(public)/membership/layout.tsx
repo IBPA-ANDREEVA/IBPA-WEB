@@ -1,17 +1,25 @@
+import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
+import { resolveLocale } from "@/lib/locale";
 import { buildPageMetadata } from "@/lib/seo/metadata";
-import { PAGE_SEO } from "@/lib/seo/pages";
+import { getLocalizedPageSeo } from "@/lib/seo/pages";
 
-export const metadata = buildPageMetadata(PAGE_SEO.membership);
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = resolveLocale((await cookies()).get("ibpa-locale")?.value);
+  return buildPageMetadata({ ...getLocalizedPageSeo("membership", locale), locale });
+}
 
-export default function MembershipLayout({
+export default async function MembershipLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const locale = resolveLocale((await cookies()).get("ibpa-locale")?.value);
+  const pageSeo = getLocalizedPageSeo("membership", locale);
   return (
     <>
-      <BreadcrumbJsonLd page={PAGE_SEO.membership} />
+      <BreadcrumbJsonLd page={pageSeo} />
       {children}
     </>
   );

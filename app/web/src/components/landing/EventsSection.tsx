@@ -36,12 +36,12 @@ export const EventsSection = async ({ locale }: EventsSectionProps) => {
     locale === "ru"
       ? {
           eyebrow: "События IBPA",
-          title: "События сообщества",
+          title: "События beauty-индустрии и нетворкинг",
           description:
             "IBPA регулярно организует профессиональные события, которые поддерживают образование, нетворкинг и сотрудничество в индустрии красоты.",
           subdescription:
             "Каждое событие объединяет экспертов, преподавателей, бренды и профессионалов для обмена знаниями и опытом.",
-          viewAll: "Все события",
+          viewAll: "Изучить события beauty-индустрии",
           register: "Регистрация",
           upcoming: "Скоро",
           siteLabel: "Опубликовано для сайта IBPA",
@@ -49,24 +49,24 @@ export const EventsSection = async ({ locale }: EventsSectionProps) => {
       : locale === "uk"
         ? {
             eyebrow: "Події IBPA",
-            title: "Події спільноти",
+            title: "Події beauty-індустрії та нетворкінг",
             description:
               "IBPA регулярно організовує професійні події, що підтримують освіту, нетворкінг і співпрацю в beauty-індустрії.",
             subdescription:
               "Кожна подія об’єднує експертів, викладачів, бренди та професіоналів для обміну знаннями й досвідом.",
-            viewAll: "Усі події",
+            viewAll: "Переглянути події beauty-індустрії",
             register: "Реєстрація",
             upcoming: "Скоро",
             siteLabel: "Опубліковано для сайту IBPA",
           }
         : {
             eyebrow: "IBPA Events",
-            title: "Community Events",
+            title: "Beauty Industry Events & Networking",
             description:
               "IBPA regularly organizes professional events that support education, networking, and collaboration within the beauty industry.",
             subdescription:
               "Each event brings together experts, educators, brands, and professionals to exchange knowledge and experience.",
-            viewAll: "View All Events",
+            viewAll: "Explore Beauty Industry Events",
             register: "Register Now",
             upcoming: "Upcoming",
             siteLabel: "Published for the IBPA website",
