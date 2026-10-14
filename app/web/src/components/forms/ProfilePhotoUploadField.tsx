@@ -26,6 +26,7 @@ type ProfilePhotoUploadFieldProps = {
   removeLabel?: string;
   uploadingLabel?: string;
   formatHint?: string;
+  fieldName?: string;
 };
 
 export function ProfilePhotoUploadField({
@@ -39,6 +40,7 @@ export function ProfilePhotoUploadField({
   removeLabel = "Remove",
   uploadingLabel = "Uploading...",
   formatHint = "JPG, PNG, WEBP, or HEIC. One photo, max 16MB.",
+  fieldName,
 }: ProfilePhotoUploadFieldProps) {
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const [isDragging, setIsDragging] = React.useState(false);
@@ -72,7 +74,7 @@ export function ProfilePhotoUploadField({
   );
 
   return (
-    <div className="space-y-4 md:col-span-2">
+    <div className="space-y-4 md:col-span-2" data-field={fieldName}>
       <div className="space-y-2">
         <label className="field-label">{label} *</label>
         <p className="text-sm text-slate-500">{description}</p>

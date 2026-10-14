@@ -299,6 +299,7 @@ export function OrganizationApplicationStep({
       endpoint={options.imageOnly ? "portfolioUploader" : "applicationDocumentUploader"}
       label={fieldLabel}
       description={description}
+      fieldName={name}
       value={filesOf(name)}
       onChange={(urls) => setValue(name, urls, { shouldDirty: true, shouldTouch: true, shouldValidate: true })}
       accept={options.imageOnly ? "image/*" : ".pdf,.doc,.docx,image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"}
@@ -320,6 +321,7 @@ export function OrganizationApplicationStep({
     <ProfilePhotoUploadField
       label={fieldLabel}
       description={description}
+      fieldName={name}
       value={filesOf(name)}
       onChange={(urls) => setValue(name, urls, { shouldDirty: true, shouldTouch: true, shouldValidate: true })}
       error={renderFieldError(name)}

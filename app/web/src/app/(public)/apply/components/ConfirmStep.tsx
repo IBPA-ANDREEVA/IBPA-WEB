@@ -20,6 +20,7 @@ type ConfirmStepProps = {
   promoCode: string;
   onPromoCodeApplied: (code: string) => void;
   onPromoCodeCleared: () => void;
+  hidePromoCode?: boolean;
 };
 
 export function ConfirmStep({
@@ -36,6 +37,7 @@ export function ConfirmStep({
   promoCode,
   onPromoCodeApplied,
   onPromoCodeCleared,
+  hidePromoCode = false,
 }: ConfirmStepProps) {
   const t = (en: string, ru: string, uk: string) => (isRu ? ru : isUk ? uk : en);
   const isOrganization = selectedCategory === "Business" || selectedCategory === "Brand";
@@ -72,14 +74,16 @@ export function ConfirmStep({
         </div>
       </div>
 
-      <PromoCodeField
-        editorialClassName={editorialClassName}
-        isRu={isRu}
-        isUk={isUk}
-        onApplied={onPromoCodeApplied}
-        onCleared={onPromoCodeCleared}
-        value={promoCode}
-      />
+      {hidePromoCode ? null : (
+        <PromoCodeField
+          editorialClassName={editorialClassName}
+          isRu={isRu}
+          isUk={isUk}
+          onApplied={onPromoCodeApplied}
+          onCleared={onPromoCodeCleared}
+          value={promoCode}
+        />
+      )}
 
       <div className="space-y-4 rounded-3xl border border-slate-200 bg-white p-6">
         <label className="flex items-start gap-3 text-sm text-slate-700">

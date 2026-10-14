@@ -119,6 +119,7 @@ export function DetailsStep({
           <PortfolioUploadField
             isRu={isRu}
             isUk={isUk}
+            fieldName="portfolioImages"
             value={portfolioImages}
             onChange={onPortfolioImagesChange}
             error={renderFieldError("portfolioImages")}
@@ -214,6 +215,7 @@ export function DetailsStep({
                 "Загрузите методичку, план обучения или учебные материалы в формате PDF, DOC или DOCX.",
                 "Завантажте методичку, план навчання або навчальні матеріали у форматі PDF, DOC чи DOCX.",
               )}
+              fieldName="trainerEducationPlanFiles"
               value={trainerEducationPlanFiles}
               onChange={onTrainerEducationPlanFilesChange}
               accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
@@ -228,6 +230,7 @@ export function DetailsStep({
                 "Загрузите сертификат, подтверждающий вашу заявку преподавателя. Принимаются PDF или изображения.",
                 "Завантажте сертифікат, що підтверджує вашу заявку викладача. Приймаються PDF або зображення.",
               )}
+              fieldName="trainerCertificateFiles"
               value={trainerCertificateFiles}
               onChange={onTrainerCertificateFilesChange}
               accept=".pdf,image/*,application/pdf"
@@ -242,6 +245,7 @@ export function DetailsStep({
                 "Загрузите минимум 5 фото: отзывы студентов, фото преподавания, скриншоты обучения и другие подтверждения.",
                 "Завантажте щонайменше 5 фото: відгуки студентів, фото викладання, скриншоти навчання та інші підтвердження.",
               )}
+              fieldName="trainerExperienceProofFiles"
               value={trainerExperienceProofFiles}
               onChange={onTrainerExperienceProofFilesChange}
               accept="image/*"

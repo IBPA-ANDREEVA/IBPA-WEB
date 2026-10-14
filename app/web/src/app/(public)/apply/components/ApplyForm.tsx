@@ -40,7 +40,17 @@ import {
   isOrganizationApplication,
   organizationApplicationLabels,
 } from "@/lib/organization-application";
-import { OrganizationApplicationStep } from "./components/OrganizationApplicationStep";
+import { OrganizationApplicationStep } from "./OrganizationApplicationStep";
+import {
+  getNewApplicationFields,
+  getRemainingNewFields,
+  isApplicationFieldFilled,
+  getStepFields as getFieldNamesForStep,
+  includesSubcategorySection,
+  requiresProofDocuments,
+  requiresLicenseNumber,
+} from "@/lib/application-steps";
+import { ChangeHeader, ChangeOverviewStep, ChangeSidebar } from "./ChangeOverviewStep";
 
 type FormData = {
   profilePhotoFiles: string[];
@@ -228,20 +238,47 @@ const specializationOptions = [
 ];
 
 const APPLY_DRAFT_KEY = "ibpa-application-draft";
+
+const BLANK_APPLICATION: Partial<FormData> = {
+  membershipCategory: "Specialist",
+  applicantType: membershipConfigById.Specialist.applicantType,
+  profilePhotoFiles: [],
+  credentialProofFiles: [],
+  portfolioImages: [],
+  trainerEducationPlanFiles: [],
+  trainerCertificateFiles: [],
+  trainerExperienceProofFiles: [],
+  businessProfilePhotoFiles: [],
+  businessProfessionalCertificationFiles: [],
+  businessSupportingDocumentFiles: [],
+  businessPortfolioImages: [],
+  businessClientTestimonialFiles: [],
+  brandReviewFiles: [],
+  brandProductFiles: [],
+  brandAchievementDocumentFiles: [],
+  brandSupportingDocumentFiles: [],
+  brandProductCategories: [],
+  brandCertifications: [],
+  brandCooperationMethods: [],
+  brandMemberBenefits: [],
+  specialization: [],
+  hasLicense: "Yes",
+  promoCode: "",
+};
 const SubmittedState = dynamic(
-  () => import("./components/SubmittedState").then((mod) => mod.SubmittedState),
+  () => import("./SubmittedState").then((mod) => mod.SubmittedState),
   { ssr: false },
 );
 const DetailsStep = dynamic(
-  () => import("./components/DetailsStep").then((mod) => mod.DetailsStep),
+  () => import("./DetailsStep").then((mod) => mod.DetailsStep),
   { ssr: false },
 );
 const MotivationStep = dynamic(
-  () => import("./components/MotivationStep").then((mod) => mod.MotivationStep),
+  () => import("./MotivationStep").then((mod) => mod.MotivationStep),
   { ssr: false },
 );
 const ConfirmStep = dynamic(
-  () => import("./components/ConfirmStep").then((mod) => mod.ConfirmStep),
+  () => import("./ConfirmStep").then((mod) => mod.ConfirmStep),
   { ssr: false },
 );
 
@@ -352,101 +389,8 @@ function getPhoneDigits(value: string) {
   return value.replace(/\D/g, "");
 }
 
-const professionalAchievementFields: (keyof FormData)[] = [
-  "achievementsYesNo",
-  "achievementsDesc",
-  "competitionsYesNo",
-  "competitionName",
-  "competitionYear",
-  "competitionResult",
-  "speakerEducatorJudge",
-  "publicationsYesNo",
-  "publicationsLinks",
-];
-
-const industryContributionFields: (keyof FormData)[] = [
-  "professionalCommunityYesNo",
-  "otherOrganizationsYesNo",
-  "otherOrganizationName",
-  "otherOrganizationStatus",
-  "otherOrganizationYears",
-];
-
-function getCategorySpecificFields(category: MembershipCategory): (keyof FormData)[] {
-  switch (category) {
-    case "Specialist":
-      return ["portfolioImages", "studentSchool", "studentProgName", "studentEndDate", "studentMotivation"];
-    case "Professional":
-      return ["portfolioImages", "workingJurisdictions", ...professionalAchievementFields];
-    case "Trainer":
-      return [
-        "portfolioImages",
-        "educatorRole",
-        "educatorSubjects",
-        "educatorYears",
-        "educatorFormat",
-        "studentCount",
-        "trainerEducationPlanFiles",
-        "trainerCertificateFiles",
-        "trainerExperienceProofFiles",
-        ...professionalAchievementFields,
-      ];
-    case "Business":
-      return ["bizName", "bizType", "bizYear", "bizTeamSize", "bizServices", ...professionalAchievementFields];
-    case "Brand":
-      return ["brandName", "brandYear", "brandMarket", "brandType"];
-    default:
-      return [];
-  }
-}
-
-function requiresLicenseNumber(category: MembershipCategory) {
-  return category !== "Specialist";
-}
-
-function requiresProofDocuments(category: MembershipCategory) {
-  return category !== "Specialist";
-}
-
-function includesSubcategorySection(category: MembershipCategory) {
-  return category !== "Business" && category !== "Brand";
-}
-
-function getStepFields(step: number, category: MembershipCategory): (keyof FormData)[] {
-  if (step > 0 && isOrganizationApplication(category)) {
-    return getOrganizationStepFields(category, step) as (keyof FormData)[];
-  }
-
-  switch (step) {
-    case 0:
-      return ["membershipCategory"];
-    case 1:
-      return category === "Specialist" || category === "Professional" || category === "Trainer"
-        ? ["firstName", "lastName", "dateOfBirth", "email", "phone", "citizenship", "city", "country", "profilePhotoFiles"]
-        : ["firstName", "lastName", "email", "phone", "citizenship", "city", "country", "profilePhotoFiles"];
-    case 2:
-      return includesSubcategorySection(category)
-        ? ["specialization", "specializationOther", "yearsExperience", "professionalDesc", "workSetting"]
-        : ["yearsExperience", "professionalDesc", "workSetting"];
-    case 3:
-      return requiresLicenseNumber(category)
-        ? ["educationDesc", "hasLicense", "licenseNumber", "credentialProofFiles"]
-        : ["educationDesc", "hasLicense", "credentialProofFiles"];
-    case 4:
-      return getCategorySpecificFields(category);
-    case 5:
-      return category === "Professional" || category === "Trainer" || category === "Business"
-        ? category === "Business"
-          ? ["instagramLink", "websiteLink", "whyJoin", "contributionDesc", ...industryContributionFields]
-          : ["instagramLink", "portfolioLink", "whyJoin", "contributionDesc", ...industryContributionFields]
-        : category === "Brand"
-          ? ["instagramLink", "websiteLink", "whyJoin", "contributionDesc"]
-          : ["instagramLink", "portfolioLink", "whyJoin", "contributionDesc"];
-    case 6:
-      return ["certifyTrue", "understandReview", "agreeStandards", "privacyConsent", "legalName", "signature"];
-    default:
-      return [];
-  }
+function getStepFields(step: number, category: MembershipCategory) {
+  return getFieldNamesForStep(step, category) as (keyof FormData)[];
 }
 
 function getReviewEditToken() {
@@ -458,7 +402,23 @@ function isDedicatedApplicationEditRoute() {
   return window.location.pathname === "/application/edit";
 }
 
-export default function ApplyPage() {
+export type MembershipChangeContext = {
+  fromCategory: MembershipCategory;
+  toCategory: MembershipCategory;
+  /** Annual prices in cents. */
+  oldAmount: number;
+  newAmount: number;
+  balanceDue: number;
+  expiresAt?: string | null;
+  /** Answers the member already gave, re-keyed for the new package. */
+  initialValues: Record<string, unknown>;
+  backHref: string;
+  onSubmitted: () => void;
+};
+
+const CHANGE_DRAFT_PREFIX = "ibpa-membership-change-draft";
+
+export function ApplyForm({ change }: { change?: MembershipChangeContext }) {
   const { locale } = useI18n();
   const isRu = locale === "ru";
   const isUk = locale === "uk";
@@ -478,6 +438,21 @@ export default function ApplyPage() {
   const [reviewLoadError, setReviewLoadError] = React.useState("");
   const [requestedChanges, setRequestedChanges] = React.useState("");
   const isFinalStep = currentStep === STEPS.length - 1;
+  const draftKey = change
+    ? `${CHANGE_DRAFT_PREFIX}:${change.fromCategory}:${change.toCategory}`
+    : APPLY_DRAFT_KEY;
+  // For a membership change the form starts from what the member already gave.
+  const initialValues = React.useMemo<FormData>(() => {
+    const base = { ...BLANK_APPLICATION } as FormData;
+    if (!change) return base;
+    return {
+      ...base,
+      ...(change.initialValues as Partial<FormData>),
+      membershipCategory: change.toCategory,
+      applicantType: membershipConfigById[change.toCategory].applicantType,
+      promoCode: "",
+    };
+  }, [change]);
 
   const {
     register,
@@ -491,32 +466,7 @@ export default function ApplyPage() {
     formState: { errors },
   } = useForm<FormData>({
     mode: "onChange",
-    defaultValues: {
-      membershipCategory: "Specialist",
-      applicantType: membershipConfigById.Specialist.applicantType,
-      profilePhotoFiles: [],
-      credentialProofFiles: [],
-      portfolioImages: [],
-      trainerEducationPlanFiles: [],
-      trainerCertificateFiles: [],
-      trainerExperienceProofFiles: [],
-      businessProfilePhotoFiles: [],
-      businessProfessionalCertificationFiles: [],
-      businessSupportingDocumentFiles: [],
-      businessPortfolioImages: [],
-      businessClientTestimonialFiles: [],
-      brandReviewFiles: [],
-      brandProductFiles: [],
-      brandAchievementDocumentFiles: [],
-      brandSupportingDocumentFiles: [],
-      brandProductCategories: [],
-      brandCertifications: [],
-      brandCooperationMethods: [],
-      brandMemberBenefits: [],
-      specialization: [],
-      hasLicense: "Yes",
-      promoCode: "",
-    },
+    defaultValues: initialValues,
   });
 
   const selectedCategory = watch("membershipCategory");
@@ -546,29 +496,33 @@ export default function ApplyPage() {
       return;
     }
 
-    if (getReviewEditToken() || isDedicatedApplicationEditRoute()) {
+    if (!change && (getReviewEditToken() || isDedicatedApplicationEditRoute())) {
       return;
     }
 
-    const savedDraft = window.localStorage.getItem(APPLY_DRAFT_KEY);
+    const savedDraft = window.localStorage.getItem(draftKey);
     if (!savedDraft) {
       return;
     }
 
     try {
       const parsedDraft = JSON.parse(savedDraft) as Partial<FormData>;
-      const draftCategory = getMembershipCategory(parsedDraft.membershipCategory);
+      const draftCategory = change ? change.toCategory : getMembershipCategory(parsedDraft.membershipCategory);
       reset(
         {
-          applicantType: membershipConfigById.Specialist.applicantType,
-          profilePhotoFiles: [],
-          credentialProofFiles: [],
-          portfolioImages: [],
-          trainerEducationPlanFiles: [],
-          trainerCertificateFiles: [],
-          trainerExperienceProofFiles: [],
-          specialization: [],
-          hasLicense: "Yes",
+          ...(change
+            ? initialValues
+            : {
+              applicantType: membershipConfigById.Specialist.applicantType,
+              profilePhotoFiles: [],
+              credentialProofFiles: [],
+              portfolioImages: [],
+              trainerEducationPlanFiles: [],
+              trainerCertificateFiles: [],
+              trainerExperienceProofFiles: [],
+              specialization: [],
+              hasLicense: "Yes",
+            }),
           ...parsedDraft,
           membershipCategory: draftCategory || "Specialist",
         },
@@ -576,11 +530,14 @@ export default function ApplyPage() {
       );
       restoredCategoryRef.current = draftCategory || "Specialist";
     } catch {
-      window.localStorage.removeItem(APPLY_DRAFT_KEY);
+      window.localStorage.removeItem(draftKey);
     }
+    // Restore once on mount; later edits are saved by the watcher below.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reset]);
 
   React.useEffect(() => {
+    if (change) return;
     const token = getReviewEditToken();
     if (!token) {
       if (isDedicatedApplicationEditRoute()) {
@@ -629,10 +586,11 @@ export default function ApplyPage() {
         setReviewLoadError(error instanceof Error ? error.message : "Could not load this application.");
       })
       .finally(() => setIsReviewLoading(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reset]);
 
   React.useEffect(() => {
-    if (reviewToken) return;
+    if (reviewToken || change) return;
     const params = new URLSearchParams(window.location.search);
     const category = getMembershipCategory(params.get("category"));
     if (!category) {
@@ -640,7 +598,7 @@ export default function ApplyPage() {
     }
 
     setValue("membershipCategory", category, { shouldDirty: false, shouldTouch: false });
-  }, [reviewToken, setValue]);
+  }, [change, reviewToken, setValue]);
 
   React.useEffect(() => {
     setValue("applicantType", (membershipConfigById[selectedCategory] || membershipConfigById.Specialist).applicantType, {
@@ -696,11 +654,11 @@ export default function ApplyPage() {
         return;
       }
 
-      window.localStorage.setItem(APPLY_DRAFT_KEY, JSON.stringify(value));
+      window.localStorage.setItem(draftKey, JSON.stringify(value));
     });
 
     return () => subscription.unsubscribe();
-  }, [reviewToken, submitted, watch]);
+  }, [draftKey, reviewToken, submitted, watch]);
 
   const profilePhotoFiles = watch("profilePhotoFiles") || [];
   const credentialProofFiles = watch("credentialProofFiles") || [];
@@ -860,21 +818,28 @@ export default function ApplyPage() {
         : `${data.firstName || ""} ${data.lastName || ""}`.trim();
       const submissionEmail = data.membershipCategory === "Brand" ? data.brandContactEmail : data.email;
       const submissionPhone = data.membershipCategory === "Brand" ? data.brandContactPhone : data.phone;
-      const response = await fetch(isResubmission ? "/api/application-review" : "/api/orders", {
-        method: isResubmission ? "PATCH" : "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        change ? "/api/dashboard/membership-change" : isResubmission ? "/api/application-review" : "/api/orders",
+        {
+          method: change || !isResubmission ? "POST" : "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(
+            change
+              ? { membershipCategory: change.toCategory, application: data }
+              : {
+                name: submissionName,
+                email: submissionEmail,
+                phone: submissionPhone,
+                package: data.membershipCategory,
+                applicantType: data.applicantType,
+                application: data,
+                ...(isResubmission ? { token: reviewToken } : { honeypot }),
+              },
+          ),
         },
-        body: JSON.stringify({
-          name: submissionName,
-          email: submissionEmail,
-          phone: submissionPhone,
-          package: data.membershipCategory,
-          applicantType: data.applicantType,
-          application: data,
-          ...(isResubmission ? { token: reviewToken } : { honeypot }),
-        }),
-      });
+      );
 
       if (!response.ok) {
         let message = "Failed to submit application";
@@ -893,6 +858,14 @@ export default function ApplyPage() {
         throw new Error(message);
       }
 
+      if (change) {
+        window.localStorage.removeItem(draftKey);
+        toast.success("Request sent. We will email you if anything else is needed.");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        change.onSubmitted();
+        return;
+      }
+
       const { default: confetti } = await import("canvas-confetti");
       confetti({
         particleCount: 140,
@@ -902,7 +875,7 @@ export default function ApplyPage() {
       });
       window.scrollTo({ top: 0, behavior: "smooth" });
       if (typeof window !== "undefined") {
-        window.localStorage.removeItem(APPLY_DRAFT_KEY);
+        window.localStorage.removeItem(draftKey);
       }
       setSubmitted(true);
     } catch (error) {
@@ -916,6 +889,51 @@ export default function ApplyPage() {
       setIsSubmitting(false);
     }
   };
+
+  const jumpToStep = (step: number) => {
+    setCurrentStep(Math.min(Math.max(step, 0), STEPS.length - 1));
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+  const carriedCount = change
+    ? Object.entries(change.initialValues).filter(([key, value]) =>
+        key !== "membershipCategory" && key !== "applicantType" && isApplicationFieldFilled(key, value) && value !== true).length
+    : 0;
+  const formRef = React.useRef<HTMLFormElement | null>(null);
+  const newFields = React.useMemo(
+    () => (change ? getNewApplicationFields(change.fromCategory, change.toCategory) : []),
+    [change],
+  );
+  const remainingNewFields = change
+    ? getRemainingNewFields(newFields, watch() as unknown as Record<string, unknown>)
+    : [];
+  const remainingFieldKey = remainingNewFields.map((item) => item.field).join("|");
+  const remainingByStep = (step: number) => remainingNewFields.filter((item) => item.step === step);
+
+  // Tags the inputs a member still has to fill for the new package so the form
+  // can mark them. Step content mounts lazily, so keep tagging as it appears.
+  React.useEffect(() => {
+    const root = formRef.current;
+    if (!change || !root) return;
+
+    const remaining = remainingFieldKey ? remainingFieldKey.split("|") : [];
+    const tag = () => {
+      root.querySelectorAll("[data-change-new]").forEach((element) => element.removeAttribute("data-change-new"));
+      for (const field of remaining) {
+        root.querySelectorAll(`[name="${field}"], [data-field="${field}"]`).forEach((element) => {
+          if (element instanceof HTMLInputElement && (element.type === "checkbox" || element.type === "radio")) return;
+          const wrapper = element.hasAttribute("data-field")
+            ? element
+            : element.closest(".space-y-2") ?? element.parentElement;
+          wrapper?.setAttribute("data-change-new", "true");
+        });
+      }
+    };
+
+    tag();
+    const observer = new MutationObserver(tag);
+    observer.observe(root, { childList: true, subtree: true });
+    return () => observer.disconnect();
+  }, [change, currentStep, remainingFieldKey]);
 
   if (submitted) {
     return (
@@ -953,6 +971,9 @@ export default function ApplyPage() {
 
   return (
     <div className="bg-white min-h-screen selection:bg-[#B9D9EB] selection:text-black pb-24">
+      {change ? (
+        <ChangeHeader change={change} headlineClassName={headlineClassName} />
+      ) : (
       <section className="relative min-h-[44vh] flex items-center justify-center overflow-hidden bg-[#F1F3F5]">
         <div className="absolute inset-0">
           <ImageWithFallback
@@ -975,8 +996,9 @@ export default function ApplyPage() {
           </p>
         </div>
       </section>
+      )}
 
-      <div className="max-w-6xl mx-auto px-6 -mt-12 relative z-20">
+      <div className={`max-w-6xl mx-auto px-6 relative z-20 ${change ? "-mt-10" : "-mt-12"}`}>
         {isReviewEdit ? (
           <div className="mb-6 rounded-[28px] border border-[#B9D9EB] bg-[#F0F8FF] p-6 text-slate-800 shadow-sm">
             <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#1F5D8F]">Requested changes</p>
@@ -999,8 +1021,13 @@ export default function ApplyPage() {
                 {index < currentStep ? <CheckCircle2 size={18} /> : step.icon}
               </div>
               <span className={`hidden md:block text-[10px] font-bold uppercase tracking-widest ${index === currentStep ? "text-black" : "text-slate-400"}`}>
-                {isRu ? step.title.ru : isUk ? step.title.uk : step.title.en}
+                {change && index === 0 ? "Your change" : isRu ? step.title.ru : isUk ? step.title.uk : step.title.en}
               </span>
+              {change && remainingByStep(index).length > 0 ? (
+                <span className="-mt-1 rounded-full bg-[#EAF4FB] px-2 py-0.5 text-[10px] font-bold tabular-nums text-[#1F5D8F]">
+                  {remainingByStep(index).length} new
+                </span>
+              ) : null}
             </div>
           ))}
         </div>
@@ -1008,6 +1035,7 @@ export default function ApplyPage() {
 
       <div className="max-w-6xl mx-auto px-6 mt-12 md:mt-20 grid lg:grid-cols-[minmax(0,1fr)_320px] gap-8 items-start">
         <form
+          ref={formRef}
           onSubmit={(event) => {
             event.preventDefault();
           }}
@@ -1033,6 +1061,17 @@ export default function ApplyPage() {
             />
           </div>
 
+          {change && currentStep >= 1 && currentStep <= 5 && remainingByStep(currentStep).length > 0 ? (
+            <div role="note" className="rounded-[28px] border border-[#B9D9EB] bg-white p-5">
+              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#1F5D8F]">
+                New for {membershipConfigById[change.toCategory].shortTitle} on this step
+              </p>
+              <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                {remainingByStep(currentStep).map((item) => getFieldLabel(item.field as keyof FormData)).join(", ")}
+              </p>
+            </div>
+          ) : null}
+
           <AnimatePresence mode="wait">
             {currentStep >= 1 && currentStep <= 5 && isOrganizationApplication(selectedCategory) && (
               <OrganizationApplicationStep
@@ -1048,7 +1087,20 @@ export default function ApplyPage() {
                 renderFieldError={renderFieldError}
               />
             )}
-            {currentStep === 0 && (
+            {currentStep === 0 && change && (
+              <ChangeOverviewStep
+                change={change}
+                headlineClassName={headlineClassName}
+                editorialClassName={editorialClassName}
+                carriedCount={carriedCount}
+                newFields={newFields}
+                remaining={remainingNewFields}
+                stepTitles={STEPS.map((step) => step.title)}
+                labelFor={(field) => getFieldLabel(field as keyof FormData)}
+                onJump={jumpToStep}
+              />
+            )}
+            {currentStep === 0 && !change && (
               <motion.div key="category" initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -16 }} className="space-y-10">
                 <div className="space-y-3">
                   <h2 className={`text-3xl md:text-4xl uppercase tracking-tight text-slate-900 ${headlineClassName}`}>{isRu ? "Выберите тариф или пакет" : isUk ? "Оберіть тариф або пакет" : "Choose your membership path"}</h2>
@@ -1522,6 +1574,7 @@ export default function ApplyPage() {
                   setValue("promoCode", code, { shouldDirty: true })
                 }
                 onPromoCodeCleared={() => setValue("promoCode", "", { shouldDirty: true })}
+                hidePromoCode={Boolean(change)}
               />
             )}
           </AnimatePresence>
@@ -1532,8 +1585,8 @@ export default function ApplyPage() {
                 <ChevronLeft size={16} /> {isRu ? "Назад" : isUk ? "Назад" : "Back"}
               </button>
             ) : (
-              <Link href="/membership" className="px-8 py-4 border border-slate-200 rounded-full text-xs font-bold uppercase tracking-widest text-slate-900">
-                {isRu ? "Назад к сообществу" : isUk ? "Назад до спільноти" : "Back to Membership"}
+              <Link href={change ? change.backHref : "/membership"} className="px-8 py-4 border border-slate-200 rounded-full text-xs font-bold uppercase tracking-widest text-slate-900">
+                {change ? "Back to billing" : isRu ? "Назад к сообществу" : isUk ? "Назад до спільноти" : "Back to Membership"}
               </Link>
             )}
 
@@ -1550,13 +1603,22 @@ export default function ApplyPage() {
                 }}
                 className="ml-auto px-12 py-6 bg-[#B9D9EB] text-black rounded-full text-xs font-bold uppercase tracking-widest flex items-center gap-4 hover:scale-105 transition-all shadow-2xl disabled:opacity-60"
               >
-                {isSubmitting ? (isRu ? "Отправка..." : isUk ? "Надсилання..." : "Submitting...") : (isReviewEdit ? "Resubmit Application" : isRu ? "Отправить заявку" : isUk ? "Надіслати заявку" : "Submit Application")} <Send size={18} />
+                {isSubmitting ? (isRu ? "Отправка..." : isUk ? "Надсилання..." : "Submitting...") : (change ? "Send for review" : isReviewEdit ? "Resubmit Application" : isRu ? "Отправить заявку" : isUk ? "Надіслати заявку" : "Submit Application")} <Send size={18} />
               </button>
             )}
           </div>
         </form>
 
         <aside className="space-y-6 sticky top-28">
+          {change ? (
+            <ChangeSidebar
+              change={change}
+              remaining={remainingNewFields}
+              labelFor={(field) => getFieldLabel(field as keyof FormData)}
+              onJump={jumpToStep}
+            />
+          ) : (
+          <>
           <div className="rounded-[36px] bg-white border border-slate-100 p-8 shadow-sm">
             <p className="text-[10px] uppercase tracking-[0.4em] font-bold text-[#708090]">{isRu ? "Выбранный тариф" : isUk ? "Обраний тариф" : "Selected membership"}</p>
             <h3 className={`mt-4 text-3xl uppercase text-slate-900 ${headlineClassName}`}>{selectedConfigTitle}</h3>
@@ -1591,6 +1653,8 @@ export default function ApplyPage() {
               </div>
             </div>
           </div>
+          </>
+          )}
         </aside>
       </div>
 
@@ -1634,6 +1698,27 @@ export default function ApplyPage() {
           font-size: 12px;
           color: rgb(220 38 38);
           line-height: 1.4;
+        }
+
+        [data-change-new="true"] .field-label:first-of-type::after {
+          content: "New";
+          margin-left: 0.6rem;
+          padding: 0.15rem 0.5rem;
+          border-radius: 999px;
+          background: #eaf4fb;
+          color: #1f5d8f;
+          letter-spacing: 0.14em;
+        }
+
+        [data-change-new="true"] .form-input {
+          border-color: #72a0c1;
+          background-color: #f6fbff;
+        }
+
+        [data-change-new="true"][data-field] {
+          border-radius: 32px;
+          outline: 2px solid rgba(114, 160, 193, 0.45);
+          outline-offset: 10px;
         }
 
         .no-scrollbar::-webkit-scrollbar {

@@ -34,6 +34,8 @@ type ApplicationFileUploadFieldProps = {
   minimumLabel?: string;
   limitReachedLabel?: string;
   optionalLabel?: string;
+  /** Form field this uploads to; lets the page flag it. */
+  fieldName?: string;
 };
 
 export function ApplicationFileUploadField({
@@ -56,6 +58,7 @@ export function ApplicationFileUploadField({
   minimumLabel = "Minimum",
   limitReachedLabel = "Limit reached",
   optionalLabel = "Optional",
+  fieldName,
 }: ApplicationFileUploadFieldProps) {
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const [isDragging, setIsDragging] = React.useState(false);
@@ -101,7 +104,7 @@ export function ApplicationFileUploadField({
   const limitReached = value.length >= maxFiles;
 
   return (
-    <div className="space-y-4 md:col-span-2">
+    <div className="space-y-4 md:col-span-2" data-field={fieldName}>
       <div className="space-y-2">
         <label className="field-label">{label}{required ? " *" : ""}</label>
         <p className="text-sm text-slate-500">{description}</p>
