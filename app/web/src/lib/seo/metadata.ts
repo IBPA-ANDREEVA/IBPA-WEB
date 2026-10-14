@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { SITE_DISPLAY_NAME } from "@/lib/seo/organization";
-import { DEFAULT_OG_IMAGE } from "@/lib/seo/site";
+import { absoluteUrl, DEFAULT_OG_IMAGE } from "@/lib/seo/site";
 
 /** Suffix appended to inner-page titles by the root layout's title template. */
 export const TITLE_SUFFIX = "IBPA";
@@ -43,25 +43,27 @@ export function buildPageMetadata({
   noindex = false,
 }: PageMetadataInput): Metadata {
   const fullTitle = absoluteTitle ? title : `${title} | ${TITLE_SUFFIX}`;
+  const pageUrl = absoluteUrl(path);
+  const shareImageUrl = absoluteUrl(shareImage.url);
 
   return {
     title: absoluteTitle ? { absolute: title } : title,
     description,
-    alternates: { canonical: path },
+    alternates: { canonical: pageUrl },
     openGraph: {
       type: "website",
       siteName: SITE_DISPLAY_NAME,
       locale: "en_US",
-      url: path,
+      url: pageUrl,
       title: fullTitle,
       description,
-      images: [shareImage],
+      images: [{ ...shareImage, url: shareImageUrl }],
     },
     twitter: {
       card: "summary_large_image",
       title: fullTitle,
       description,
-      images: [shareImage.url],
+      images: [shareImageUrl],
     },
     ...(noindex ? { robots: { index: false, follow: false } } : {}),
   };

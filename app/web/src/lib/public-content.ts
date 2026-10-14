@@ -12,6 +12,8 @@ export type PublicContentItem = {
   ctaUrl?: string | null;
   ctaLabel?: string | null;
   isPinned?: boolean;
+  publishToSite?: boolean;
+  publishToDashboard?: boolean;
   createdAt: string;
   updatedAt?: string | null;
   eventDate?: string | null;

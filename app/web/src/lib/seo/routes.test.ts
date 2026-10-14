@@ -4,7 +4,8 @@ import path from "node:path";
 import { afterEach, test } from "node:test";
 
 import robots from "../../app/robots";
-import sitemap from "../../app/sitemap";
+import sitemap, { buildSitemapEntries } from "../../app/sitemap";
+import type { PublicContentItem } from "../public-content";
 import { INDEXABLE_ROUTES, NOINDEX_PUBLIC_SEGMENTS, isPublicSearchPage } from "./routes";
 
 const originalSiteUrl = process.env.NEXT_PUBLIC_SITE_URL;
@@ -88,34 +89,92 @@ test("sitemap URLs use the canonical origin even when the env points at vercel.a
 
   for (const entry of entries) {
     assert.ok(
-      entry.url.startsWith("https://ibpassociations.org"),
+      entry.url.startsWith("https://www.ibpassociations.org"),
       `${entry.url} is not on the canonical origin`,
     );
     assert.equal("priority" in entry, false);
     assert.equal("changeFrequency" in entry, false);
   }
-  assert.equal(entries[0].url, "https://ibpassociations.org/");
+  assert.equal(entries[0].url, "https://www.ibpassociations.org/");
 });
 
 test("sitemap includes published content and fails on outages rather than dropping URLs", async () => {
   process.env.NEXT_PUBLIC_SITE_URL = "https://ibpassociations.org";
   process.env.BACKEND_URL = "http://backend.test";
-  globalThis.fetch = (async (url: string) => new Response(JSON.stringify({ items: [
-    { id: "public-1", type: url.includes("type=news") ? "news" : "events", title: "Public story" },
-  ] }))) as typeof fetch;
+  globalThis.fetch = (async (url: string) => {
+    const type = url.includes("type=news") ? "news" : "events";
+    return new Response(JSON.stringify({ items: [
+      {
+        id: "public-1",
+        type,
+        title: `Public ${type}`,
+        body: `Published ${type} body`,
+        publishToSite: true,
+        createdAt: "2026-09-30T10:00:00.000Z",
+        updatedAt: "2026-10-01T12:34:56.000Z",
+      },
+    ] }));
+  }) as typeof fetch;
   const entries = await sitemap();
-  assert.ok(entries.some((entry) => entry.url === "https://ibpassociations.org/news/public-1"));
-  assert.ok(entries.some((entry) => entry.url === "https://ibpassociations.org/events/public-1"));
-  assert.ok(entries.slice(INDEXABLE_ROUTES.length).every((entry) => !("lastModified" in entry)));
+  assert.ok(entries.some((entry) => entry.url === "https://www.ibpassociations.org/news/public-1"));
+  assert.ok(entries.some((entry) => entry.url === "https://www.ibpassociations.org/events/public-1"));
+  assert.ok(entries.slice(INDEXABLE_ROUTES.length).every((entry) =>
+    entry.lastModified === "2026-10-01T12:34:56.000Z"));
   globalThis.fetch = (async () => new Response("Unavailable", { status: 503 })) as typeof fetch;
   await assert.rejects(sitemap(), /temporarily unavailable/);
+});
+
+test("sitemap includes only canonical site-published records and never member previews", () => {
+  const event: PublicContentItem = {
+    id: "event-1",
+    type: "events",
+    title: "Shared announcement",
+    body: "The same published event copy.",
+    publishToSite: true,
+    createdAt: "2026-09-01T00:00:00.000Z",
+    updatedAt: "2026-10-02T03:04:05.000Z",
+  };
+  const news: PublicContentItem[] = [
+    ...Array.from({ length: 7 }, (_, index) => ({
+      id: `news-${index + 1}`,
+      type: "news" as const,
+      title: `Published story ${index + 1}`,
+      body: `Published body ${index + 1}`,
+      publishToSite: true,
+      createdAt: "2026-09-01T00:00:00.000Z",
+      updatedAt: index === 0 ? "invalid" : "2026-10-03T04:05:06.000Z",
+    })),
+    { ...event, id: "duplicate-news", type: "news" },
+    { ...event, id: "draft-news", type: "news", title: "Draft", body: "Draft", publishToSite: false },
+    { ...event, id: "wrong-type", type: "events" },
+    { ...event, id: "invalid/id", type: "news" },
+  ];
+
+  const entries = buildSitemapEntries(news, [event, event]);
+  const urls = entries.map((entry) => entry.url);
+
+  assert.equal(entries.length, 24, "16 static + 7 canonical news + 1 event");
+  assert.equal(new Set(urls).size, urls.length, "sitemap URLs must be unique");
+  assert.ok(urls.every((url) => url.startsWith("https://www.ibpassociations.org/")));
+  assert.ok(!urls.some((url) => url.includes("duplicate-news") || url.includes("draft-news")));
+  assert.ok(!urls.some((url) => url.includes("wrong-type") || url.includes("invalid%2Fid")));
+  assert.ok(!urls.some((url) => url.includes("/profile-preview/") || url.includes("/admin") || url.includes("/dashboard")));
+  assert.equal(entries.find((entry) => entry.url.endsWith("/news/news-1"))?.lastModified, undefined);
+  assert.equal(
+    entries.find((entry) => entry.url.endsWith("/news/news-2"))?.lastModified,
+    "2026-10-03T04:05:06.000Z",
+  );
+  assert.equal(
+    entries.find((entry) => entry.url.endsWith("/events/event-1"))?.lastModified,
+    "2026-10-02T03:04:05.000Z",
+  );
 });
 
 test("robots.txt points at the canonical sitemap and does not block indexable routes", () => {
   process.env.NEXT_PUBLIC_SITE_URL = "https://ibpa-web.vercel.app";
 
   const result = robots();
-  assert.equal(result.sitemap, "https://ibpassociations.org/sitemap.xml");
+  assert.equal(result.sitemap, "https://www.ibpassociations.org/sitemap.xml");
 
   const rules = Array.isArray(result.rules) ? result.rules : [result.rules];
   const disallowed = rules.flatMap((rule) =>

@@ -14,7 +14,7 @@ test("detail URLs survive title edits and metadata uses the actual image", () =>
   assert.equal(contentPath(story), "/news/story-1");
   assert.equal(contentPath({ ...story, id: "id/unsafe" }), "/news/id%2Funsafe");
   const metadata = contentMetadata(story);
-  assert.equal(metadata.alternates?.canonical, "/news/story-1");
+  assert.equal(metadata.alternates?.canonical, "https://www.ibpassociations.org/news/story-1");
   assert.equal(metadata.openGraph.type, "article");
   assert.ok(JSON.stringify(metadata.openGraph.images).includes("beauty-forum-2025.webp"));
   assert.equal(contentDescription({ title: "Fallback", body: "" }), "Fallback");
@@ -50,4 +50,8 @@ test("untrusted published strings and optional URLs cannot inject scripts", () =
   assert.equal(publicHttpUrl("//evil.test/path"), undefined);
   assert.equal(publicHttpUrl("https://user:pass@example.com"), undefined);
   assert.equal(publicHttpUrl("https://example.com/path"), "https://example.com/path");
+  assert.equal(
+    publicHttpUrl("http://ibpassociations.org/news/story-1?ref=archive"),
+    "https://www.ibpassociations.org/news/story-1?ref=archive",
+  );
 });

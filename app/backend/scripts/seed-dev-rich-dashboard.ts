@@ -77,8 +77,8 @@ const richApplicationPayload = {
   educationDesc:
     "Continuing education in association leadership, beauty business operations, member programming, and public-facing industry communications.",
   instagramLink: "https://instagram.com/ibpassociations",
-  websiteLink: "https://ibpassociations.org",
-  portfolioLink: "https://ibpassociations.org/about",
+  websiteLink: "https://www.ibpassociations.org",
+  portfolioLink: "https://www.ibpassociations.org/about",
   whyJoin:
     "This seeded dev profile represents a fully populated partner-owner account with realistic business context, richer visuals, and enough content density to validate dashboard and public profile states.",
   contributionDesc:
@@ -99,7 +99,7 @@ const richApplicationPayload = {
   speakerEducatorJudge: "Yes",
   publicationsYesNo: "Yes",
   publicationsLinks:
-    "https://ibpassociations.org/news | https://ibpassociations.org/governance",
+    "https://www.ibpassociations.org/news | https://www.ibpassociations.org/governance",
   otherOrganizationsYesNo: "Yes",
   otherOrganizationName: "Professional Beauty Coalition",
   otherOrganizationStatus: "Association Partner",
