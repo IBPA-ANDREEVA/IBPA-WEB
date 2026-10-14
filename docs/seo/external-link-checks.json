@@ -1,0 +1,86 @@
+[
+  {
+    "url": "https://ibpa-forum.vercel.app/",
+    "status": 200,
+    "final_url": "https://ibpa-forum.com/",
+    "error": null
+  },
+  {
+    "url": "https://ibpa-forum.vercel.app/apply",
+    "status": 200,
+    "final_url": "https://ibpa-forum.com/apply",
+    "error": null
+  },
+  {
+    "url": "https://ibpa-forum.vercel.app/apply#apply-form",
+    "status": 200,
+    "final_url": "https://ibpa-forum.com/apply",
+    "error": null
+  },
+  {
+    "url": "https://maps.google.com/?q=1220+Melody+Ln+Suite+110,+Roseville,+CA+95678",
+    "status": 200,
+    "final_url": "https://www.google.com/maps?q=1220+Melody+Ln+Suite+110,+Roseville,+CA+95678",
+    "error": null
+  },
+  {
+    "url": "https://nepopradio.com",
+    "status": 200,
+    "final_url": "https://www.nepopradio.com/",
+    "error": null
+  },
+  {
+    "url": "https://www.alismia.com/",
+    "status": 200,
+    "final_url": "https://www.alismia.com/",
+    "error": null
+  },
+  {
+    "url": "https://www.instagram.com/bbeauty_forum/",
+    "status": 200,
+    "final_url": "https://www.instagram.com/bbeauty_forum/",
+    "error": null
+  },
+  {
+    "url": "https://www.instagram.com/p/DXzwQgBynaf/",
+    "status": 200,
+    "final_url": "https://www.instagram.com/p/DXzwQgBynaf/",
+    "error": null
+  },
+  {
+    "url": "https://www.instagram.com/p/DY5JginPJk8/",
+    "status": 200,
+    "final_url": "https://www.instagram.com/p/DY5JginPJk8/",
+    "error": null
+  },
+  {
+    "url": "https://www.instagram.com/p/DYN-YTJmX2S/?img_index=1",
+    "status": 200,
+    "final_url": "https://www.instagram.com/p/DYN-YTJmX2S/?img_index=1",
+    "error": null
+  },
+  {
+    "url": "https://www.instagram.com/p/DYQWzOEj48J/?img_index=1",
+    "status": 200,
+    "final_url": "https://www.instagram.com/p/DYQWzOEj48J/?img_index=1",
+    "error": null
+  },
+  {
+    "url": "https://www.instagram.com/p/DZD0VtcD5w0/?img_index=1",
+    "status": 200,
+    "final_url": "https://www.instagram.com/p/DZD0VtcD5w0/?img_index=1",
+    "error": null
+  },
+  {
+    "url": "https://www.instagram.com/p/DeNZN1zkrAgkxptgIxg2QpZCqgEWGwzn7-dvaQ0/?img_index=1",
+    "status": 200,
+    "final_url": "https://www.instagram.com/p/DeNZN1zkrAgkxptgIxg2QpZCqgEWGwzn7-dvaQ0/?img_index=1",
+    "error": null
+  },
+  {
+    "url": "https://www.instagram.com/teora_beauty?igsh=NTc4MTIwNjQ2YQ==",
+    "status": 200,
+    "final_url": "https://www.instagram.com/teora_beauty?igsh=NTc4MTIwNjQ2YQ==",
+    "error": null
+  }
+]

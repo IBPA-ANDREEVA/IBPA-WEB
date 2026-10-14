@@ -37,3 +37,9 @@ export const NOINDEX_PUBLIC_SEGMENTS: readonly string[] = [
   "payment-link",
   "application",
 ];
+
+/** These pages render no Clerk components and never read a user session. */
+export function isPublicSearchPage(pathname: string): boolean {
+  return INDEXABLE_ROUTES.some((route) => route.path === pathname) ||
+    /^\/(news|events)\/[a-zA-Z0-9-]+$/.test(pathname);
+}

@@ -1,5 +1,6 @@
 import { getServerBackendUrl } from "@/lib/backend-url";
-import { normalizePublicContentItems, type PublicContentItem } from "@/lib/public-content";
+import { cache } from "react";
+import { canonicalizePublicNews, normalizePublicContentItems, type PublicContentItem } from "@/lib/public-content";
 
 /**
  * Fetches published site content during server rendering so lists such as
@@ -24,14 +25,30 @@ export async function fetchPublicContentServer(
   try {
     const response = await fetch(`${backendUrl}/api/content/public?type=${type}&target=${target}`, {
       next: { revalidate: 300, tags: ["public-content"] },
+      signal: AbortSignal.timeout(8000),
     });
     if (!response.ok) {
       return null;
     }
 
     const data = await response.json().catch(() => null);
-    return normalizePublicContentItems(data?.items);
+    return Array.isArray(data?.items) ? normalizePublicContentItems(data.items) : null;
   } catch {
     return null;
   }
 }
+
+export async function fetchPublicNewsServer() {
+  const [news, events] = await Promise.all([fetchPublicContentServer("news"), fetchPublicContentServer("events")]);
+  if (news === null || events === null) return null;
+  return canonicalizePublicNews(news, events);
+}
+
+/** Only the published SITE feed may populate indexable detail pages. */
+export const getPublicContentItem = cache(async (type: "news" | "events", id: string) => {
+  if (!/^[a-zA-Z0-9-]+$/.test(id) || id.length > 128) return null;
+  const items = type === "news" ? await fetchPublicNewsServer() : await fetchPublicContentServer(type, "site");
+  // An outage is not evidence that a published URL has been removed.
+  if (items === null) throw new Error("Public content is temporarily unavailable");
+  return items.find((item) => item.id === id && item.type === type) ?? null;
+});

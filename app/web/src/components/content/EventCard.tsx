@@ -2,6 +2,7 @@
 
 import { CalendarDays, CircleDollarSign, MapPin, Tag } from "lucide-react";
 import type { ReactNode } from "react";
+import Link from "next/link";
 
 import type { ContentImageMetadata } from "@/lib/content-image";
 import { cn } from "@/lib/utils";
@@ -37,6 +38,7 @@ type EventCardProps = {
   titleClassName?: string;
   /** Heading level for the title. Use "h2" when the card is a top-level item on its page. */
   titleAs?: "h2" | "h3";
+  titleHref?: string;
   imagePriority?: boolean;
   imageSizes?: string;
   imageLabels?: {
@@ -64,11 +66,12 @@ export function EventCard({
   className,
   titleClassName,
   titleAs: TitleTag = "h3",
+  titleHref,
   imagePriority = false,
   imageSizes = "(min-width: 768px) 42vw, 100vw",
   imageLabels,
 }: EventCardProps) {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const resolvedImageLabels = imageLabels || {
     open: t.contentImages.openFullImage,
     close: t.contentImages.closeViewer,
@@ -138,7 +141,7 @@ export function EventCard({
               titleClassName,
             )}
           >
-            {event.title}
+            {titleHref ? <Link href={titleHref} className="hover:underline">{event.title}</Link> : event.title}
           </TitleTag>
 
           {meta.length ? (
@@ -150,27 +153,23 @@ export function EventCard({
                     className={cn(
                       "min-w-0",
                       compact
-                        ? "flex items-start gap-2 text-[#6C7F95]"
+                        ? "text-[#6C7F95]"
                         : "rounded-2xl border border-[#E4EEF8] bg-[#F8FBFF] px-3.5 py-3",
                     )}
                     key={`${item.kind}-${item.label || ""}-${index}`}
                   >
-                    {compact ? <Icon aria-hidden="true" className="mt-0.5 size-3.5 shrink-0 text-[#8AA2BD]" /> : null}
-                    <div className="min-w-0">
-                      {item.label ? (
-                        <dt className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8AA2BD]">
-                          {item.label}
-                        </dt>
-                      ) : null}
+                      <dt className={item.label ? "text-[10px] font-semibold uppercase tracking-[0.16em] text-[#55708D]" : "sr-only"}>
+                        {item.label || ({ en: { date: "Date", location: "Location", price: "Price", status: "Status" }, ru: { date: "Дата", location: "Место", price: "Цена", status: "Статус" }, uk: { date: "Дата", location: "Місце", price: "Ціна", status: "Статус" } }[locale][item.kind])}
+                      </dt>
                       <dd
                         className={cn(
                           "break-words [overflow-wrap:anywhere]",
-                          compact ? "text-xs leading-5" : "mt-1 text-sm font-semibold text-[#10203B]",
+                          compact ? "flex items-start gap-2 text-xs leading-5" : "mt-1 text-sm font-semibold text-[#10203B]",
                         )}
                       >
-                        {item.value}
+                        {compact ? <Icon aria-hidden="true" className="mt-0.5 size-3.5 shrink-0 text-[#8AA2BD]" /> : null}
+                        <span className="min-w-0">{item.value}</span>
                       </dd>
-                    </div>
                   </div>
                 );
               })}

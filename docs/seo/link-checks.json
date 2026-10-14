@@ -1,0 +1,157 @@
+[
+  {
+    "path": "/",
+    "status": 200,
+    "final_url": "https://ibpassociations.org/"
+  },
+  {
+    "path": "/about",
+    "status": 200,
+    "final_url": "https://ibpassociations.org/about"
+  },
+  {
+    "path": "/apply",
+    "status": 200,
+    "final_url": "https://ibpassociations.org/apply"
+  },
+  {
+    "path": "/cancellation-policy",
+    "status": 200,
+    "final_url": "https://ibpassociations.org/cancellation-policy"
+  },
+  {
+    "path": "/contact",
+    "status": 200,
+    "final_url": "https://ibpassociations.org/contact"
+  },
+  {
+    "path": "/criteria",
+    "status": 200,
+    "final_url": "https://ibpassociations.org/criteria"
+  },
+  {
+    "path": "/documents/awards-and-recognition-policy.pdf",
+    "status": 200,
+    "final_url": "https://ibpassociations.org/documents/awards-and-recognition-policy.pdf"
+  },
+  {
+    "path": "/documents/board-officers-and-committee-governance-policy.pdf",
+    "status": 200,
+    "final_url": "https://ibpassociations.org/documents/board-officers-and-committee-governance-policy.pdf"
+  },
+  {
+    "path": "/documents/bylaws.pdf",
+    "status": 200,
+    "final_url": "https://ibpassociations.org/documents/bylaws.pdf"
+  },
+  {
+    "path": "/documents/cancellation-policy-ibpa.pdf",
+    "status": 200,
+    "final_url": "https://ibpassociations.org/documents/cancellation-policy-ibpa.pdf"
+  },
+  {
+    "path": "/documents/code-of-ethics.pdf",
+    "status": 200,
+    "final_url": "https://ibpassociations.org/documents/code-of-ethics.pdf"
+  },
+  {
+    "path": "/documents/committee-charters-policy.pdf",
+    "status": 200,
+    "final_url": "https://ibpassociations.org/documents/committee-charters-policy.pdf"
+  },
+  {
+    "path": "/documents/conflict-of-interest-policy.pdf",
+    "status": 200,
+    "final_url": "https://ibpassociations.org/documents/conflict-of-interest-policy.pdf"
+  },
+  {
+    "path": "/documents/governance-policy.pdf",
+    "status": 200,
+    "final_url": "https://ibpassociations.org/documents/governance-policy.pdf"
+  },
+  {
+    "path": "/documents/membership-agreement.pdf",
+    "status": 200,
+    "final_url": "https://ibpassociations.org/documents/membership-agreement.pdf"
+  },
+  {
+    "path": "/documents/membership-policy.pdf",
+    "status": 200,
+    "final_url": "https://ibpassociations.org/documents/membership-policy.pdf"
+  },
+  {
+    "path": "/documents/membership-review-procedure.pdf",
+    "status": 200,
+    "final_url": "https://ibpassociations.org/documents/membership-review-procedure.pdf"
+  },
+  {
+    "path": "/documents/privacy-policy.pdf",
+    "status": 200,
+    "final_url": "https://ibpassociations.org/documents/privacy-policy.pdf"
+  },
+  {
+    "path": "/documents/professional-standards.pdf",
+    "status": 200,
+    "final_url": "https://ibpassociations.org/documents/professional-standards.pdf"
+  },
+  {
+    "path": "/documents/record-retention-policy.pdf",
+    "status": 200,
+    "final_url": "https://ibpassociations.org/documents/record-retention-policy.pdf"
+  },
+  {
+    "path": "/documents/terms-of-use.pdf",
+    "status": 200,
+    "final_url": "https://ibpassociations.org/documents/terms-of-use.pdf"
+  },
+  {
+    "path": "/events",
+    "status": 200,
+    "final_url": "https://ibpassociations.org/events"
+  },
+  {
+    "path": "/faq",
+    "status": 200,
+    "final_url": "https://ibpassociations.org/faq"
+  },
+  {
+    "path": "/governance",
+    "status": 200,
+    "final_url": "https://ibpassociations.org/governance"
+  },
+  {
+    "path": "/members",
+    "status": 200,
+    "final_url": "https://ibpassociations.org/members"
+  },
+  {
+    "path": "/membership",
+    "status": 200,
+    "final_url": "https://ibpassociations.org/membership"
+  },
+  {
+    "path": "/news",
+    "status": 200,
+    "final_url": "https://ibpassociations.org/news"
+  },
+  {
+    "path": "/partnership",
+    "status": 200,
+    "final_url": "https://ibpassociations.org/partnership"
+  },
+  {
+    "path": "/privacy",
+    "status": 200,
+    "final_url": "https://ibpassociations.org/privacy"
+  },
+  {
+    "path": "/standards",
+    "status": 200,
+    "final_url": "https://ibpassociations.org/standards"
+  },
+  {
+    "path": "/terms",
+    "status": 200,
+    "final_url": "https://ibpassociations.org/terms"
+  }
+]

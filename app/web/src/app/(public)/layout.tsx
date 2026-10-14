@@ -32,6 +32,15 @@ export default async function PublicLayout({
 
   return (
     <I18nProvider initialLocale={initialLocale}>
+      <a href="#main-content" className="sr-only fixed left-4 top-4 z-[100] rounded-full bg-white px-6 py-3 font-semibold text-slate-900 shadow-lg focus:not-sr-only">
+        {initialLocale === "ru" ? "Перейти к содержимому" : initialLocale === "uk" ? "Перейти до вмісту" : "Skip to content"}
+      </a>
+      <noscript><style>{`
+        #main-content [style*="opacity:0"], #main-content [style*="opacity: 0"] {
+          opacity: 1 !important; transform: none !important;
+        }
+        #main-content .line-clamp-4 { -webkit-line-clamp: unset; display: block; }
+      `}</style></noscript>
       {/* Meta Domain Verification */}
       <meta
         name="facebook-domain-verification"
@@ -81,7 +90,7 @@ export default async function PublicLayout({
 
       <Navbar dashboardHref={dashboardHref} />
 
-      <main>{children}</main>
+      <main id="main-content" tabIndex={-1}>{children}</main>
 
       <Footer />
 

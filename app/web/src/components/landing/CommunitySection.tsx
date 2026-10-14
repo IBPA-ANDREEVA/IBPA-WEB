@@ -86,7 +86,7 @@ export const CommunitySection = ({ locale }: CommunitySectionProps) => {
             </div>
 
             <div className="hidden space-y-6 md:block">
-              <p className={`text-sm uppercase tracking-[0.5em] text-[#72A0C1] ${uiClassName}`}>{copy.eyebrow}</p>
+              <p className={`text-sm uppercase tracking-[0.5em] text-[#55708D] ${uiClassName}`}>{copy.eyebrow}</p>
               <h2 className={`max-w-[20rem] text-[2.75rem] uppercase leading-[0.94] md:max-w-[32rem] md:text-[4.85rem] ${headlineClassName}`}>{copy.title}</h2>
             </div>
 

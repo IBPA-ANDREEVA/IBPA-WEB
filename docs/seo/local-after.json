@@ -1,0 +1,4304 @@
+{
+  "checked_at": "2026-10-14T00:14:07.030128+00:00",
+  "base": "http://localhost:3012",
+  "sitemap_status": 200,
+  "sitemap_urls": [
+    "http://localhost:3000/",
+    "http://localhost:3000/about",
+    "http://localhost:3000/membership",
+    "http://localhost:3000/criteria",
+    "http://localhost:3000/standards",
+    "http://localhost:3000/governance",
+    "http://localhost:3000/members",
+    "http://localhost:3000/events",
+    "http://localhost:3000/news",
+    "http://localhost:3000/partnership",
+    "http://localhost:3000/faq",
+    "http://localhost:3000/contact",
+    "http://localhost:3000/apply",
+    "http://localhost:3000/privacy",
+    "http://localhost:3000/terms",
+    "http://localhost:3000/cancellation-policy",
+    "http://localhost:3000/news/6a03f355-2dc6-4a8e-bcef-66afde11c1a1",
+    "http://localhost:3000/news/20db085b-38fb-41d3-89f1-1924a1a436a9",
+    "http://localhost:3000/news/eefc3397-0098-43e0-97cd-43431013f9cf",
+    "http://localhost:3000/news/9a2e227c-e987-4e86-9970-5640adf4a1d4",
+    "http://localhost:3000/news/87ad1415-33a0-4bc3-9c1a-471e42623e6e",
+    "http://localhost:3000/news/08ca0545-b865-4abb-9aa1-79c1693c772c",
+    "http://localhost:3000/events/fe5ba953-3412-4bec-a84e-70eb12c684d1"
+  ],
+  "robots_status": 200,
+  "robots": "User-Agent: *\nAllow: /\nDisallow: /api/\nDisallow: /admin\n\nSitemap: http://localhost:3000/sitemap.xml\n",
+  "pages": [
+    {
+      "url": "http://localhost:3012/",
+      "status": 200,
+      "final_url": "http://localhost:3012/",
+      "cache_control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "x_robots_tag": null,
+      "html_bytes": 253928,
+      "title": "International Beauty Association for Professionals | IBPA",
+      "lang": "en",
+      "meta": {
+        "": "",
+        "viewport": "width=device-width, initial-scale=1",
+        "next-size-adjust": "",
+        "facebook-domain-verification": "1oij9v4q95qd0cudvfkr5tnmmgr2yw",
+        "description": "IBPA is an international beauty association for estheticians, cosmetologists, lash and brow artists, educators, salon owners, and brands. Explore membership.",
+        "application-name": "IBPA",
+        "og:title": "International Beauty Association for Professionals | IBPA",
+        "og:description": "IBPA is an international beauty association for estheticians, cosmetologists, lash and brow artists, educators, salon owners, and brands. Explore membership.",
+        "og:url": "http://localhost:3000",
+        "og:site_name": "International Beauty Professionals Association (IBPA)",
+        "og:locale": "en_US",
+        "og:image": "http://localhost:3000/og/ibpa-og.jpg",
+        "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "International Beauty Professionals Association (IBPA)",
+        "og:type": "website",
+        "twitter:card": "summary_large_image",
+        "twitter:title": "International Beauty Association for Professionals | IBPA",
+        "twitter:description": "IBPA is an international beauty association for estheticians, cosmetologists, lash and brow artists, educators, salon owners, and brands. Explore membership.",
+        "twitter:image": "http://localhost:3000/og/ibpa-og.jpg"
+      },
+      "canonical": [
+        "http://localhost:3000"
+      ],
+      "hreflang": [],
+      "headings": [
+        [
+          "h1",
+          "International Beauty Professionals Association"
+        ],
+        [
+          "h2",
+          "Elevating Beauty Standards Globally"
+        ],
+        [
+          "h2",
+          "Who the Association Is For"
+        ],
+        [
+          "h3",
+          "Specialists"
+        ],
+        [
+          "h3",
+          "Professionals"
+        ],
+        [
+          "h3",
+          "Educators & Trainers"
+        ],
+        [
+          "h3",
+          "Business Owners"
+        ],
+        [
+          "h3",
+          "Brands & Companies"
+        ],
+        [
+          "h2",
+          "Why Join IBPA"
+        ],
+        [
+          "h2",
+          "Why Join IBPA"
+        ],
+        [
+          "h3",
+          "Education"
+        ],
+        [
+          "h3",
+          "Standards"
+        ],
+        [
+          "h3",
+          "Community"
+        ],
+        [
+          "h3",
+          "Recognition"
+        ],
+        [
+          "h3",
+          "Events"
+        ],
+        [
+          "h3",
+          "Education"
+        ],
+        [
+          "h3",
+          "Standards"
+        ],
+        [
+          "h3",
+          "Community"
+        ],
+        [
+          "h3",
+          "Recognition"
+        ],
+        [
+          "h3",
+          "Events"
+        ],
+        [
+          "h2",
+          "Community Events"
+        ],
+        [
+          "h3",
+          "Registration is Now Open for the 4th Beauty Business Forum 2026 in Los Angeles"
+        ],
+        [
+          "h2",
+          "Latest News"
+        ],
+        [
+          "h3",
+          "IBPA Beauty Awards 2026: Applications Are Now Open"
+        ],
+        [
+          "h3",
+          "Registration is Now Open for the 4th Beauty Business Forum 2026 in Los Angeles"
+        ],
+        [
+          "h2",
+          "Meet Our Members"
+        ],
+        [
+          "h3",
+          "Елена Chernenko"
+        ],
+        [
+          "h3",
+          "OKSANA KARVEHINA"
+        ],
+        [
+          "h3",
+          "Olena Holovatenko"
+        ],
+        [
+          "h3",
+          "Liana Figueiroa"
+        ],
+        [
+          "h3",
+          "Anzhelika Syveniuk"
+        ],
+        [
+          "h3",
+          "Ivanna Lyko"
+        ],
+        [
+          "h3",
+          "Anna Stalmakova"
+        ],
+        [
+          "h3",
+          "Alina Isakova"
+        ],
+        [
+          "h2",
+          "Building a Global Beauty Community"
+        ],
+        [
+          "h2",
+          "Building a Global Beauty Community"
+        ],
+        [
+          "h2",
+          "People Behind The IBPA Project"
+        ],
+        [
+          "h3",
+          "Iuliia Andreeva"
+        ],
+        [
+          "h3",
+          "Sergei Andreev"
+        ],
+        [
+          "h3",
+          "Valeriia Kizchuk"
+        ],
+        [
+          "h2",
+          "OUR PARTNERS"
+        ],
+        [
+          "h2",
+          "Become Part of a Global Professional Beauty Community"
+        ],
+        [
+          "h2",
+          "Site Map"
+        ],
+        [
+          "h2",
+          "Contact Info"
+        ],
+        [
+          "h2",
+          "Social Media"
+        ],
+        [
+          "h2",
+          "Policies"
+        ]
+      ],
+      "word_count": 1014,
+      "main_count": 1,
+      "hidden_initially": 0,
+      "images_without_alt": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          "@id": "http://localhost:3000/#organization",
+          "name": "International Beauty Professionals Association",
+          "alternateName": [
+            "IBPA",
+            "IBPA Associations"
+          ],
+          "url": "http://localhost:3000/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "http://localhost:3000/branding/logo-header.webp",
+            "width": 843,
+            "height": 341
+          },
+          "description": "IBPA is an international professional beauty association and California-registered nonprofit for beauty specialists, educators, salon owners, and brands, focused on professional standards, education, and recognition.",
+          "email": "support@ibpassociations.org",
+          "telephone": "+1-279-230-2804",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "1220 Melody Ln, Suite 110",
+            "addressLocality": "Roseville",
+            "addressRegion": "CA",
+            "postalCode": "95678",
+            "addressCountry": "US"
+          },
+          "contactPoint": [
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "email": "support@ibpassociations.org",
+              "telephone": "+1-279-230-2804"
+            }
+          ],
+          "sameAs": [
+            "https://www.instagram.com/bbeauty_forum/"
+          ],
+          "founder": {
+            "@type": "Person",
+            "name": "Iuliia Andreeva",
+            "jobTitle": "President"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "@id": "http://localhost:3000/#website",
+          "url": "http://localhost:3000/",
+          "name": "International Beauty Professionals Association",
+          "alternateName": [
+            "IBPA",
+            "IBPA Associations"
+          ],
+          "inLanguage": "en",
+          "publisher": {
+            "@id": "http://localhost:3000/#organization"
+          }
+        }
+      ],
+      "links": [
+        "#main-content",
+        "/",
+        "/about",
+        "/apply",
+        "/apply?category=Brand",
+        "/apply?category=Business",
+        "/apply?category=Specialist",
+        "/apply?category=Trainer",
+        "/cancellation-policy",
+        "/contact",
+        "/criteria",
+        "/dashboard",
+        "/events",
+        "/events/fe5ba953-3412-4bec-a84e-70eb12c684d1",
+        "/faq",
+        "/governance",
+        "/members",
+        "/membership",
+        "/news",
+        "/news/6a03f355-2dc6-4a8e-bcef-66afde11c1a1",
+        "/partnership",
+        "/privacy",
+        "/profile-preview/1e043a54-6381-4364-932f-14aca4be10c8",
+        "/profile-preview/5c03d5b7-f6af-40ac-b0e5-b8bee783d283",
+        "/profile-preview/6fbf801f-1dba-457f-94f4-47d6d43e07fe",
+        "/profile-preview/778a4bdd-76bc-4ed2-9ce1-11ed3ae3e792",
+        "/profile-preview/7bb24be3-e924-41a7-80e7-46c8ad2b3029",
+        "/profile-preview/b9e57399-d8e5-44ed-ba78-81292bab76c2",
+        "/profile-preview/ba89124c-35e7-4245-b24c-6f62b24d810e",
+        "/profile-preview/fa3d59b8-5d5f-4202-9390-b1693cb952ed",
+        "/standards",
+        "/terms",
+        "https://ibpa-forum.vercel.app/apply#apply-form",
+        "https://maps.google.com/?q=1220+Melody+Ln+Suite+110,+Roseville,+CA+95678",
+        "https://nepopradio.com",
+        "https://www.alismia.com/",
+        "https://www.instagram.com/bbeauty_forum/",
+        "https://www.instagram.com/teora_beauty?igsh=NTc4MTIwNjQ2YQ==",
+        "mailto:support@ibpassociations.org",
+        "tel:+12792302804"
+      ],
+      "ids": [
+        "mobile-navigation",
+        "main-content",
+        "_R_"
+      ]
+    },
+    {
+      "url": "http://localhost:3012/about",
+      "status": 200,
+      "final_url": "http://localhost:3012/about",
+      "cache_control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "x_robots_tag": null,
+      "html_bytes": 59525,
+      "title": "About IBPA: Mission, Vision & Nonprofit Status | IBPA",
+      "lang": "en",
+      "meta": {
+        "": "",
+        "viewport": "width=device-width, initial-scale=1",
+        "next-size-adjust": "",
+        "facebook-domain-verification": "1oij9v4q95qd0cudvfkr5tnmmgr2yw",
+        "description": "Learn how the International Beauty Professionals Association works: its mission, vision, strategic pillars, and California-registered nonprofit status.",
+        "application-name": "IBPA",
+        "og:title": "About IBPA: Mission, Vision & Nonprofit Status | IBPA",
+        "og:description": "Learn how the International Beauty Professionals Association works: its mission, vision, strategic pillars, and California-registered nonprofit status.",
+        "og:url": "http://localhost:3000/about",
+        "og:site_name": "International Beauty Professionals Association (IBPA)",
+        "og:locale": "en_US",
+        "og:image": "http://localhost:3000/og/ibpa-og.jpg",
+        "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "International Beauty Professionals Association (IBPA)",
+        "og:type": "website",
+        "twitter:card": "summary_large_image",
+        "twitter:title": "About IBPA: Mission, Vision & Nonprofit Status | IBPA",
+        "twitter:description": "Learn how the International Beauty Professionals Association works: its mission, vision, strategic pillars, and California-registered nonprofit status.",
+        "twitter:image": "http://localhost:3000/og/ibpa-og.jpg"
+      },
+      "canonical": [
+        "http://localhost:3000/about"
+      ],
+      "hreflang": [],
+      "headings": [
+        [
+          "h1",
+          "About IBPA"
+        ],
+        [
+          "h2",
+          "Mission"
+        ],
+        [
+          "h2",
+          "Vision"
+        ],
+        [
+          "h2",
+          "Core Goals of the Association"
+        ],
+        [
+          "h3",
+          "Professional Standards"
+        ],
+        [
+          "h3",
+          "Education Support"
+        ],
+        [
+          "h3",
+          "Uniting Professionals"
+        ],
+        [
+          "h3",
+          "Recognition"
+        ],
+        [
+          "h3",
+          "Industry Growth"
+        ],
+        [
+          "h2",
+          "Geography"
+        ],
+        [
+          "h2",
+          "Important Notice"
+        ],
+        [
+          "h2",
+          "Explore membership and choose the path that fits your role"
+        ],
+        [
+          "h2",
+          "Site Map"
+        ],
+        [
+          "h2",
+          "Contact Info"
+        ],
+        [
+          "h2",
+          "Social Media"
+        ],
+        [
+          "h2",
+          "Policies"
+        ]
+      ],
+      "word_count": 381,
+      "main_count": 1,
+      "hidden_initially": 11,
+      "images_without_alt": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "http://localhost:3000/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "About",
+              "item": "http://localhost:3000/about"
+            }
+          ]
+        }
+      ],
+      "links": [
+        "#main-content",
+        "/",
+        "/about",
+        "/apply",
+        "/cancellation-policy",
+        "/contact",
+        "/criteria",
+        "/dashboard",
+        "/events",
+        "/faq",
+        "/governance",
+        "/membership",
+        "/membership#packages",
+        "/news",
+        "/partnership",
+        "/privacy",
+        "/standards",
+        "/terms",
+        "https://maps.google.com/?q=1220+Melody+Ln+Suite+110,+Roseville,+CA+95678",
+        "https://www.instagram.com/bbeauty_forum/",
+        "mailto:support@ibpassociations.org",
+        "tel:+12792302804"
+      ],
+      "ids": [
+        "mobile-navigation",
+        "main-content",
+        "_R_"
+      ]
+    },
+    {
+      "url": "http://localhost:3012/membership",
+      "status": 200,
+      "final_url": "http://localhost:3012/membership",
+      "cache_control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "x_robots_tag": null,
+      "html_bytes": 98094,
+      "title": "Beauty Association Membership: Categories & Benefits | IBPA",
+      "lang": "en",
+      "meta": {
+        "": "",
+        "viewport": "width=device-width, initial-scale=1",
+        "next-size-adjust": "",
+        "facebook-domain-verification": "1oij9v4q95qd0cudvfkr5tnmmgr2yw",
+        "description": "Compare IBPA membership for specialists, practicing professionals, educators, salon owners, and brands. See what each category includes and how to apply.",
+        "application-name": "IBPA",
+        "og:title": "Beauty Association Membership: Categories & Benefits | IBPA",
+        "og:description": "Compare IBPA membership for specialists, practicing professionals, educators, salon owners, and brands. See what each category includes and how to apply.",
+        "og:url": "http://localhost:3000/membership",
+        "og:site_name": "International Beauty Professionals Association (IBPA)",
+        "og:locale": "en_US",
+        "og:image": "http://localhost:3000/og/ibpa-og.jpg",
+        "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "International Beauty Professionals Association (IBPA)",
+        "og:type": "website",
+        "twitter:card": "summary_large_image",
+        "twitter:title": "Beauty Association Membership: Categories & Benefits | IBPA",
+        "twitter:description": "Compare IBPA membership for specialists, practicing professionals, educators, salon owners, and brands. See what each category includes and how to apply.",
+        "twitter:image": "http://localhost:3000/og/ibpa-og.jpg"
+      },
+      "canonical": [
+        "http://localhost:3000/membership"
+      ],
+      "hreflang": [],
+      "headings": [
+        [
+          "h1",
+          "Membership"
+        ],
+        [
+          "h2",
+          "Choose Your Level"
+        ],
+        [
+          "h3",
+          "Specialist"
+        ],
+        [
+          "h3",
+          "Professional"
+        ],
+        [
+          "h3",
+          "Trainer / Educator"
+        ],
+        [
+          "h3",
+          "Business Owner"
+        ],
+        [
+          "h3",
+          "Brand Member"
+        ],
+        [
+          "h2",
+          "Business Owner Membership Includes"
+        ],
+        [
+          "h2",
+          "How to join IBPA?"
+        ],
+        [
+          "h3",
+          "Choose Category"
+        ],
+        [
+          "h3",
+          "Submit Application"
+        ],
+        [
+          "h3",
+          "Review Process"
+        ],
+        [
+          "h3",
+          "Activation"
+        ],
+        [
+          "h2",
+          "Site Map"
+        ],
+        [
+          "h2",
+          "Contact Info"
+        ],
+        [
+          "h2",
+          "Social Media"
+        ],
+        [
+          "h2",
+          "Policies"
+        ]
+      ],
+      "word_count": 794,
+      "main_count": 1,
+      "hidden_initially": 11,
+      "images_without_alt": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "http://localhost:3000/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Membership",
+              "item": "http://localhost:3000/membership"
+            }
+          ]
+        }
+      ],
+      "links": [
+        "#main-content",
+        "/",
+        "/about",
+        "/apply",
+        "/apply?category=Brand",
+        "/apply?category=Business",
+        "/apply?category=Professional",
+        "/apply?category=Specialist",
+        "/apply?category=Trainer",
+        "/cancellation-policy",
+        "/contact",
+        "/criteria",
+        "/dashboard",
+        "/events",
+        "/faq",
+        "/governance",
+        "/membership",
+        "/news",
+        "/partnership",
+        "/privacy",
+        "/standards",
+        "/terms",
+        "https://maps.google.com/?q=1220+Melody+Ln+Suite+110,+Roseville,+CA+95678",
+        "https://www.instagram.com/bbeauty_forum/",
+        "mailto:support@ibpassociations.org",
+        "tel:+12792302804"
+      ],
+      "ids": [
+        "mobile-navigation",
+        "main-content",
+        "packages",
+        "_R_"
+      ]
+    },
+    {
+      "url": "http://localhost:3012/criteria",
+      "status": 200,
+      "final_url": "http://localhost:3012/criteria",
+      "cache_control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "x_robots_tag": null,
+      "html_bytes": 62745,
+      "title": "Membership Criteria & Review Process | IBPA",
+      "lang": "en",
+      "meta": {
+        "": "",
+        "viewport": "width=device-width, initial-scale=1",
+        "next-size-adjust": "",
+        "facebook-domain-verification": "1oij9v4q95qd0cudvfkr5tnmmgr2yw",
+        "description": "See how the IBPA Membership Review Board evaluates applications, including experience, training, achievements, and professional reputation.",
+        "application-name": "IBPA",
+        "og:title": "Membership Criteria & Review Process | IBPA",
+        "og:description": "See how the IBPA Membership Review Board evaluates applications, including experience, training, achievements, and professional reputation.",
+        "og:url": "http://localhost:3000/criteria",
+        "og:site_name": "International Beauty Professionals Association (IBPA)",
+        "og:locale": "en_US",
+        "og:image": "http://localhost:3000/og/ibpa-og.jpg",
+        "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "International Beauty Professionals Association (IBPA)",
+        "og:type": "website",
+        "twitter:card": "summary_large_image",
+        "twitter:title": "Membership Criteria & Review Process | IBPA",
+        "twitter:description": "See how the IBPA Membership Review Board evaluates applications, including experience, training, achievements, and professional reputation.",
+        "twitter:image": "http://localhost:3000/og/ibpa-og.jpg"
+      },
+      "canonical": [
+        "http://localhost:3000/criteria"
+      ],
+      "hreflang": [],
+      "headings": [
+        [
+          "h1",
+          "Criteria"
+        ],
+        [
+          "h2",
+          "Selection Is Not Automatic"
+        ],
+        [
+          "h3",
+          "Baseline Fit"
+        ],
+        [
+          "h3",
+          "Experience & Quality Review"
+        ],
+        [
+          "h3",
+          "Collective Decision"
+        ],
+        [
+          "h2",
+          "Key Evaluation Criteria"
+        ],
+        [
+          "h2",
+          "What Strengthens an Application"
+        ],
+        [
+          "h2",
+          "Possible Review Outcomes"
+        ],
+        [
+          "h2",
+          "Membership Review Board"
+        ],
+        [
+          "h2",
+          "Compare membership categories and start the right application"
+        ],
+        [
+          "h2",
+          "Site Map"
+        ],
+        [
+          "h2",
+          "Contact Info"
+        ],
+        [
+          "h2",
+          "Social Media"
+        ],
+        [
+          "h2",
+          "Policies"
+        ]
+      ],
+      "word_count": 410,
+      "main_count": 1,
+      "hidden_initially": 15,
+      "images_without_alt": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "http://localhost:3000/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Criteria",
+              "item": "http://localhost:3000/criteria"
+            }
+          ]
+        }
+      ],
+      "links": [
+        "#main-content",
+        "/",
+        "/about",
+        "/apply",
+        "/cancellation-policy",
+        "/contact",
+        "/criteria",
+        "/dashboard",
+        "/events",
+        "/faq",
+        "/governance",
+        "/membership",
+        "/membership#packages",
+        "/news",
+        "/partnership",
+        "/privacy",
+        "/standards",
+        "/terms",
+        "https://maps.google.com/?q=1220+Melody+Ln+Suite+110,+Roseville,+CA+95678",
+        "https://www.instagram.com/bbeauty_forum/",
+        "mailto:support@ibpassociations.org",
+        "tel:+12792302804"
+      ],
+      "ids": [
+        "mobile-navigation",
+        "main-content",
+        "_R_"
+      ]
+    },
+    {
+      "url": "http://localhost:3012/standards",
+      "status": 200,
+      "final_url": "http://localhost:3012/standards",
+      "cache_control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "x_robots_tag": null,
+      "html_bytes": 74395,
+      "title": "Professional Standards, Ethics & Policies | IBPA",
+      "lang": "en",
+      "meta": {
+        "": "",
+        "viewport": "width=device-width, initial-scale=1",
+        "next-size-adjust": "",
+        "facebook-domain-verification": "1oij9v4q95qd0cudvfkr5tnmmgr2yw",
+        "description": "Read IBPA's professional standards, code of ethics, membership policies, bylaws, and governance documents in one place.",
+        "application-name": "IBPA",
+        "og:title": "Professional Standards, Ethics & Policies | IBPA",
+        "og:description": "Read IBPA's professional standards, code of ethics, membership policies, bylaws, and governance documents in one place.",
+        "og:url": "http://localhost:3000/standards",
+        "og:site_name": "International Beauty Professionals Association (IBPA)",
+        "og:locale": "en_US",
+        "og:image": "http://localhost:3000/og/ibpa-og.jpg",
+        "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "International Beauty Professionals Association (IBPA)",
+        "og:type": "website",
+        "twitter:card": "summary_large_image",
+        "twitter:title": "Professional Standards, Ethics & Policies | IBPA",
+        "twitter:description": "Read IBPA's professional standards, code of ethics, membership policies, bylaws, and governance documents in one place.",
+        "twitter:image": "http://localhost:3000/og/ibpa-og.jpg"
+      },
+      "canonical": [
+        "http://localhost:3000/standards"
+      ],
+      "hreflang": [],
+      "headings": [
+        [
+          "h1",
+          "IBPA Documents & Standards"
+        ],
+        [
+          "h2",
+          "A Central Archive for Team Use"
+        ],
+        [
+          "h3",
+          "Professional Standards"
+        ],
+        [
+          "h3",
+          "Code of Ethics"
+        ],
+        [
+          "h3",
+          "Membership Policy"
+        ],
+        [
+          "h3",
+          "Membership Agreement"
+        ],
+        [
+          "h3",
+          "Membership Review Procedure"
+        ],
+        [
+          "h3",
+          "Awards & Recognition Policy"
+        ],
+        [
+          "h3",
+          "Governance Policy"
+        ],
+        [
+          "h3",
+          "Board, Officers & Committee Governance Policy"
+        ],
+        [
+          "h3",
+          "Committee Charters Policy"
+        ],
+        [
+          "h3",
+          "Conflict of Interest Policy"
+        ],
+        [
+          "h3",
+          "Record Retention Policy"
+        ],
+        [
+          "h3",
+          "Bylaws"
+        ],
+        [
+          "h3",
+          "Privacy Policy"
+        ],
+        [
+          "h3",
+          "Terms of Use"
+        ],
+        [
+          "h3",
+          "Cancellation Policy"
+        ],
+        [
+          "h2",
+          "Site Map"
+        ],
+        [
+          "h2",
+          "Contact Info"
+        ],
+        [
+          "h2",
+          "Social Media"
+        ],
+        [
+          "h2",
+          "Policies"
+        ]
+      ],
+      "word_count": 443,
+      "main_count": 1,
+      "hidden_initially": 19,
+      "images_without_alt": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "http://localhost:3000/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Standards",
+              "item": "http://localhost:3000/standards"
+            }
+          ]
+        }
+      ],
+      "links": [
+        "#main-content",
+        "/",
+        "/about",
+        "/apply",
+        "/cancellation-policy",
+        "/contact",
+        "/criteria",
+        "/dashboard",
+        "/documents/awards-and-recognition-policy.pdf",
+        "/documents/board-officers-and-committee-governance-policy.pdf",
+        "/documents/bylaws.pdf",
+        "/documents/cancellation-policy-ibpa.pdf",
+        "/documents/code-of-ethics.pdf",
+        "/documents/committee-charters-policy.pdf",
+        "/documents/conflict-of-interest-policy.pdf",
+        "/documents/governance-policy.pdf",
+        "/documents/membership-agreement.pdf",
+        "/documents/membership-policy.pdf",
+        "/documents/membership-review-procedure.pdf",
+        "/documents/privacy-policy.pdf",
+        "/documents/professional-standards.pdf",
+        "/documents/record-retention-policy.pdf",
+        "/documents/terms-of-use.pdf",
+        "/events",
+        "/faq",
+        "/governance",
+        "/membership",
+        "/news",
+        "/partnership",
+        "/privacy",
+        "/standards",
+        "/terms",
+        "https://maps.google.com/?q=1220+Melody+Ln+Suite+110,+Roseville,+CA+95678",
+        "https://www.instagram.com/bbeauty_forum/",
+        "mailto:support@ibpassociations.org",
+        "tel:+12792302804"
+      ],
+      "ids": [
+        "mobile-navigation",
+        "main-content",
+        "_R_"
+      ]
+    },
+    {
+      "url": "http://localhost:3012/governance",
+      "status": 200,
+      "final_url": "http://localhost:3012/governance",
+      "cache_control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "x_robots_tag": null,
+      "html_bytes": 100800,
+      "title": "Governance: Board of Directors & Officers | IBPA",
+      "lang": "en",
+      "meta": {
+        "": "",
+        "viewport": "width=device-width, initial-scale=1",
+        "next-size-adjust": "",
+        "facebook-domain-verification": "1oij9v4q95qd0cudvfkr5tnmmgr2yw",
+        "description": "Meet the IBPA board of directors and officers, and see how the association's governance, committees, and policies are structured.",
+        "application-name": "IBPA",
+        "og:title": "Governance: Board of Directors & Officers | IBPA",
+        "og:description": "Meet the IBPA board of directors and officers, and see how the association's governance, committees, and policies are structured.",
+        "og:url": "http://localhost:3000/governance",
+        "og:site_name": "International Beauty Professionals Association (IBPA)",
+        "og:locale": "en_US",
+        "og:image": "http://localhost:3000/og/ibpa-og.jpg",
+        "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "International Beauty Professionals Association (IBPA)",
+        "og:type": "website",
+        "twitter:card": "summary_large_image",
+        "twitter:title": "Governance: Board of Directors & Officers | IBPA",
+        "twitter:description": "Meet the IBPA board of directors and officers, and see how the association's governance, committees, and policies are structured.",
+        "twitter:image": "http://localhost:3000/og/ibpa-og.jpg"
+      },
+      "canonical": [
+        "http://localhost:3000/governance"
+      ],
+      "hreflang": [],
+      "headings": [
+        [
+          "h1",
+          "Governance"
+        ],
+        [
+          "h2",
+          "The People Shaping IBPA"
+        ],
+        [
+          "h3",
+          "Iuliia Andreeva"
+        ],
+        [
+          "h3",
+          "Iuliia Andreeva"
+        ],
+        [
+          "h3",
+          "Sergei Andreev"
+        ],
+        [
+          "h3",
+          "Sergei Andreev"
+        ],
+        [
+          "h3",
+          "Valeriia Kizchuk"
+        ],
+        [
+          "h3",
+          "Valeriia Kizchuk"
+        ],
+        [
+          "h3",
+          "Anastasiia Shevchenko"
+        ],
+        [
+          "h3",
+          "Anastasiia Shevchenko"
+        ],
+        [
+          "h3",
+          "Tetiana Kysliuk"
+        ],
+        [
+          "h3",
+          "Tetiana Kysliuk"
+        ],
+        [
+          "h3",
+          "Eleonora Bediukh"
+        ],
+        [
+          "h3",
+          "Eleonora Bediukh"
+        ],
+        [
+          "h2",
+          "Board of Directors"
+        ],
+        [
+          "h2",
+          "President"
+        ],
+        [
+          "h2",
+          "Vice President"
+        ],
+        [
+          "h2",
+          "Secretary"
+        ],
+        [
+          "h2",
+          "Treasurer"
+        ],
+        [
+          "h2",
+          "Committees"
+        ],
+        [
+          "h3",
+          "Membership Review Board"
+        ],
+        [
+          "h3",
+          "Education Committee"
+        ],
+        [
+          "h3",
+          "Standards & Ethics Committee"
+        ],
+        [
+          "h3",
+          "Events Committee"
+        ],
+        [
+          "h3",
+          "Media & Publications Committee"
+        ],
+        [
+          "h3",
+          "Partnerships Committee"
+        ],
+        [
+          "h2",
+          "Want To Apply With A Clear Review Process?"
+        ],
+        [
+          "h2",
+          "Site Map"
+        ],
+        [
+          "h2",
+          "Contact Info"
+        ],
+        [
+          "h2",
+          "Social Media"
+        ],
+        [
+          "h2",
+          "Policies"
+        ]
+      ],
+      "word_count": 2205,
+      "main_count": 1,
+      "hidden_initially": 21,
+      "images_without_alt": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "http://localhost:3000/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Governance",
+              "item": "http://localhost:3000/governance"
+            }
+          ]
+        }
+      ],
+      "links": [
+        "#main-content",
+        "/",
+        "/about",
+        "/apply",
+        "/cancellation-policy",
+        "/contact",
+        "/criteria",
+        "/dashboard",
+        "/events",
+        "/faq",
+        "/governance",
+        "/membership",
+        "/membership#packages",
+        "/news",
+        "/partnership",
+        "/privacy",
+        "/standards",
+        "/terms",
+        "https://maps.google.com/?q=1220+Melody+Ln+Suite+110,+Roseville,+CA+95678",
+        "https://www.instagram.com/bbeauty_forum/",
+        "mailto:support@ibpassociations.org",
+        "tel:+12792302804"
+      ],
+      "ids": [
+        "mobile-navigation",
+        "main-content",
+        "_R_"
+      ]
+    },
+    {
+      "url": "http://localhost:3012/members",
+      "status": 200,
+      "final_url": "http://localhost:3012/members",
+      "cache_control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "x_robots_tag": null,
+      "html_bytes": 285623,
+      "title": "Members Directory | IBPA",
+      "lang": "en",
+      "meta": {
+        "": "",
+        "viewport": "width=device-width, initial-scale=1",
+        "next-size-adjust": "",
+        "facebook-domain-verification": "1oij9v4q95qd0cudvfkr5tnmmgr2yw",
+        "description": "Browse active members of the International Beauty Professionals Association — beauty specialists, educators, and brands from around the world.",
+        "application-name": "IBPA",
+        "og:title": "Members Directory | IBPA",
+        "og:description": "Browse active members of the International Beauty Professionals Association — beauty specialists, educators, and brands from around the world.",
+        "og:url": "http://localhost:3000/members",
+        "og:site_name": "International Beauty Professionals Association (IBPA)",
+        "og:locale": "en_US",
+        "og:image": "http://localhost:3000/og/ibpa-og.jpg",
+        "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "International Beauty Professionals Association (IBPA)",
+        "og:type": "website",
+        "twitter:card": "summary_large_image",
+        "twitter:title": "Members Directory | IBPA",
+        "twitter:description": "Browse active members of the International Beauty Professionals Association — beauty specialists, educators, and brands from around the world.",
+        "twitter:image": "http://localhost:3000/og/ibpa-og.jpg"
+      },
+      "canonical": [
+        "http://localhost:3000/members"
+      ],
+      "hreflang": [],
+      "headings": [
+        [
+          "h2",
+          "Site Map"
+        ],
+        [
+          "h2",
+          "Contact Info"
+        ],
+        [
+          "h2",
+          "Social Media"
+        ],
+        [
+          "h2",
+          "Policies"
+        ],
+        [
+          "h1",
+          "IBPA Members"
+        ],
+        [
+          "h3",
+          "Karine Habriielian"
+        ],
+        [
+          "h3",
+          "Olha Ladaniuk"
+        ],
+        [
+          "h3",
+          "MAVLIUDA AMANOVA"
+        ],
+        [
+          "h3",
+          "Iryna Vardanian"
+        ],
+        [
+          "h3",
+          "Viktoriia Havronska"
+        ],
+        [
+          "h3",
+          "Viktoria KRAVCHENKO"
+        ],
+        [
+          "h3",
+          "Oksana Shvydenko"
+        ],
+        [
+          "h3",
+          "Nataliia Ktitorova"
+        ],
+        [
+          "h3",
+          "Yuliia Tur"
+        ],
+        [
+          "h3",
+          "Ilsiiar Kartasheva"
+        ],
+        [
+          "h3",
+          "Елена Chernenko"
+        ],
+        [
+          "h3",
+          "Olga Vlasova"
+        ],
+        [
+          "h3",
+          "Viktoriia Vasylchenko"
+        ],
+        [
+          "h3",
+          "Tetiana Korzhovska"
+        ],
+        [
+          "h3",
+          "Viktoriia Boiko"
+        ],
+        [
+          "h3",
+          "OKSANA KARVEHINA"
+        ],
+        [
+          "h3",
+          "Sandra Alwattar"
+        ],
+        [
+          "h3",
+          "Anastasiia Huk"
+        ],
+        [
+          "h3",
+          "Anna Charkviani"
+        ],
+        [
+          "h3",
+          "Olena Holovatenko"
+        ],
+        [
+          "h3",
+          "Liana Figueiroa"
+        ],
+        [
+          "h3",
+          "Masha Pixie"
+        ],
+        [
+          "h3",
+          "Svitlana Riaba"
+        ],
+        [
+          "h3",
+          "Anzhelika Syveniuk"
+        ],
+        [
+          "h3",
+          "Ivanna Lyko"
+        ],
+        [
+          "h3",
+          "Anna Stalmakova"
+        ],
+        [
+          "h3",
+          "Alina Isakova"
+        ],
+        [
+          "h3",
+          "Yuliia Simonenko"
+        ],
+        [
+          "h3",
+          "Viktoriia Skrypnyk"
+        ],
+        [
+          "h3",
+          "Inna Bahriantseva"
+        ],
+        [
+          "h3",
+          "Olha Kotsiubailo"
+        ],
+        [
+          "h3",
+          "Liubov Chernykh"
+        ],
+        [
+          "h3",
+          "Karoline Amaritsa"
+        ],
+        [
+          "h3",
+          "Anastasiya Golubeva"
+        ],
+        [
+          "h3",
+          "Viktoriia Tesalova"
+        ],
+        [
+          "h3",
+          "Yulia Cowan"
+        ],
+        [
+          "h3",
+          "Nataliia Liakh"
+        ],
+        [
+          "h3",
+          "Anastasia Shevchenko"
+        ]
+      ],
+      "word_count": 489,
+      "main_count": 1,
+      "hidden_initially": 0,
+      "images_without_alt": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "http://localhost:3000/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Members",
+              "item": "http://localhost:3000/members"
+            }
+          ]
+        }
+      ],
+      "links": [
+        "#main-content",
+        "/",
+        "/about",
+        "/apply",
+        "/cancellation-policy",
+        "/contact",
+        "/criteria",
+        "/dashboard",
+        "/events",
+        "/faq",
+        "/governance",
+        "/membership",
+        "/news",
+        "/partnership",
+        "/privacy",
+        "/profile-preview/104db5e7-3e15-4d11-9ae1-1817be6ef89b",
+        "/profile-preview/17dfd3d0-4db6-40f6-805a-d9ad10e5db97",
+        "/profile-preview/185f6ee2-e4ab-48a5-a85b-e3af5bf9b416",
+        "/profile-preview/1b5d269e-cc1b-4c32-baaa-a0c1cd83c34a",
+        "/profile-preview/1e043a54-6381-4364-932f-14aca4be10c8",
+        "/profile-preview/415d1f38-9476-4a44-9d4c-b50e01c0bd37",
+        "/profile-preview/45281d6b-3a39-4815-83a7-2b8c96c31d09",
+        "/profile-preview/4a552e1e-b173-43b7-918d-45577a21df79",
+        "/profile-preview/5a34a94b-cf84-4b42-be83-b9dacfa34c23",
+        "/profile-preview/5a543869-d18c-417b-b60c-57b5d3584963",
+        "/profile-preview/5c03d5b7-f6af-40ac-b0e5-b8bee783d283",
+        "/profile-preview/6397094b-4ecf-4899-8296-463684921532",
+        "/profile-preview/65039944-1698-4a29-8ea9-10367e0e5d45",
+        "/profile-preview/6f5db766-451f-4a4f-a888-4adef79c414a",
+        "/profile-preview/6fbf801f-1dba-457f-94f4-47d6d43e07fe",
+        "/profile-preview/7453079a-5b73-47f0-8faf-bbf74a536d75",
+        "/profile-preview/778a4bdd-76bc-4ed2-9ce1-11ed3ae3e792",
+        "/profile-preview/7bb24be3-e924-41a7-80e7-46c8ad2b3029",
+        "/profile-preview/a1cca51c-a4cb-4152-aa1d-c858430764d1",
+        "/profile-preview/a7df74ec-1945-4955-a2cd-11822b475d58",
+        "/profile-preview/b378b0ad-d38a-47e2-a84a-e9be65333e59",
+        "/profile-preview/b9e57399-d8e5-44ed-ba78-81292bab76c2",
+        "/profile-preview/ba89124c-35e7-4245-b24c-6f62b24d810e",
+        "/profile-preview/beb92cc6-8eed-4d14-ba37-51bd0037b3a6",
+        "/profile-preview/c1c7fb23-ecda-43be-912f-eb24bdb3c71d",
+        "/profile-preview/c531058a-5a96-48c4-895d-5a6ec442c2be",
+        "/profile-preview/c8db7d2a-3333-4724-8ed8-e92d5d2934a6",
+        "/profile-preview/caad6895-e558-47da-a999-919eacf1f581",
+        "/profile-preview/cabf177c-095d-4536-8bf7-5f9e5e946561",
+        "/profile-preview/dcce56f8-27d9-48a9-afbb-88a660aee2dd",
+        "/profile-preview/dd9db4e9-3946-444d-a4b8-c2004cc67d13",
+        "/profile-preview/de103d98-3127-461a-bb33-cfd93733ba8e",
+        "/profile-preview/dfdc6596-0edf-423a-b2d6-a07942bbeea9",
+        "/profile-preview/e3a6ad5d-05f8-4dca-90cd-22697138c385",
+        "/profile-preview/e8e5efa5-b164-46c0-9174-363a358e5168",
+        "/profile-preview/f1ddb4d1-7d7f-4bac-8d51-ce1f9c88aeb4",
+        "/profile-preview/f9c940cf-c87f-4c54-89ff-5b220f0df12c",
+        "/profile-preview/fa3d59b8-5d5f-4202-9390-b1693cb952ed",
+        "/standards",
+        "/terms",
+        "https://maps.google.com/?q=1220+Melody+Ln+Suite+110,+Roseville,+CA+95678",
+        "https://www.instagram.com/bbeauty_forum/",
+        "mailto:support@ibpassociations.org",
+        "tel:+12792302804"
+      ],
+      "ids": [
+        "mobile-navigation",
+        "main-content",
+        "B:0",
+        "_R_",
+        "S:0",
+        "P:1",
+        "S:1"
+      ]
+    },
+    {
+      "url": "http://localhost:3012/events",
+      "status": 200,
+      "final_url": "http://localhost:3012/events",
+      "cache_control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "x_robots_tag": null,
+      "html_bytes": 49067,
+      "title": "Beauty Industry Events & Championships | IBPA",
+      "lang": "en",
+      "meta": {
+        "": "",
+        "viewport": "width=device-width, initial-scale=1",
+        "next-size-adjust": "",
+        "facebook-domain-verification": "1oij9v4q95qd0cudvfkr5tnmmgr2yw",
+        "description": "IBPA events and online championships for beauty professionals worldwide, focused on education, networking, competition, and collaboration.",
+        "application-name": "IBPA",
+        "og:title": "Beauty Industry Events & Championships | IBPA",
+        "og:description": "IBPA events and online championships for beauty professionals worldwide, focused on education, networking, competition, and collaboration.",
+        "og:url": "http://localhost:3000/events",
+        "og:site_name": "International Beauty Professionals Association (IBPA)",
+        "og:locale": "en_US",
+        "og:image": "http://localhost:3000/og/ibpa-og.jpg",
+        "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "International Beauty Professionals Association (IBPA)",
+        "og:type": "website",
+        "twitter:card": "summary_large_image",
+        "twitter:title": "Beauty Industry Events & Championships | IBPA",
+        "twitter:description": "IBPA events and online championships for beauty professionals worldwide, focused on education, networking, competition, and collaboration.",
+        "twitter:image": "http://localhost:3000/og/ibpa-og.jpg"
+      },
+      "canonical": [
+        "http://localhost:3000/events"
+      ],
+      "hreflang": [],
+      "headings": [
+        [
+          "h1",
+          "Professional Events Calendar"
+        ],
+        [
+          "h2",
+          "Registration is Now Open for the 4th Beauty Business Forum 2026 in Los Angeles"
+        ],
+        [
+          "h2",
+          "Site Map"
+        ],
+        [
+          "h2",
+          "Contact Info"
+        ],
+        [
+          "h2",
+          "Social Media"
+        ],
+        [
+          "h2",
+          "Policies"
+        ]
+      ],
+      "word_count": 295,
+      "main_count": 1,
+      "hidden_initially": 0,
+      "images_without_alt": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "http://localhost:3000/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Events",
+              "item": "http://localhost:3000/events"
+            }
+          ]
+        }
+      ],
+      "links": [
+        "#main-content",
+        "/",
+        "/about",
+        "/apply",
+        "/cancellation-policy",
+        "/contact",
+        "/criteria",
+        "/dashboard",
+        "/events",
+        "/events/fe5ba953-3412-4bec-a84e-70eb12c684d1",
+        "/faq",
+        "/governance",
+        "/membership",
+        "/membership#packages",
+        "/news",
+        "/partnership",
+        "/privacy",
+        "/standards",
+        "/terms",
+        "https://ibpa-forum.vercel.app/apply#apply-form",
+        "https://maps.google.com/?q=1220+Melody+Ln+Suite+110,+Roseville,+CA+95678",
+        "https://www.instagram.com/bbeauty_forum/",
+        "mailto:support@ibpassociations.org",
+        "tel:+12792302804"
+      ],
+      "ids": [
+        "mobile-navigation",
+        "main-content",
+        "_R_"
+      ]
+    },
+    {
+      "url": "http://localhost:3012/news",
+      "status": 200,
+      "final_url": "http://localhost:3012/news",
+      "cache_control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "x_robots_tag": null,
+      "html_bytes": 94568,
+      "title": "News & Insights for Beauty Professionals | IBPA",
+      "lang": "en",
+      "meta": {
+        "": "",
+        "viewport": "width=device-width, initial-scale=1",
+        "next-size-adjust": "",
+        "facebook-domain-verification": "1oij9v4q95qd0cudvfkr5tnmmgr2yw",
+        "description": "IBPA updates, industry developments, educational initiatives, and professional commentary for the international beauty community.",
+        "application-name": "IBPA",
+        "og:title": "News & Insights for Beauty Professionals | IBPA",
+        "og:description": "IBPA updates, industry developments, educational initiatives, and professional commentary for the international beauty community.",
+        "og:url": "http://localhost:3000/news",
+        "og:site_name": "International Beauty Professionals Association (IBPA)",
+        "og:locale": "en_US",
+        "og:image": "http://localhost:3000/og/ibpa-og.jpg",
+        "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "International Beauty Professionals Association (IBPA)",
+        "og:type": "website",
+        "twitter:card": "summary_large_image",
+        "twitter:title": "News & Insights for Beauty Professionals | IBPA",
+        "twitter:description": "IBPA updates, industry developments, educational initiatives, and professional commentary for the international beauty community.",
+        "twitter:image": "http://localhost:3000/og/ibpa-og.jpg"
+      },
+      "canonical": [
+        "http://localhost:3000/news"
+      ],
+      "hreflang": [],
+      "headings": [
+        [
+          "h1",
+          "News And Insights"
+        ],
+        [
+          "h2",
+          "IBPA Beauty Awards 2026: Applications Are Now Open"
+        ],
+        [
+          "h2",
+          "Registration is Now Open for the 4th Beauty Business Forum 2026 in Los Angeles"
+        ],
+        [
+          "h2",
+          "Grand Opening of IBPA: a Strong Beginning"
+        ],
+        [
+          "h2",
+          "Calling Speakers for the next Beauty Forum in Los Angeles"
+        ],
+        [
+          "h2",
+          "BUSINESS RETREAT FOR ASPIRING BEAUTY ENTREPRENEURS"
+        ],
+        [
+          "h2",
+          "Become a Published Author in the Next Issue of Beauty Professionals Magazine"
+        ],
+        [
+          "h2",
+          "June Educational Series by IBPA"
+        ],
+        [
+          "h2",
+          "Site Map"
+        ],
+        [
+          "h2",
+          "Contact Info"
+        ],
+        [
+          "h2",
+          "Social Media"
+        ],
+        [
+          "h2",
+          "Policies"
+        ]
+      ],
+      "word_count": 1655,
+      "main_count": 1,
+      "hidden_initially": 0,
+      "images_without_alt": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "http://localhost:3000/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "News",
+              "item": "http://localhost:3000/news"
+            }
+          ]
+        }
+      ],
+      "links": [
+        "#main-content",
+        "/",
+        "/about",
+        "/apply",
+        "/cancellation-policy",
+        "/contact",
+        "/criteria",
+        "/dashboard",
+        "/events",
+        "/events/fe5ba953-3412-4bec-a84e-70eb12c684d1",
+        "/faq",
+        "/governance",
+        "/membership",
+        "/membership#packages",
+        "/news",
+        "/news/08ca0545-b865-4abb-9aa1-79c1693c772c",
+        "/news/20db085b-38fb-41d3-89f1-1924a1a436a9",
+        "/news/6a03f355-2dc6-4a8e-bcef-66afde11c1a1",
+        "/news/87ad1415-33a0-4bc3-9c1a-471e42623e6e",
+        "/news/9a2e227c-e987-4e86-9970-5640adf4a1d4",
+        "/news/eefc3397-0098-43e0-97cd-43431013f9cf",
+        "/partnership",
+        "/privacy",
+        "/standards",
+        "/terms",
+        "https://ibpa-forum.vercel.app/",
+        "https://ibpa-forum.vercel.app/apply",
+        "https://maps.google.com/?q=1220+Melody+Ln+Suite+110,+Roseville,+CA+95678",
+        "https://www.instagram.com/bbeauty_forum/",
+        "https://www.instagram.com/p/DXzwQgBynaf/",
+        "https://www.instagram.com/p/DY5JginPJk8/",
+        "https://www.instagram.com/p/DYN-YTJmX2S/?img_index=1",
+        "https://www.instagram.com/p/DYQWzOEj48J/?img_index=1",
+        "https://www.instagram.com/p/DZD0VtcD5w0/?img_index=1",
+        "mailto:support@ibpassociations.org",
+        "tel:+12792302804"
+      ],
+      "ids": [
+        "mobile-navigation",
+        "main-content",
+        "_R_"
+      ]
+    },
+    {
+      "url": "http://localhost:3012/partnership",
+      "status": 200,
+      "final_url": "http://localhost:3012/partnership",
+      "cache_control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "x_robots_tag": null,
+      "html_bytes": 68350,
+      "title": "Partner & Sponsor: Brand Membership vs Sponsorship | IBPA",
+      "lang": "en",
+      "meta": {
+        "": "",
+        "viewport": "width=device-width, initial-scale=1",
+        "next-size-adjust": "",
+        "facebook-domain-verification": "1oij9v4q95qd0cudvfkr5tnmmgr2yw",
+        "description": "Brands, media, and educators can support the IBPA professional community through sponsorship packages, separate from verified Brand Membership.",
+        "application-name": "IBPA",
+        "og:title": "Partner & Sponsor: Brand Membership vs Sponsorship | IBPA",
+        "og:description": "Brands, media, and educators can support the IBPA professional community through sponsorship packages, separate from verified Brand Membership.",
+        "og:url": "http://localhost:3000/partnership",
+        "og:site_name": "International Beauty Professionals Association (IBPA)",
+        "og:locale": "en_US",
+        "og:image": "http://localhost:3000/og/ibpa-og.jpg",
+        "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "International Beauty Professionals Association (IBPA)",
+        "og:type": "website",
+        "twitter:card": "summary_large_image",
+        "twitter:title": "Partner & Sponsor: Brand Membership vs Sponsorship | IBPA",
+        "twitter:description": "Brands, media, and educators can support the IBPA professional community through sponsorship packages, separate from verified Brand Membership.",
+        "twitter:image": "http://localhost:3000/og/ibpa-og.jpg"
+      },
+      "canonical": [
+        "http://localhost:3000/partnership"
+      ],
+      "hreflang": [],
+      "headings": [
+        [
+          "h1",
+          "Partner With IBPA"
+        ],
+        [
+          "h2",
+          "Choose the Visibility Level That Fits Your Brand"
+        ],
+        [
+          "h3",
+          "Associate"
+        ],
+        [
+          "h3",
+          "Community"
+        ],
+        [
+          "h3",
+          "Premier"
+        ],
+        [
+          "h2",
+          "Who Is Already Part of the IBPA Ecosystem"
+        ],
+        [
+          "h3",
+          "Alismia"
+        ],
+        [
+          "h3",
+          "TEORA beauty"
+        ],
+        [
+          "h3",
+          "NePOP Radio"
+        ],
+        [
+          "h2",
+          "Send an Inquiry"
+        ],
+        [
+          "h2",
+          "Partnership FAQ"
+        ],
+        [
+          "h3",
+          "How is sponsorship different from Brand Membership?"
+        ],
+        [
+          "h3",
+          "How long does a partnership inquiry usually take to review?"
+        ],
+        [
+          "h3",
+          "Looking for membership status instead of sponsorship visibility?"
+        ],
+        [
+          "h2",
+          "Site Map"
+        ],
+        [
+          "h2",
+          "Contact Info"
+        ],
+        [
+          "h2",
+          "Social Media"
+        ],
+        [
+          "h2",
+          "Policies"
+        ]
+      ],
+      "word_count": 651,
+      "main_count": 1,
+      "hidden_initially": 3,
+      "images_without_alt": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "http://localhost:3000/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Partnership",
+              "item": "http://localhost:3000/partnership"
+            }
+          ]
+        }
+      ],
+      "links": [
+        "#main-content",
+        "#partnership-inquiry",
+        "/",
+        "/about",
+        "/apply",
+        "/cancellation-policy",
+        "/contact",
+        "/criteria",
+        "/dashboard",
+        "/events",
+        "/faq",
+        "/governance",
+        "/membership",
+        "/news",
+        "/partnership",
+        "/privacy",
+        "/standards",
+        "/terms",
+        "https://maps.google.com/?q=1220+Melody+Ln+Suite+110,+Roseville,+CA+95678",
+        "https://nepopradio.com",
+        "https://www.alismia.com/",
+        "https://www.instagram.com/bbeauty_forum/",
+        "https://www.instagram.com/teora_beauty?igsh=NTc4MTIwNjQ2YQ==",
+        "mailto:support@ibpassociations.org",
+        "tel:+12792302804"
+      ],
+      "ids": [
+        "mobile-navigation",
+        "main-content",
+        "partnership-inquiry",
+        "partnership-company-website",
+        "_R_"
+      ]
+    },
+    {
+      "url": "http://localhost:3012/faq",
+      "status": 200,
+      "final_url": "http://localhost:3012/faq",
+      "cache_control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "x_robots_tag": null,
+      "html_bytes": 62938,
+      "title": "Membership FAQ: Application, Payment & Certificates | IBPA",
+      "lang": "en",
+      "meta": {
+        "": "",
+        "viewport": "width=device-width, initial-scale=1",
+        "next-size-adjust": "",
+        "facebook-domain-verification": "1oij9v4q95qd0cudvfkr5tnmmgr2yw",
+        "description": "Answers about IBPA membership categories, the application and review process, payment, certificates, the member dashboard, and professional standards.",
+        "application-name": "IBPA",
+        "og:title": "Membership FAQ: Application, Payment & Certificates | IBPA",
+        "og:description": "Answers about IBPA membership categories, the application and review process, payment, certificates, the member dashboard, and professional standards.",
+        "og:url": "http://localhost:3000/faq",
+        "og:site_name": "International Beauty Professionals Association (IBPA)",
+        "og:locale": "en_US",
+        "og:image": "http://localhost:3000/og/ibpa-og.jpg",
+        "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "International Beauty Professionals Association (IBPA)",
+        "og:type": "website",
+        "twitter:card": "summary_large_image",
+        "twitter:title": "Membership FAQ: Application, Payment & Certificates | IBPA",
+        "twitter:description": "Answers about IBPA membership categories, the application and review process, payment, certificates, the member dashboard, and professional standards.",
+        "twitter:image": "http://localhost:3000/og/ibpa-og.jpg"
+      },
+      "canonical": [
+        "http://localhost:3000/faq"
+      ],
+      "hreflang": [],
+      "headings": [
+        [
+          "h1",
+          "Frequently Asked Questions"
+        ],
+        [
+          "h2",
+          "What Future Members Usually Need To Know"
+        ],
+        [
+          "h3",
+          "Still need a direct answer?"
+        ],
+        [
+          "h2",
+          "Site Map"
+        ],
+        [
+          "h2",
+          "Contact Info"
+        ],
+        [
+          "h2",
+          "Social Media"
+        ],
+        [
+          "h2",
+          "Policies"
+        ]
+      ],
+      "word_count": 673,
+      "main_count": 1,
+      "hidden_initially": 15,
+      "images_without_alt": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "http://localhost:3000/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "FAQ",
+              "item": "http://localhost:3000/faq"
+            }
+          ]
+        }
+      ],
+      "links": [
+        "#main-content",
+        "/",
+        "/about",
+        "/apply",
+        "/cancellation-policy",
+        "/contact",
+        "/criteria",
+        "/dashboard",
+        "/events",
+        "/faq",
+        "/governance",
+        "/membership",
+        "/news",
+        "/partnership",
+        "/privacy",
+        "/standards",
+        "/terms",
+        "https://maps.google.com/?q=1220+Melody+Ln+Suite+110,+Roseville,+CA+95678",
+        "https://www.instagram.com/bbeauty_forum/",
+        "mailto:support@ibpassociations.org",
+        "tel:+12792302804"
+      ],
+      "ids": [
+        "mobile-navigation",
+        "main-content",
+        "_R_"
+      ]
+    },
+    {
+      "url": "http://localhost:3012/contact",
+      "status": 200,
+      "final_url": "http://localhost:3012/contact",
+      "cache_control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "x_robots_tag": null,
+      "html_bytes": 52298,
+      "title": "Contact IBPA: Membership & Partnership Questions | IBPA",
+      "lang": "en",
+      "meta": {
+        "": "",
+        "viewport": "width=device-width, initial-scale=1",
+        "next-size-adjust": "",
+        "facebook-domain-verification": "1oij9v4q95qd0cudvfkr5tnmmgr2yw",
+        "description": "Reach the IBPA team about membership, applications, partnerships, or standards. Email, phone, and our Roseville, California office address.",
+        "application-name": "IBPA",
+        "og:title": "Contact IBPA: Membership & Partnership Questions | IBPA",
+        "og:description": "Reach the IBPA team about membership, applications, partnerships, or standards. Email, phone, and our Roseville, California office address.",
+        "og:url": "http://localhost:3000/contact",
+        "og:site_name": "International Beauty Professionals Association (IBPA)",
+        "og:locale": "en_US",
+        "og:image": "http://localhost:3000/og/ibpa-og.jpg",
+        "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "International Beauty Professionals Association (IBPA)",
+        "og:type": "website",
+        "twitter:card": "summary_large_image",
+        "twitter:title": "Contact IBPA: Membership & Partnership Questions | IBPA",
+        "twitter:description": "Reach the IBPA team about membership, applications, partnerships, or standards. Email, phone, and our Roseville, California office address.",
+        "twitter:image": "http://localhost:3000/og/ibpa-og.jpg"
+      },
+      "canonical": [
+        "http://localhost:3000/contact"
+      ],
+      "hreflang": [],
+      "headings": [
+        [
+          "h1",
+          "Contact"
+        ],
+        [
+          "h2",
+          "We're always available"
+        ],
+        [
+          "h2",
+          "Send a Message"
+        ],
+        [
+          "h2",
+          "Site Map"
+        ],
+        [
+          "h2",
+          "Contact Info"
+        ],
+        [
+          "h2",
+          "Social Media"
+        ],
+        [
+          "h2",
+          "Policies"
+        ]
+      ],
+      "word_count": 211,
+      "main_count": 1,
+      "hidden_initially": 5,
+      "images_without_alt": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "http://localhost:3000/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Contact",
+              "item": "http://localhost:3000/contact"
+            }
+          ]
+        }
+      ],
+      "links": [
+        "#main-content",
+        "/",
+        "/about",
+        "/apply",
+        "/cancellation-policy",
+        "/contact",
+        "/criteria",
+        "/dashboard",
+        "/events",
+        "/faq",
+        "/governance",
+        "/membership",
+        "/membership#packages",
+        "/news",
+        "/partnership",
+        "/privacy",
+        "/standards",
+        "/terms",
+        "https://maps.google.com/?q=1220+Melody+Ln+Suite+110,+Roseville,+CA+95678",
+        "https://www.instagram.com/bbeauty_forum/",
+        "mailto:support@ibpassociations.org",
+        "tel:+12792302804"
+      ],
+      "ids": [
+        "mobile-navigation",
+        "main-content",
+        "contact-company-website",
+        "_R_"
+      ]
+    },
+    {
+      "url": "http://localhost:3012/apply",
+      "status": 200,
+      "final_url": "http://localhost:3012/apply",
+      "cache_control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "x_robots_tag": null,
+      "html_bytes": 57599,
+      "title": "Apply for IBPA Membership | IBPA",
+      "lang": "en",
+      "meta": {
+        "": "",
+        "viewport": "width=device-width, initial-scale=1",
+        "next-size-adjust": "",
+        "facebook-domain-verification": "1oij9v4q95qd0cudvfkr5tnmmgr2yw",
+        "description": "Start your IBPA membership application. Choose a category and submit your profile for review by the Membership Review Board.",
+        "application-name": "IBPA",
+        "og:title": "Apply for IBPA Membership | IBPA",
+        "og:description": "Start your IBPA membership application. Choose a category and submit your profile for review by the Membership Review Board.",
+        "og:url": "http://localhost:3000/apply",
+        "og:site_name": "International Beauty Professionals Association (IBPA)",
+        "og:locale": "en_US",
+        "og:image": "http://localhost:3000/og/ibpa-og.jpg",
+        "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "International Beauty Professionals Association (IBPA)",
+        "og:type": "website",
+        "twitter:card": "summary_large_image",
+        "twitter:title": "Apply for IBPA Membership | IBPA",
+        "twitter:description": "Start your IBPA membership application. Choose a category and submit your profile for review by the Membership Review Board.",
+        "twitter:image": "http://localhost:3000/og/ibpa-og.jpg"
+      },
+      "canonical": [
+        "http://localhost:3000/apply"
+      ],
+      "hreflang": [],
+      "headings": [
+        [
+          "h1",
+          "Apply for IBPA"
+        ],
+        [
+          "h2",
+          "Choose your membership path"
+        ],
+        [
+          "h3",
+          "Specialist"
+        ],
+        [
+          "h2",
+          "Site Map"
+        ],
+        [
+          "h2",
+          "Contact Info"
+        ],
+        [
+          "h2",
+          "Social Media"
+        ],
+        [
+          "h2",
+          "Policies"
+        ]
+      ],
+      "word_count": 338,
+      "main_count": 1,
+      "hidden_initially": 1,
+      "images_without_alt": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "http://localhost:3000/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Apply",
+              "item": "http://localhost:3000/apply"
+            }
+          ]
+        }
+      ],
+      "links": [
+        "#main-content",
+        "/",
+        "/about",
+        "/apply",
+        "/apply?category=Brand",
+        "/apply?category=Business",
+        "/apply?category=Professional",
+        "/apply?category=Trainer",
+        "/cancellation-policy",
+        "/contact",
+        "/criteria",
+        "/dashboard",
+        "/events",
+        "/faq",
+        "/governance",
+        "/membership",
+        "/news",
+        "/partnership",
+        "/privacy",
+        "/standards",
+        "/terms",
+        "https://maps.google.com/?q=1220+Melody+Ln+Suite+110,+Roseville,+CA+95678",
+        "https://www.instagram.com/bbeauty_forum/",
+        "mailto:support@ibpassociations.org",
+        "tel:+12792302804"
+      ],
+      "ids": [
+        "mobile-navigation",
+        "main-content",
+        "company-website",
+        "_R_"
+      ]
+    },
+    {
+      "url": "http://localhost:3012/privacy",
+      "status": 200,
+      "final_url": "http://localhost:3012/privacy",
+      "cache_control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "x_robots_tag": null,
+      "html_bytes": 57475,
+      "title": "Privacy Policy | IBPA",
+      "lang": "en",
+      "meta": {
+        "": "",
+        "viewport": "width=device-width, initial-scale=1",
+        "next-size-adjust": "",
+        "facebook-domain-verification": "1oij9v4q95qd0cudvfkr5tnmmgr2yw",
+        "description": "How the International Beauty Professionals Association collects, uses, stores, and protects personal information.",
+        "application-name": "IBPA",
+        "og:title": "Privacy Policy | IBPA",
+        "og:description": "How the International Beauty Professionals Association collects, uses, stores, and protects personal information.",
+        "og:url": "http://localhost:3000/privacy",
+        "og:site_name": "International Beauty Professionals Association (IBPA)",
+        "og:locale": "en_US",
+        "og:image": "http://localhost:3000/og/ibpa-og.jpg",
+        "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "International Beauty Professionals Association (IBPA)",
+        "og:type": "website",
+        "twitter:card": "summary_large_image",
+        "twitter:title": "Privacy Policy | IBPA",
+        "twitter:description": "How the International Beauty Professionals Association collects, uses, stores, and protects personal information.",
+        "twitter:image": "http://localhost:3000/og/ibpa-og.jpg"
+      },
+      "canonical": [
+        "http://localhost:3000/privacy"
+      ],
+      "hreflang": [],
+      "headings": [
+        [
+          "h1",
+          "Privacy Policy"
+        ],
+        [
+          "h2",
+          "Introduction"
+        ],
+        [
+          "h2",
+          "Information We Collect"
+        ],
+        [
+          "h2",
+          "How We Use Information"
+        ],
+        [
+          "h2",
+          "Membership Review and Data Use"
+        ],
+        [
+          "h2",
+          "Sharing of Information"
+        ],
+        [
+          "h2",
+          "Public Information"
+        ],
+        [
+          "h2",
+          "Data Retention"
+        ],
+        [
+          "h2",
+          "Data Security"
+        ],
+        [
+          "h2",
+          "Your Rights"
+        ],
+        [
+          "h2",
+          "Cookies and Tracking"
+        ],
+        [
+          "h2",
+          "Third-Party Links"
+        ],
+        [
+          "h2",
+          "Children's Privacy"
+        ],
+        [
+          "h2",
+          "Changes to This Policy"
+        ],
+        [
+          "h2",
+          "Contact Information"
+        ],
+        [
+          "h2",
+          "Governing Law"
+        ],
+        [
+          "h2",
+          "Site Map"
+        ],
+        [
+          "h2",
+          "Contact Info"
+        ],
+        [
+          "h2",
+          "Social Media"
+        ],
+        [
+          "h2",
+          "Policies"
+        ]
+      ],
+      "word_count": 749,
+      "main_count": 1,
+      "hidden_initially": 0,
+      "images_without_alt": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "http://localhost:3000/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Privacy Policy",
+              "item": "http://localhost:3000/privacy"
+            }
+          ]
+        }
+      ],
+      "links": [
+        "#main-content",
+        "/",
+        "/about",
+        "/apply",
+        "/cancellation-policy",
+        "/contact",
+        "/criteria",
+        "/dashboard",
+        "/events",
+        "/faq",
+        "/governance",
+        "/membership",
+        "/news",
+        "/partnership",
+        "/privacy",
+        "/standards",
+        "/terms",
+        "https://maps.google.com/?q=1220+Melody+Ln+Suite+110,+Roseville,+CA+95678",
+        "https://www.instagram.com/bbeauty_forum/",
+        "mailto:support@ibpassociations.org",
+        "tel:+12792302804"
+      ],
+      "ids": [
+        "mobile-navigation",
+        "main-content",
+        "_R_"
+      ]
+    },
+    {
+      "url": "http://localhost:3012/terms",
+      "status": 200,
+      "final_url": "http://localhost:3012/terms",
+      "cache_control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "x_robots_tag": null,
+      "html_bytes": 61194,
+      "title": "Terms of Use | IBPA",
+      "lang": "en",
+      "meta": {
+        "": "",
+        "viewport": "width=device-width, initial-scale=1",
+        "next-size-adjust": "",
+        "facebook-domain-verification": "1oij9v4q95qd0cudvfkr5tnmmgr2yw",
+        "description": "Terms for using the IBPA website and member platform, including user responsibilities, limitations, and general conditions.",
+        "application-name": "IBPA",
+        "og:title": "Terms of Use | IBPA",
+        "og:description": "Terms for using the IBPA website and member platform, including user responsibilities, limitations, and general conditions.",
+        "og:url": "http://localhost:3000/terms",
+        "og:site_name": "International Beauty Professionals Association (IBPA)",
+        "og:locale": "en_US",
+        "og:image": "http://localhost:3000/og/ibpa-og.jpg",
+        "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "International Beauty Professionals Association (IBPA)",
+        "og:type": "website",
+        "twitter:card": "summary_large_image",
+        "twitter:title": "Terms of Use | IBPA",
+        "twitter:description": "Terms for using the IBPA website and member platform, including user responsibilities, limitations, and general conditions.",
+        "twitter:image": "http://localhost:3000/og/ibpa-og.jpg"
+      },
+      "canonical": [
+        "http://localhost:3000/terms"
+      ],
+      "hreflang": [],
+      "headings": [
+        [
+          "h1",
+          "Terms Of Use"
+        ],
+        [
+          "h2",
+          "Acceptance of Terms"
+        ],
+        [
+          "h2",
+          "Nature and Purpose of the Website"
+        ],
+        [
+          "h2",
+          "Membership and Eligibility"
+        ],
+        [
+          "h2",
+          "User Representations and Responsibilities"
+        ],
+        [
+          "h2",
+          "Intellectual Property Rights"
+        ],
+        [
+          "h2",
+          "Payments, Fees, and Financial Terms"
+        ],
+        [
+          "h2",
+          "Cancellation and Membership Termination"
+        ],
+        [
+          "h2",
+          "Limitation of Liability"
+        ],
+        [
+          "h2",
+          "Disclaimer of Guarantees"
+        ],
+        [
+          "h2",
+          "Third-Party Services and External Links"
+        ],
+        [
+          "h2",
+          "Suspension and Termination of Access"
+        ],
+        [
+          "h2",
+          "Modifications to Terms and Website"
+        ],
+        [
+          "h2",
+          "Governing Law and Jurisdiction"
+        ],
+        [
+          "h2",
+          "Entire Agreement"
+        ],
+        [
+          "h2",
+          "Severability"
+        ],
+        [
+          "h2",
+          "Waiver"
+        ],
+        [
+          "h2",
+          "Business Owner Team Access"
+        ],
+        [
+          "h2",
+          "Contact Information"
+        ],
+        [
+          "h2",
+          "Site Map"
+        ],
+        [
+          "h2",
+          "Contact Info"
+        ],
+        [
+          "h2",
+          "Social Media"
+        ],
+        [
+          "h2",
+          "Policies"
+        ]
+      ],
+      "word_count": 1310,
+      "main_count": 1,
+      "hidden_initially": 0,
+      "images_without_alt": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "http://localhost:3000/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Terms of Use",
+              "item": "http://localhost:3000/terms"
+            }
+          ]
+        }
+      ],
+      "links": [
+        "#main-content",
+        "/",
+        "/about",
+        "/apply",
+        "/cancellation-policy",
+        "/contact",
+        "/criteria",
+        "/dashboard",
+        "/events",
+        "/faq",
+        "/governance",
+        "/membership",
+        "/news",
+        "/partnership",
+        "/privacy",
+        "/standards",
+        "/terms",
+        "https://maps.google.com/?q=1220+Melody+Ln+Suite+110,+Roseville,+CA+95678",
+        "https://www.instagram.com/bbeauty_forum/",
+        "mailto:support@ibpassociations.org",
+        "tel:+12792302804"
+      ],
+      "ids": [
+        "mobile-navigation",
+        "main-content",
+        "_R_"
+      ]
+    },
+    {
+      "url": "http://localhost:3012/cancellation-policy",
+      "status": 200,
+      "final_url": "http://localhost:3012/cancellation-policy",
+      "cache_control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "x_robots_tag": null,
+      "html_bytes": 53609,
+      "title": "Cancellation Policy | IBPA",
+      "lang": "en",
+      "meta": {
+        "": "",
+        "viewport": "width=device-width, initial-scale=1",
+        "next-size-adjust": "",
+        "facebook-domain-verification": "1oij9v4q95qd0cudvfkr5tnmmgr2yw",
+        "description": "IBPA's cancellation, refund, and policy handling guidance for association-related payments and participation.",
+        "application-name": "IBPA",
+        "og:title": "Cancellation Policy | IBPA",
+        "og:description": "IBPA's cancellation, refund, and policy handling guidance for association-related payments and participation.",
+        "og:url": "http://localhost:3000/cancellation-policy",
+        "og:site_name": "International Beauty Professionals Association (IBPA)",
+        "og:locale": "en_US",
+        "og:image": "http://localhost:3000/og/ibpa-og.jpg",
+        "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "International Beauty Professionals Association (IBPA)",
+        "og:type": "website",
+        "twitter:card": "summary_large_image",
+        "twitter:title": "Cancellation Policy | IBPA",
+        "twitter:description": "IBPA's cancellation, refund, and policy handling guidance for association-related payments and participation.",
+        "twitter:image": "http://localhost:3000/og/ibpa-og.jpg"
+      },
+      "canonical": [
+        "http://localhost:3000/cancellation-policy"
+      ],
+      "hreflang": [],
+      "headings": [
+        [
+          "h1",
+          "Cancellation  Policy"
+        ],
+        [
+          "h2",
+          "General Provisions"
+        ],
+        [
+          "h2",
+          "Membership Cancellation"
+        ],
+        [
+          "h2",
+          "Effective Date"
+        ],
+        [
+          "h2",
+          "Refund Policy"
+        ],
+        [
+          "h2",
+          "Application Review"
+        ],
+        [
+          "h2",
+          "Termination by Association"
+        ],
+        [
+          "h2",
+          "Administrative  Errors"
+        ],
+        [
+          "h3",
+          "Official Notice"
+        ],
+        [
+          "h2",
+          "Site Map"
+        ],
+        [
+          "h2",
+          "Contact Info"
+        ],
+        [
+          "h2",
+          "Social Media"
+        ],
+        [
+          "h2",
+          "Policies"
+        ]
+      ],
+      "word_count": 484,
+      "main_count": 1,
+      "hidden_initially": 11,
+      "images_without_alt": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "http://localhost:3000/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Cancellation Policy",
+              "item": "http://localhost:3000/cancellation-policy"
+            }
+          ]
+        }
+      ],
+      "links": [
+        "#main-content",
+        "/",
+        "/about",
+        "/apply",
+        "/cancellation-policy",
+        "/contact",
+        "/criteria",
+        "/dashboard",
+        "/events",
+        "/faq",
+        "/governance",
+        "/membership",
+        "/membership#packages",
+        "/news",
+        "/partnership",
+        "/privacy",
+        "/standards",
+        "/terms",
+        "https://maps.google.com/?q=1220+Melody+Ln+Suite+110,+Roseville,+CA+95678",
+        "https://www.instagram.com/bbeauty_forum/",
+        "mailto:support@ibpassociations.org",
+        "tel:+12792302804"
+      ],
+      "ids": [
+        "mobile-navigation",
+        "main-content",
+        "_R_"
+      ]
+    },
+    {
+      "url": "http://localhost:3012/news/6a03f355-2dc6-4a8e-bcef-66afde11c1a1",
+      "status": 200,
+      "final_url": "http://localhost:3012/news/6a03f355-2dc6-4a8e-bcef-66afde11c1a1",
+      "cache_control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "x_robots_tag": null,
+      "html_bytes": 51964,
+      "title": "IBPA Beauty Awards 2026: Applications Are Now Open | IBPA",
+      "lang": "en",
+      "meta": {
+        "": "",
+        "viewport": "width=device-width, initial-scale=1",
+        "next-size-adjust": "",
+        "facebook-domain-verification": "1oij9v4q95qd0cudvfkr5tnmmgr2yw",
+        "description": "The IBPA Beauty Awards 2026 is now accepting applications from beauty professionals around the world. This international professional award recognizes…",
+        "application-name": "IBPA",
+        "og:title": "IBPA Beauty Awards 2026: Applications Are Now Open | IBPA",
+        "og:description": "The IBPA Beauty Awards 2026 is now accepting applications from beauty professionals around the world. This international professional award recognizes…",
+        "og:url": "http://localhost:3000/news/6a03f355-2dc6-4a8e-bcef-66afde11c1a1",
+        "og:site_name": "International Beauty Professionals Association (IBPA)",
+        "og:locale": "en_US",
+        "og:image": "https://utfs.io/f/q11AT9W5JzOVLGpl3MUewilOJ2H0NqoYpkbEMGAnrKhjesaT",
+        "og:image:alt": "IBPA Beauty Awards 2026: Applications Are Now Open",
+        "og:type": "article",
+        "twitter:card": "summary_large_image",
+        "twitter:title": "IBPA Beauty Awards 2026: Applications Are Now Open | IBPA",
+        "twitter:description": "The IBPA Beauty Awards 2026 is now accepting applications from beauty professionals around the world. This international professional award recognizes…",
+        "twitter:image": "https://utfs.io/f/q11AT9W5JzOVLGpl3MUewilOJ2H0NqoYpkbEMGAnrKhjesaT"
+      },
+      "canonical": [
+        "http://localhost:3000/news/6a03f355-2dc6-4a8e-bcef-66afde11c1a1"
+      ],
+      "hreflang": [],
+      "headings": [
+        [
+          "h1",
+          "IBPA Beauty Awards 2026: Applications Are Now Open"
+        ],
+        [
+          "h2",
+          "Site Map"
+        ],
+        [
+          "h2",
+          "Contact Info"
+        ],
+        [
+          "h2",
+          "Social Media"
+        ],
+        [
+          "h2",
+          "Policies"
+        ]
+      ],
+      "word_count": 272,
+      "main_count": 1,
+      "hidden_initially": 0,
+      "images_without_alt": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "http://localhost:3000/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "News",
+              "item": "http://localhost:3000/news"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "IBPA Beauty Awards 2026: Applications Are Now Open",
+              "item": "http://localhost:3000/news/6a03f355-2dc6-4a8e-bcef-66afde11c1a1"
+            }
+          ]
+        },
+        [
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "@id": "http://localhost:3000/news/6a03f355-2dc6-4a8e-bcef-66afde11c1a1#webpage",
+            "url": "http://localhost:3000/news/6a03f355-2dc6-4a8e-bcef-66afde11c1a1",
+            "name": "IBPA Beauty Awards 2026: Applications Are Now Open",
+            "description": "The IBPA Beauty Awards 2026 is now accepting applications from beauty professionals around the world. This international professional award recognizes…",
+            "isPartOf": {
+              "@id": "http://localhost:3000/#website"
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "@id": "http://localhost:3000/news/6a03f355-2dc6-4a8e-bcef-66afde11c1a1#article",
+            "headline": "IBPA Beauty Awards 2026: Applications Are Now Open",
+            "description": "The IBPA Beauty Awards 2026 is now accepting applications from beauty professionals around the world. This international professional award recognizes…",
+            "url": "http://localhost:3000/news/6a03f355-2dc6-4a8e-bcef-66afde11c1a1",
+            "mainEntityOfPage": {
+              "@id": "http://localhost:3000/news/6a03f355-2dc6-4a8e-bcef-66afde11c1a1#webpage"
+            },
+            "publisher": {
+              "@id": "http://localhost:3000/#organization"
+            },
+            "image": [
+              "https://utfs.io/f/q11AT9W5JzOVLGpl3MUewilOJ2H0NqoYpkbEMGAnrKhjesaT"
+            ]
+          }
+        ]
+      ],
+      "links": [
+        "#main-content",
+        "/",
+        "/about",
+        "/apply",
+        "/cancellation-policy",
+        "/contact",
+        "/criteria",
+        "/dashboard",
+        "/events",
+        "/faq",
+        "/governance",
+        "/membership",
+        "/news",
+        "/partnership",
+        "/privacy",
+        "/standards",
+        "/terms",
+        "https://ibpa-forum.vercel.app/apply",
+        "https://maps.google.com/?q=1220+Melody+Ln+Suite+110,+Roseville,+CA+95678",
+        "https://www.instagram.com/bbeauty_forum/",
+        "mailto:support@ibpassociations.org",
+        "tel:+12792302804"
+      ],
+      "ids": [
+        "mobile-navigation",
+        "main-content",
+        "_R_"
+      ]
+    },
+    {
+      "url": "http://localhost:3012/news/20db085b-38fb-41d3-89f1-1924a1a436a9",
+      "status": 200,
+      "final_url": "http://localhost:3012/news/20db085b-38fb-41d3-89f1-1924a1a436a9",
+      "cache_control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "x_robots_tag": null,
+      "html_bytes": 53850,
+      "title": "Grand Opening of IBPA: a Strong Beginning | IBPA",
+      "lang": "en",
+      "meta": {
+        "": "",
+        "viewport": "width=device-width, initial-scale=1",
+        "next-size-adjust": "",
+        "facebook-domain-verification": "1oij9v4q95qd0cudvfkr5tnmmgr2yw",
+        "description": "Our first official public event dedicated to the launch of the International Beauty Professionals Association was successfully held - and became a truly…",
+        "application-name": "IBPA",
+        "og:title": "Grand Opening of IBPA: a Strong Beginning | IBPA",
+        "og:description": "Our first official public event dedicated to the launch of the International Beauty Professionals Association was successfully held - and became a truly…",
+        "og:url": "http://localhost:3000/news/20db085b-38fb-41d3-89f1-1924a1a436a9",
+        "og:site_name": "International Beauty Professionals Association (IBPA)",
+        "og:locale": "en_US",
+        "og:image": "https://utfs.io/f/q11AT9W5JzOV2VBHreNt6GramNibnhLHRAwXQx3yCc1SFfEU",
+        "og:image:alt": "Grand Opening of IBPA: a Strong Beginning",
+        "og:type": "article",
+        "twitter:card": "summary_large_image",
+        "twitter:title": "Grand Opening of IBPA: a Strong Beginning | IBPA",
+        "twitter:description": "Our first official public event dedicated to the launch of the International Beauty Professionals Association was successfully held - and became a truly…",
+        "twitter:image": "https://utfs.io/f/q11AT9W5JzOV2VBHreNt6GramNibnhLHRAwXQx3yCc1SFfEU"
+      },
+      "canonical": [
+        "http://localhost:3000/news/20db085b-38fb-41d3-89f1-1924a1a436a9"
+      ],
+      "hreflang": [],
+      "headings": [
+        [
+          "h1",
+          "Grand Opening of IBPA: a Strong Beginning"
+        ],
+        [
+          "h2",
+          "Site Map"
+        ],
+        [
+          "h2",
+          "Contact Info"
+        ],
+        [
+          "h2",
+          "Social Media"
+        ],
+        [
+          "h2",
+          "Policies"
+        ]
+      ],
+      "word_count": 405,
+      "main_count": 1,
+      "hidden_initially": 0,
+      "images_without_alt": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "http://localhost:3000/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "News",
+              "item": "http://localhost:3000/news"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Grand Opening of IBPA: a Strong Beginning",
+              "item": "http://localhost:3000/news/20db085b-38fb-41d3-89f1-1924a1a436a9"
+            }
+          ]
+        },
+        [
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "@id": "http://localhost:3000/news/20db085b-38fb-41d3-89f1-1924a1a436a9#webpage",
+            "url": "http://localhost:3000/news/20db085b-38fb-41d3-89f1-1924a1a436a9",
+            "name": "Grand Opening of IBPA: a Strong Beginning",
+            "description": "Our first official public event dedicated to the launch of the International Beauty Professionals Association was successfully held - and became a truly…",
+            "isPartOf": {
+              "@id": "http://localhost:3000/#website"
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "@id": "http://localhost:3000/news/20db085b-38fb-41d3-89f1-1924a1a436a9#article",
+            "headline": "Grand Opening of IBPA: a Strong Beginning",
+            "description": "Our first official public event dedicated to the launch of the International Beauty Professionals Association was successfully held - and became a truly…",
+            "url": "http://localhost:3000/news/20db085b-38fb-41d3-89f1-1924a1a436a9",
+            "mainEntityOfPage": {
+              "@id": "http://localhost:3000/news/20db085b-38fb-41d3-89f1-1924a1a436a9#webpage"
+            },
+            "publisher": {
+              "@id": "http://localhost:3000/#organization"
+            },
+            "image": [
+              "https://utfs.io/f/q11AT9W5JzOV2VBHreNt6GramNibnhLHRAwXQx3yCc1SFfEU"
+            ]
+          }
+        ]
+      ],
+      "links": [
+        "#main-content",
+        "/",
+        "/about",
+        "/apply",
+        "/cancellation-policy",
+        "/contact",
+        "/criteria",
+        "/dashboard",
+        "/events",
+        "/faq",
+        "/governance",
+        "/membership",
+        "/news",
+        "/partnership",
+        "/privacy",
+        "/standards",
+        "/terms",
+        "https://maps.google.com/?q=1220+Melody+Ln+Suite+110,+Roseville,+CA+95678",
+        "https://www.instagram.com/bbeauty_forum/",
+        "https://www.instagram.com/p/DXzwQgBynaf/",
+        "mailto:support@ibpassociations.org",
+        "tel:+12792302804"
+      ],
+      "ids": [
+        "mobile-navigation",
+        "main-content",
+        "_R_"
+      ]
+    },
+    {
+      "url": "http://localhost:3012/news/eefc3397-0098-43e0-97cd-43431013f9cf",
+      "status": 200,
+      "final_url": "http://localhost:3012/news/eefc3397-0098-43e0-97cd-43431013f9cf",
+      "cache_control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "x_robots_tag": null,
+      "html_bytes": 53002,
+      "title": "Calling Speakers for the next Beauty Forum in Los Angeles | IBPA",
+      "lang": "en",
+      "meta": {
+        "": "",
+        "viewport": "width=device-width, initial-scale=1",
+        "next-size-adjust": "",
+        "facebook-domain-verification": "1oij9v4q95qd0cudvfkr5tnmmgr2yw",
+        "description": "IBPA officially opens speaker applications for the upcoming Beauty Forum in Los Angeles, taking place in September 2026. 🤍 We are now beginning the search…",
+        "application-name": "IBPA",
+        "og:title": "Calling Speakers for the next Beauty Forum in Los Angeles | IBPA",
+        "og:description": "IBPA officially opens speaker applications for the upcoming Beauty Forum in Los Angeles, taking place in September 2026. 🤍 We are now beginning the search…",
+        "og:url": "http://localhost:3000/news/eefc3397-0098-43e0-97cd-43431013f9cf",
+        "og:site_name": "International Beauty Professionals Association (IBPA)",
+        "og:locale": "en_US",
+        "og:image": "https://utfs.io/f/q11AT9W5JzOVo0LxbAFtvDNJOngyKFZ4Q1wrIc2muUjVXeia",
+        "og:image:alt": "Calling Speakers for the next Beauty Forum in Los Angeles",
+        "og:type": "article",
+        "twitter:card": "summary_large_image",
+        "twitter:title": "Calling Speakers for the next Beauty Forum in Los Angeles | IBPA",
+        "twitter:description": "IBPA officially opens speaker applications for the upcoming Beauty Forum in Los Angeles, taking place in September 2026. 🤍 We are now beginning the search…",
+        "twitter:image": "https://utfs.io/f/q11AT9W5JzOVo0LxbAFtvDNJOngyKFZ4Q1wrIc2muUjVXeia"
+      },
+      "canonical": [
+        "http://localhost:3000/news/eefc3397-0098-43e0-97cd-43431013f9cf"
+      ],
+      "hreflang": [],
+      "headings": [
+        [
+          "h1",
+          "Calling Speakers for the next Beauty Forum in Los Angeles"
+        ],
+        [
+          "h2",
+          "Site Map"
+        ],
+        [
+          "h2",
+          "Contact Info"
+        ],
+        [
+          "h2",
+          "Social Media"
+        ],
+        [
+          "h2",
+          "Policies"
+        ]
+      ],
+      "word_count": 357,
+      "main_count": 1,
+      "hidden_initially": 0,
+      "images_without_alt": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "http://localhost:3000/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "News",
+              "item": "http://localhost:3000/news"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Calling Speakers for the next Beauty Forum in Los Angeles",
+              "item": "http://localhost:3000/news/eefc3397-0098-43e0-97cd-43431013f9cf"
+            }
+          ]
+        },
+        [
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "@id": "http://localhost:3000/news/eefc3397-0098-43e0-97cd-43431013f9cf#webpage",
+            "url": "http://localhost:3000/news/eefc3397-0098-43e0-97cd-43431013f9cf",
+            "name": "Calling Speakers for the next Beauty Forum in Los Angeles",
+            "description": "IBPA officially opens speaker applications for the upcoming Beauty Forum in Los Angeles, taking place in September 2026. 🤍 We are now beginning the search…",
+            "isPartOf": {
+              "@id": "http://localhost:3000/#website"
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "@id": "http://localhost:3000/news/eefc3397-0098-43e0-97cd-43431013f9cf#article",
+            "headline": "Calling Speakers for the next Beauty Forum in Los Angeles",
+            "description": "IBPA officially opens speaker applications for the upcoming Beauty Forum in Los Angeles, taking place in September 2026. 🤍 We are now beginning the search…",
+            "url": "http://localhost:3000/news/eefc3397-0098-43e0-97cd-43431013f9cf",
+            "mainEntityOfPage": {
+              "@id": "http://localhost:3000/news/eefc3397-0098-43e0-97cd-43431013f9cf#webpage"
+            },
+            "publisher": {
+              "@id": "http://localhost:3000/#organization"
+            },
+            "image": [
+              "https://utfs.io/f/q11AT9W5JzOVo0LxbAFtvDNJOngyKFZ4Q1wrIc2muUjVXeia"
+            ]
+          }
+        ]
+      ],
+      "links": [
+        "#main-content",
+        "/",
+        "/about",
+        "/apply",
+        "/cancellation-policy",
+        "/contact",
+        "/criteria",
+        "/dashboard",
+        "/events",
+        "/faq",
+        "/governance",
+        "/membership",
+        "/news",
+        "/partnership",
+        "/privacy",
+        "/standards",
+        "/terms",
+        "https://maps.google.com/?q=1220+Melody+Ln+Suite+110,+Roseville,+CA+95678",
+        "https://www.instagram.com/bbeauty_forum/",
+        "https://www.instagram.com/p/DYN-YTJmX2S/?img_index=1",
+        "mailto:support@ibpassociations.org",
+        "tel:+12792302804"
+      ],
+      "ids": [
+        "mobile-navigation",
+        "main-content",
+        "_R_"
+      ]
+    },
+    {
+      "url": "http://localhost:3012/news/9a2e227c-e987-4e86-9970-5640adf4a1d4",
+      "status": 200,
+      "final_url": "http://localhost:3012/news/9a2e227c-e987-4e86-9970-5640adf4a1d4",
+      "cache_control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "x_robots_tag": null,
+      "html_bytes": 53028,
+      "title": "BUSINESS RETREAT FOR ASPIRING BEAUTY ENTREPRENEURS  | IBPA",
+      "lang": "en",
+      "meta": {
+        "": "",
+        "viewport": "width=device-width, initial-scale=1",
+        "next-size-adjust": "",
+        "facebook-domain-verification": "1oij9v4q95qd0cudvfkr5tnmmgr2yw",
+        "description": "BUSINESS RETREAT by IBPA 🤍 Coachella, California • June 2026 This will be more than just a retreat. It’s a space for women who are ready to reach a new…",
+        "application-name": "IBPA",
+        "og:title": "BUSINESS RETREAT FOR ASPIRING BEAUTY ENTREPRENEURS  | IBPA",
+        "og:description": "BUSINESS RETREAT by IBPA 🤍 Coachella, California • June 2026 This will be more than just a retreat. It’s a space for women who are ready to reach a new…",
+        "og:url": "http://localhost:3000/news/9a2e227c-e987-4e86-9970-5640adf4a1d4",
+        "og:site_name": "International Beauty Professionals Association (IBPA)",
+        "og:locale": "en_US",
+        "og:image": "https://utfs.io/f/q11AT9W5JzOVhyTQfAKrTJB2LCgvE07xzj8pQnrUVKa6Al5e",
+        "og:image:alt": "BUSINESS RETREAT FOR ASPIRING BEAUTY ENTREPRENEURS ",
+        "og:type": "article",
+        "twitter:card": "summary_large_image",
+        "twitter:title": "BUSINESS RETREAT FOR ASPIRING BEAUTY ENTREPRENEURS  | IBPA",
+        "twitter:description": "BUSINESS RETREAT by IBPA 🤍 Coachella, California • June 2026 This will be more than just a retreat. It’s a space for women who are ready to reach a new…",
+        "twitter:image": "https://utfs.io/f/q11AT9W5JzOVhyTQfAKrTJB2LCgvE07xzj8pQnrUVKa6Al5e"
+      },
+      "canonical": [
+        "http://localhost:3000/news/9a2e227c-e987-4e86-9970-5640adf4a1d4"
+      ],
+      "hreflang": [],
+      "headings": [
+        [
+          "h1",
+          "BUSINESS RETREAT FOR ASPIRING BEAUTY ENTREPRENEURS"
+        ],
+        [
+          "h2",
+          "Site Map"
+        ],
+        [
+          "h2",
+          "Contact Info"
+        ],
+        [
+          "h2",
+          "Social Media"
+        ],
+        [
+          "h2",
+          "Policies"
+        ]
+      ],
+      "word_count": 364,
+      "main_count": 1,
+      "hidden_initially": 0,
+      "images_without_alt": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "http://localhost:3000/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "News",
+              "item": "http://localhost:3000/news"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "BUSINESS RETREAT FOR ASPIRING BEAUTY ENTREPRENEURS ",
+              "item": "http://localhost:3000/news/9a2e227c-e987-4e86-9970-5640adf4a1d4"
+            }
+          ]
+        },
+        [
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "@id": "http://localhost:3000/news/9a2e227c-e987-4e86-9970-5640adf4a1d4#webpage",
+            "url": "http://localhost:3000/news/9a2e227c-e987-4e86-9970-5640adf4a1d4",
+            "name": "BUSINESS RETREAT FOR ASPIRING BEAUTY ENTREPRENEURS ",
+            "description": "BUSINESS RETREAT by IBPA 🤍 Coachella, California • June 2026 This will be more than just a retreat. It’s a space for women who are ready to reach a new…",
+            "isPartOf": {
+              "@id": "http://localhost:3000/#website"
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "@id": "http://localhost:3000/news/9a2e227c-e987-4e86-9970-5640adf4a1d4#article",
+            "headline": "BUSINESS RETREAT FOR ASPIRING BEAUTY ENTREPRENEURS ",
+            "description": "BUSINESS RETREAT by IBPA 🤍 Coachella, California • June 2026 This will be more than just a retreat. It’s a space for women who are ready to reach a new…",
+            "url": "http://localhost:3000/news/9a2e227c-e987-4e86-9970-5640adf4a1d4",
+            "mainEntityOfPage": {
+              "@id": "http://localhost:3000/news/9a2e227c-e987-4e86-9970-5640adf4a1d4#webpage"
+            },
+            "publisher": {
+              "@id": "http://localhost:3000/#organization"
+            },
+            "image": [
+              "https://utfs.io/f/q11AT9W5JzOVhyTQfAKrTJB2LCgvE07xzj8pQnrUVKa6Al5e"
+            ]
+          }
+        ]
+      ],
+      "links": [
+        "#main-content",
+        "/",
+        "/about",
+        "/apply",
+        "/cancellation-policy",
+        "/contact",
+        "/criteria",
+        "/dashboard",
+        "/events",
+        "/faq",
+        "/governance",
+        "/membership",
+        "/news",
+        "/partnership",
+        "/privacy",
+        "/standards",
+        "/terms",
+        "https://maps.google.com/?q=1220+Melody+Ln+Suite+110,+Roseville,+CA+95678",
+        "https://www.instagram.com/bbeauty_forum/",
+        "https://www.instagram.com/p/DYQWzOEj48J/?img_index=1",
+        "mailto:support@ibpassociations.org",
+        "tel:+12792302804"
+      ],
+      "ids": [
+        "mobile-navigation",
+        "main-content",
+        "_R_"
+      ]
+    },
+    {
+      "url": "http://localhost:3012/news/87ad1415-33a0-4bc3-9c1a-471e42623e6e",
+      "status": 200,
+      "final_url": "http://localhost:3012/news/87ad1415-33a0-4bc3-9c1a-471e42623e6e",
+      "cache_control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "x_robots_tag": null,
+      "html_bytes": 54105,
+      "title": "Become a Published Author in the Next Issue of Beauty Professionals Magazine | IBPA",
+      "lang": "en",
+      "meta": {
+        "": "",
+        "viewport": "width=device-width, initial-scale=1",
+        "next-size-adjust": "",
+        "facebook-domain-verification": "1oij9v4q95qd0cudvfkr5tnmmgr2yw",
+        "description": "The upcoming issue of **Beauty Professionals Magazine** will explore the future of the beauty industry, artificial intelligence, professional community…",
+        "application-name": "IBPA",
+        "og:title": "Become a Published Author in the Next Issue of Beauty Professionals Magazine | IBPA",
+        "og:description": "The upcoming issue of **Beauty Professionals Magazine** will explore the future of the beauty industry, artificial intelligence, professional community…",
+        "og:url": "http://localhost:3000/news/87ad1415-33a0-4bc3-9c1a-471e42623e6e",
+        "og:site_name": "International Beauty Professionals Association (IBPA)",
+        "og:locale": "en_US",
+        "og:image": "https://utfs.io/f/q11AT9W5JzOVewV9TjZu7amPkHfobEM69WZR2ShT3tyxGVzc",
+        "og:image:alt": "Become a Published Author in the Next Issue of Beauty Professionals Magazine",
+        "og:type": "article",
+        "twitter:card": "summary_large_image",
+        "twitter:title": "Become a Published Author in the Next Issue of Beauty Professionals Magazine | IBPA",
+        "twitter:description": "The upcoming issue of **Beauty Professionals Magazine** will explore the future of the beauty industry, artificial intelligence, professional community…",
+        "twitter:image": "https://utfs.io/f/q11AT9W5JzOVewV9TjZu7amPkHfobEM69WZR2ShT3tyxGVzc"
+      },
+      "canonical": [
+        "http://localhost:3000/news/87ad1415-33a0-4bc3-9c1a-471e42623e6e"
+      ],
+      "hreflang": [],
+      "headings": [
+        [
+          "h1",
+          "Become a Published Author in the Next Issue of Beauty Professionals Magazine"
+        ],
+        [
+          "h2",
+          "Site Map"
+        ],
+        [
+          "h2",
+          "Contact Info"
+        ],
+        [
+          "h2",
+          "Social Media"
+        ],
+        [
+          "h2",
+          "Policies"
+        ]
+      ],
+      "word_count": 392,
+      "main_count": 1,
+      "hidden_initially": 0,
+      "images_without_alt": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "http://localhost:3000/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "News",
+              "item": "http://localhost:3000/news"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Become a Published Author in the Next Issue of Beauty Professionals Magazine",
+              "item": "http://localhost:3000/news/87ad1415-33a0-4bc3-9c1a-471e42623e6e"
+            }
+          ]
+        },
+        [
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "@id": "http://localhost:3000/news/87ad1415-33a0-4bc3-9c1a-471e42623e6e#webpage",
+            "url": "http://localhost:3000/news/87ad1415-33a0-4bc3-9c1a-471e42623e6e",
+            "name": "Become a Published Author in the Next Issue of Beauty Professionals Magazine",
+            "description": "The upcoming issue of **Beauty Professionals Magazine** will explore the future of the beauty industry, artificial intelligence, professional community…",
+            "isPartOf": {
+              "@id": "http://localhost:3000/#website"
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "@id": "http://localhost:3000/news/87ad1415-33a0-4bc3-9c1a-471e42623e6e#article",
+            "headline": "Become a Published Author in the Next Issue of Beauty Professionals Magazine",
+            "description": "The upcoming issue of **Beauty Professionals Magazine** will explore the future of the beauty industry, artificial intelligence, professional community…",
+            "url": "http://localhost:3000/news/87ad1415-33a0-4bc3-9c1a-471e42623e6e",
+            "mainEntityOfPage": {
+              "@id": "http://localhost:3000/news/87ad1415-33a0-4bc3-9c1a-471e42623e6e#webpage"
+            },
+            "publisher": {
+              "@id": "http://localhost:3000/#organization"
+            },
+            "image": [
+              "https://utfs.io/f/q11AT9W5JzOVewV9TjZu7amPkHfobEM69WZR2ShT3tyxGVzc"
+            ]
+          }
+        ]
+      ],
+      "links": [
+        "#main-content",
+        "/",
+        "/about",
+        "/apply",
+        "/cancellation-policy",
+        "/contact",
+        "/criteria",
+        "/dashboard",
+        "/events",
+        "/faq",
+        "/governance",
+        "/membership",
+        "/news",
+        "/partnership",
+        "/privacy",
+        "/standards",
+        "/terms",
+        "https://maps.google.com/?q=1220+Melody+Ln+Suite+110,+Roseville,+CA+95678",
+        "https://www.instagram.com/bbeauty_forum/",
+        "https://www.instagram.com/p/DY5JginPJk8/",
+        "mailto:support@ibpassociations.org",
+        "tel:+12792302804"
+      ],
+      "ids": [
+        "mobile-navigation",
+        "main-content",
+        "_R_"
+      ]
+    },
+    {
+      "url": "http://localhost:3012/news/08ca0545-b865-4abb-9aa1-79c1693c772c",
+      "status": 200,
+      "final_url": "http://localhost:3012/news/08ca0545-b865-4abb-9aa1-79c1693c772c",
+      "cache_control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "x_robots_tag": null,
+      "html_bytes": 51388,
+      "title": "June Educational Series by IBPA | IBPA",
+      "lang": "en",
+      "meta": {
+        "": "",
+        "viewport": "width=device-width, initial-scale=1",
+        "next-size-adjust": "",
+        "facebook-domain-verification": "1oij9v4q95qd0cudvfkr5tnmmgr2yw",
+        "description": "We are pleased to invite beauty professionals, business owners, educators, and industry experts to join our June educational events hosted by the…",
+        "application-name": "IBPA",
+        "og:title": "June Educational Series by IBPA | IBPA",
+        "og:description": "We are pleased to invite beauty professionals, business owners, educators, and industry experts to join our June educational events hosted by the…",
+        "og:url": "http://localhost:3000/news/08ca0545-b865-4abb-9aa1-79c1693c772c",
+        "og:site_name": "International Beauty Professionals Association (IBPA)",
+        "og:locale": "en_US",
+        "og:image": "https://utfs.io/f/q11AT9W5JzOVkGzguNw9EjCWsMcwg61b35eiURLqBlPD8Kvx",
+        "og:image:alt": "June Educational Series by IBPA",
+        "og:type": "article",
+        "twitter:card": "summary_large_image",
+        "twitter:title": "June Educational Series by IBPA | IBPA",
+        "twitter:description": "We are pleased to invite beauty professionals, business owners, educators, and industry experts to join our June educational events hosted by the…",
+        "twitter:image": "https://utfs.io/f/q11AT9W5JzOVkGzguNw9EjCWsMcwg61b35eiURLqBlPD8Kvx"
+      },
+      "canonical": [
+        "http://localhost:3000/news/08ca0545-b865-4abb-9aa1-79c1693c772c"
+      ],
+      "hreflang": [],
+      "headings": [
+        [
+          "h1",
+          "June Educational Series by IBPA"
+        ],
+        [
+          "h2",
+          "Site Map"
+        ],
+        [
+          "h2",
+          "Contact Info"
+        ],
+        [
+          "h2",
+          "Social Media"
+        ],
+        [
+          "h2",
+          "Policies"
+        ]
+      ],
+      "word_count": 253,
+      "main_count": 1,
+      "hidden_initially": 0,
+      "images_without_alt": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "http://localhost:3000/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "News",
+              "item": "http://localhost:3000/news"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "June Educational Series by IBPA",
+              "item": "http://localhost:3000/news/08ca0545-b865-4abb-9aa1-79c1693c772c"
+            }
+          ]
+        },
+        [
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "@id": "http://localhost:3000/news/08ca0545-b865-4abb-9aa1-79c1693c772c#webpage",
+            "url": "http://localhost:3000/news/08ca0545-b865-4abb-9aa1-79c1693c772c",
+            "name": "June Educational Series by IBPA",
+            "description": "We are pleased to invite beauty professionals, business owners, educators, and industry experts to join our June educational events hosted by the…",
+            "isPartOf": {
+              "@id": "http://localhost:3000/#website"
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "@id": "http://localhost:3000/news/08ca0545-b865-4abb-9aa1-79c1693c772c#article",
+            "headline": "June Educational Series by IBPA",
+            "description": "We are pleased to invite beauty professionals, business owners, educators, and industry experts to join our June educational events hosted by the…",
+            "url": "http://localhost:3000/news/08ca0545-b865-4abb-9aa1-79c1693c772c",
+            "mainEntityOfPage": {
+              "@id": "http://localhost:3000/news/08ca0545-b865-4abb-9aa1-79c1693c772c#webpage"
+            },
+            "publisher": {
+              "@id": "http://localhost:3000/#organization"
+            },
+            "image": [
+              "https://utfs.io/f/q11AT9W5JzOVkGzguNw9EjCWsMcwg61b35eiURLqBlPD8Kvx"
+            ]
+          }
+        ]
+      ],
+      "links": [
+        "#main-content",
+        "/",
+        "/about",
+        "/apply",
+        "/cancellation-policy",
+        "/contact",
+        "/criteria",
+        "/dashboard",
+        "/events",
+        "/faq",
+        "/governance",
+        "/membership",
+        "/news",
+        "/partnership",
+        "/privacy",
+        "/standards",
+        "/terms",
+        "https://maps.google.com/?q=1220+Melody+Ln+Suite+110,+Roseville,+CA+95678",
+        "https://www.instagram.com/bbeauty_forum/",
+        "https://www.instagram.com/p/DZD0VtcD5w0/?img_index=1",
+        "mailto:support@ibpassociations.org",
+        "tel:+12792302804"
+      ],
+      "ids": [
+        "mobile-navigation",
+        "main-content",
+        "_R_"
+      ]
+    },
+    {
+      "url": "http://localhost:3012/events/fe5ba953-3412-4bec-a84e-70eb12c684d1",
+      "status": 200,
+      "final_url": "http://localhost:3012/events/fe5ba953-3412-4bec-a84e-70eb12c684d1",
+      "cache_control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "x_robots_tag": null,
+      "html_bytes": 51473,
+      "title": "Registration is Now Open for the 4th Beauty Business Forum 2026 in Los Angeles | IBPA",
+      "lang": "en",
+      "meta": {
+        "": "",
+        "viewport": "width=device-width, initial-scale=1",
+        "next-size-adjust": "",
+        "facebook-domain-verification": "1oij9v4q95qd0cudvfkr5tnmmgr2yw",
+        "description": "On September 25–26, 2026, Los Angeles will host the 4th Beauty Business Forum - one of the leading international events for beauty professionals,…",
+        "application-name": "IBPA",
+        "og:title": "Registration is Now Open for the 4th Beauty Business Forum 2026 in Los Angeles | IBPA",
+        "og:description": "On September 25–26, 2026, Los Angeles will host the 4th Beauty Business Forum - one of the leading international events for beauty professionals,…",
+        "og:url": "http://localhost:3000/events/fe5ba953-3412-4bec-a84e-70eb12c684d1",
+        "og:site_name": "International Beauty Professionals Association (IBPA)",
+        "og:locale": "en_US",
+        "og:image": "https://727t7gwhri.ufs.sh/f/q11AT9W5JzOVKTCjQHT2QrnMBiRd7tlkEcDVeXAIFaLUm1gx",
+        "og:image:alt": "Registration is Now Open for the 4th Beauty Business Forum 2026 in Los Angeles",
+        "og:type": "website",
+        "twitter:card": "summary_large_image",
+        "twitter:title": "Registration is Now Open for the 4th Beauty Business Forum 2026 in Los Angeles | IBPA",
+        "twitter:description": "On September 25–26, 2026, Los Angeles will host the 4th Beauty Business Forum - one of the leading international events for beauty professionals,…",
+        "twitter:image": "https://727t7gwhri.ufs.sh/f/q11AT9W5JzOVKTCjQHT2QrnMBiRd7tlkEcDVeXAIFaLUm1gx"
+      },
+      "canonical": [
+        "http://localhost:3000/events/fe5ba953-3412-4bec-a84e-70eb12c684d1"
+      ],
+      "hreflang": [],
+      "headings": [
+        [
+          "h1",
+          "Registration is Now Open for the 4th Beauty Business Forum 2026 in Los Angeles"
+        ],
+        [
+          "h2",
+          "Site Map"
+        ],
+        [
+          "h2",
+          "Contact Info"
+        ],
+        [
+          "h2",
+          "Social Media"
+        ],
+        [
+          "h2",
+          "Policies"
+        ]
+      ],
+      "word_count": 295,
+      "main_count": 1,
+      "hidden_initially": 0,
+      "images_without_alt": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "http://localhost:3000/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Events",
+              "item": "http://localhost:3000/events"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Registration is Now Open for the 4th Beauty Business Forum 2026 in Los Angeles",
+              "item": "http://localhost:3000/events/fe5ba953-3412-4bec-a84e-70eb12c684d1"
+            }
+          ]
+        },
+        [
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "@id": "http://localhost:3000/events/fe5ba953-3412-4bec-a84e-70eb12c684d1#webpage",
+            "url": "http://localhost:3000/events/fe5ba953-3412-4bec-a84e-70eb12c684d1",
+            "name": "Registration is Now Open for the 4th Beauty Business Forum 2026 in Los Angeles",
+            "description": "On September 25–26, 2026, Los Angeles will host the 4th Beauty Business Forum - one of the leading international events for beauty professionals,…",
+            "isPartOf": {
+              "@id": "http://localhost:3000/#website"
+            }
+          }
+        ]
+      ],
+      "links": [
+        "#main-content",
+        "/",
+        "/about",
+        "/apply",
+        "/cancellation-policy",
+        "/contact",
+        "/criteria",
+        "/dashboard",
+        "/events",
+        "/faq",
+        "/governance",
+        "/membership",
+        "/news",
+        "/partnership",
+        "/privacy",
+        "/standards",
+        "/terms",
+        "https://ibpa-forum.vercel.app/apply#apply-form",
+        "https://maps.google.com/?q=1220+Melody+Ln+Suite+110,+Roseville,+CA+95678",
+        "https://www.instagram.com/bbeauty_forum/",
+        "mailto:support@ibpassociations.org",
+        "tel:+12792302804"
+      ],
+      "ids": [
+        "mobile-navigation",
+        "main-content",
+        "_R_"
+      ]
+    }
+  ],
+  "additional_checks": [
+    {
+      "url": "http://localhost:3012/seo-audit-missing-page",
+      "status": 404,
+      "final_url": "http://localhost:3012/seo-audit-missing-page",
+      "cache_control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "x_robots_tag": null,
+      "html_bytes": 13252,
+      "title": "IBPA - International Beauty Professionals Association",
+      "lang": "en",
+      "meta": {
+        "": "",
+        "viewport": "width=device-width, initial-scale=1",
+        "robots": "noindex",
+        "next-size-adjust": "",
+        "description": "Global professional community for beauty industry experts supporting growth, standards, and collaboration.",
+        "application-name": "IBPA",
+        "og:title": "IBPA - International Beauty Professionals Association",
+        "og:description": "A global professional community for beauty industry experts.",
+        "og:site_name": "International Beauty Professionals Association (IBPA)",
+        "og:locale": "en_US",
+        "og:image": "http://localhost:3000/og/ibpa-og.jpg",
+        "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "International Beauty Professionals Association (IBPA)",
+        "og:type": "website",
+        "twitter:card": "summary_large_image",
+        "twitter:title": "IBPA - International Beauty Professionals Association",
+        "twitter:description": "Global professional community for beauty industry experts.",
+        "twitter:image": "http://localhost:3000/og/ibpa-og.jpg"
+      },
+      "canonical": [],
+      "hreflang": [],
+      "headings": [
+        [
+          "h1",
+          "404"
+        ],
+        [
+          "h2",
+          "This page could not be found."
+        ]
+      ],
+      "word_count": 20,
+      "main_count": 0,
+      "hidden_initially": 0,
+      "images_without_alt": [],
+      "schemas": [],
+      "links": [],
+      "ids": [
+        "_R_"
+      ]
+    },
+    {
+      "url": "http://localhost:3012/sign-in",
+      "status": 200,
+      "final_url": "http://localhost:3012/sign-in",
+      "cache_control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "x_robots_tag": null,
+      "html_bytes": 23890,
+      "title": "IBPA - International Beauty Professionals Association",
+      "lang": "en",
+      "meta": {
+        "": "",
+        "viewport": "width=device-width, initial-scale=1",
+        "next-size-adjust": "",
+        "description": "Global professional community for beauty industry experts supporting growth, standards, and collaboration.",
+        "application-name": "IBPA",
+        "robots": "noindex, nofollow",
+        "og:title": "IBPA - International Beauty Professionals Association",
+        "og:description": "A global professional community for beauty industry experts.",
+        "og:site_name": "International Beauty Professionals Association (IBPA)",
+        "og:locale": "en_US",
+        "og:image": "http://localhost:3000/og/ibpa-og.jpg",
+        "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "International Beauty Professionals Association (IBPA)",
+        "og:type": "website",
+        "twitter:card": "summary_large_image",
+        "twitter:title": "IBPA - International Beauty Professionals Association",
+        "twitter:description": "Global professional community for beauty industry experts.",
+        "twitter:image": "http://localhost:3000/og/ibpa-og.jpg"
+      },
+      "canonical": [],
+      "hreflang": [],
+      "headings": [
+        [
+          "h1",
+          "Sign in to your IBPA dashboard"
+        ]
+      ],
+      "word_count": 56,
+      "main_count": 1,
+      "hidden_initially": 0,
+      "images_without_alt": [],
+      "schemas": [],
+      "links": [
+        "http://localhost:3000",
+        "http://localhost:3000/apply"
+      ],
+      "ids": [
+        "_R_"
+      ]
+    },
+    {
+      "url": "http://localhost:3012/team-invite",
+      "status": 200,
+      "final_url": "http://localhost:3012/team-invite",
+      "cache_control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "x_robots_tag": null,
+      "html_bytes": 20332,
+      "title": "IBPA - International Beauty Professionals Association",
+      "lang": "en",
+      "meta": {
+        "": "",
+        "viewport": "width=device-width, initial-scale=1",
+        "next-size-adjust": "",
+        "description": "Global professional community for beauty industry experts supporting growth, standards, and collaboration.",
+        "application-name": "IBPA",
+        "robots": "noindex, nofollow",
+        "og:title": "IBPA - International Beauty Professionals Association",
+        "og:description": "A global professional community for beauty industry experts.",
+        "og:site_name": "International Beauty Professionals Association (IBPA)",
+        "og:locale": "en_US",
+        "og:image": "http://localhost:3000/og/ibpa-og.jpg",
+        "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "International Beauty Professionals Association (IBPA)",
+        "og:type": "website",
+        "twitter:card": "summary_large_image",
+        "twitter:title": "IBPA - International Beauty Professionals Association",
+        "twitter:description": "Global professional community for beauty industry experts.",
+        "twitter:image": "http://localhost:3000/og/ibpa-og.jpg"
+      },
+      "canonical": [],
+      "hreflang": [],
+      "headings": [
+        [
+          "h1",
+          "Set up your IBPA account"
+        ]
+      ],
+      "word_count": 61,
+      "main_count": 1,
+      "hidden_initially": 0,
+      "images_without_alt": [],
+      "schemas": [],
+      "links": [],
+      "ids": [
+        "_R_"
+      ]
+    },
+    {
+      "url": "http://localhost:3012/success",
+      "status": 200,
+      "final_url": "http://localhost:3012/success",
+      "cache_control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "x_robots_tag": null,
+      "html_bytes": 40537,
+      "title": "IBPA - International Beauty Professionals Association",
+      "lang": "en",
+      "meta": {
+        "": "",
+        "viewport": "width=device-width, initial-scale=1",
+        "next-size-adjust": "",
+        "facebook-domain-verification": "1oij9v4q95qd0cudvfkr5tnmmgr2yw",
+        "description": "Global professional community for beauty industry experts supporting growth, standards, and collaboration.",
+        "application-name": "IBPA",
+        "robots": "noindex, nofollow",
+        "og:title": "IBPA - International Beauty Professionals Association",
+        "og:description": "A global professional community for beauty industry experts.",
+        "og:site_name": "International Beauty Professionals Association (IBPA)",
+        "og:locale": "en_US",
+        "og:image": "http://localhost:3000/og/ibpa-og.jpg",
+        "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "International Beauty Professionals Association (IBPA)",
+        "og:type": "website",
+        "twitter:card": "summary_large_image",
+        "twitter:title": "IBPA - International Beauty Professionals Association",
+        "twitter:description": "Global professional community for beauty industry experts.",
+        "twitter:image": "http://localhost:3000/og/ibpa-og.jpg"
+      },
+      "canonical": [],
+      "hreflang": [],
+      "headings": [
+        [
+          "h2",
+          "Site Map"
+        ],
+        [
+          "h2",
+          "Contact Info"
+        ],
+        [
+          "h2",
+          "Social Media"
+        ],
+        [
+          "h2",
+          "Policies"
+        ]
+      ],
+      "word_count": 101,
+      "main_count": 1,
+      "hidden_initially": 0,
+      "images_without_alt": [],
+      "schemas": [],
+      "links": [
+        "#main-content",
+        "/",
+        "/about",
+        "/apply",
+        "/cancellation-policy",
+        "/contact",
+        "/criteria",
+        "/dashboard",
+        "/events",
+        "/faq",
+        "/governance",
+        "/membership",
+        "/news",
+        "/partnership",
+        "/privacy",
+        "/standards",
+        "/terms",
+        "https://maps.google.com/?q=1220+Melody+Ln+Suite+110,+Roseville,+CA+95678",
+        "https://www.instagram.com/bbeauty_forum/",
+        "mailto:support@ibpassociations.org",
+        "tel:+12792302804"
+      ],
+      "ids": [
+        "mobile-navigation",
+        "main-content",
+        "_R_"
+      ]
+    },
+    {
+      "url": "http://localhost:3012/application/edit",
+      "status": 200,
+      "final_url": "http://localhost:3012/application/edit",
+      "cache_control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "x_robots_tag": null,
+      "html_bytes": 57109,
+      "title": "IBPA - International Beauty Professionals Association",
+      "lang": "en",
+      "meta": {
+        "": "",
+        "viewport": "width=device-width, initial-scale=1",
+        "next-size-adjust": "",
+        "facebook-domain-verification": "1oij9v4q95qd0cudvfkr5tnmmgr2yw",
+        "description": "Global professional community for beauty industry experts supporting growth, standards, and collaboration.",
+        "application-name": "IBPA",
+        "robots": "noindex, nofollow",
+        "og:title": "IBPA - International Beauty Professionals Association",
+        "og:description": "A global professional community for beauty industry experts.",
+        "og:site_name": "International Beauty Professionals Association (IBPA)",
+        "og:locale": "en_US",
+        "og:image": "http://localhost:3000/og/ibpa-og.jpg",
+        "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "International Beauty Professionals Association (IBPA)",
+        "og:type": "website",
+        "twitter:card": "summary_large_image",
+        "twitter:title": "IBPA - International Beauty Professionals Association",
+        "twitter:description": "Global professional community for beauty industry experts.",
+        "twitter:image": "http://localhost:3000/og/ibpa-og.jpg"
+      },
+      "canonical": [],
+      "hreflang": [],
+      "headings": [
+        [
+          "h1",
+          "Apply for IBPA"
+        ],
+        [
+          "h2",
+          "Choose your membership path"
+        ],
+        [
+          "h3",
+          "Specialist"
+        ],
+        [
+          "h2",
+          "Site Map"
+        ],
+        [
+          "h2",
+          "Contact Info"
+        ],
+        [
+          "h2",
+          "Social Media"
+        ],
+        [
+          "h2",
+          "Policies"
+        ]
+      ],
+      "word_count": 338,
+      "main_count": 1,
+      "hidden_initially": 1,
+      "images_without_alt": [],
+      "schemas": [],
+      "links": [
+        "#main-content",
+        "/",
+        "/about",
+        "/apply",
+        "/apply?category=Brand",
+        "/apply?category=Business",
+        "/apply?category=Professional",
+        "/apply?category=Trainer",
+        "/cancellation-policy",
+        "/contact",
+        "/criteria",
+        "/dashboard",
+        "/events",
+        "/faq",
+        "/governance",
+        "/membership",
+        "/news",
+        "/partnership",
+        "/privacy",
+        "/standards",
+        "/terms",
+        "https://maps.google.com/?q=1220+Melody+Ln+Suite+110,+Roseville,+CA+95678",
+        "https://www.instagram.com/bbeauty_forum/",
+        "mailto:support@ibpassociations.org",
+        "tel:+12792302804"
+      ],
+      "ids": [
+        "mobile-navigation",
+        "main-content",
+        "company-website",
+        "_R_"
+      ]
+    },
+    {
+      "url": "http://localhost:3012/profile-preview/seo-audit-missing",
+      "status": 404,
+      "final_url": "http://localhost:3012/profile-preview/seo-audit-missing",
+      "cache_control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "x_robots_tag": null,
+      "html_bytes": 11966,
+      "title": "IBPA - International Beauty Professionals Association",
+      "lang": "",
+      "meta": {
+        "": "",
+        "viewport": "width=device-width, initial-scale=1",
+        "robots": "noindex",
+        "description": "Global professional community for beauty industry experts supporting growth, standards, and collaboration.",
+        "application-name": "IBPA",
+        "og:title": "IBPA - International Beauty Professionals Association",
+        "og:description": "A global professional community for beauty industry experts.",
+        "og:site_name": "International Beauty Professionals Association (IBPA)",
+        "og:locale": "en_US",
+        "og:image": "http://localhost:3000/og/ibpa-og.jpg",
+        "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "International Beauty Professionals Association (IBPA)",
+        "og:type": "website",
+        "twitter:card": "summary_large_image",
+        "twitter:title": "IBPA - International Beauty Professionals Association",
+        "twitter:description": "Global professional community for beauty industry experts.",
+        "twitter:image": "http://localhost:3000/og/ibpa-og.jpg"
+      },
+      "canonical": [],
+      "hreflang": [],
+      "headings": [],
+      "word_count": 6,
+      "main_count": 0,
+      "hidden_initially": 0,
+      "images_without_alt": [],
+      "schemas": [],
+      "links": [],
+      "ids": [
+        "__next_error__",
+        "_R_"
+      ]
+    },
+    {
+      "url": "http://localhost:3012/news/seo-audit-missing",
+      "status": 404,
+      "final_url": "http://localhost:3012/news/seo-audit-missing",
+      "cache_control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "x_robots_tag": null,
+      "html_bytes": 16909,
+      "title": "IBPA - International Beauty Professionals Association",
+      "lang": "",
+      "meta": {
+        "": "",
+        "viewport": "width=device-width, initial-scale=1",
+        "robots": "noindex",
+        "description": "Global professional community for beauty industry experts supporting growth, standards, and collaboration.",
+        "application-name": "IBPA",
+        "og:title": "IBPA - International Beauty Professionals Association",
+        "og:description": "A global professional community for beauty industry experts.",
+        "og:site_name": "International Beauty Professionals Association (IBPA)",
+        "og:locale": "en_US",
+        "og:image": "http://localhost:3000/og/ibpa-og.jpg",
+        "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "International Beauty Professionals Association (IBPA)",
+        "og:type": "website",
+        "twitter:card": "summary_large_image",
+        "twitter:title": "IBPA - International Beauty Professionals Association",
+        "twitter:description": "Global professional community for beauty industry experts.",
+        "twitter:image": "http://localhost:3000/og/ibpa-og.jpg"
+      },
+      "canonical": [],
+      "hreflang": [],
+      "headings": [],
+      "word_count": 6,
+      "main_count": 0,
+      "hidden_initially": 0,
+      "images_without_alt": [],
+      "schemas": [],
+      "links": [],
+      "ids": [
+        "__next_error__",
+        "_R_"
+      ]
+    },
+    {
+      "url": "http://localhost:3012/events/seo-audit-missing",
+      "status": 404,
+      "final_url": "http://localhost:3012/events/seo-audit-missing",
+      "cache_control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "x_robots_tag": null,
+      "html_bytes": 16913,
+      "title": "IBPA - International Beauty Professionals Association",
+      "lang": "",
+      "meta": {
+        "": "",
+        "viewport": "width=device-width, initial-scale=1",
+        "robots": "noindex",
+        "description": "Global professional community for beauty industry experts supporting growth, standards, and collaboration.",
+        "application-name": "IBPA",
+        "og:title": "IBPA - International Beauty Professionals Association",
+        "og:description": "A global professional community for beauty industry experts.",
+        "og:site_name": "International Beauty Professionals Association (IBPA)",
+        "og:locale": "en_US",
+        "og:image": "http://localhost:3000/og/ibpa-og.jpg",
+        "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "International Beauty Professionals Association (IBPA)",
+        "og:type": "website",
+        "twitter:card": "summary_large_image",
+        "twitter:title": "IBPA - International Beauty Professionals Association",
+        "twitter:description": "Global professional community for beauty industry experts.",
+        "twitter:image": "http://localhost:3000/og/ibpa-og.jpg"
+      },
+      "canonical": [],
+      "hreflang": [],
+      "headings": [],
+      "word_count": 6,
+      "main_count": 0,
+      "hidden_initially": 0,
+      "images_without_alt": [],
+      "schemas": [],
+      "links": [],
+      "ids": [
+        "__next_error__",
+        "_R_"
+      ]
+    }
+  ],
+  "errors": []
+}

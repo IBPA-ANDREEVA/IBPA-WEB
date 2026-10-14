@@ -1,4 +1,6 @@
 import { clerkMiddleware } from "@clerk/nextjs/server";
+import { NextResponse, type NextRequest, type NextFetchEvent } from "next/server";
+import { isPublicSearchPage } from "@/lib/seo/routes";
 import {
   adminAuthErrorResponse,
   classifyProxyPath,
@@ -17,7 +19,7 @@ import {
  * `clerkMiddleware` performs its handshake redirect before this handler runs,
  * so an authenticated admin is transparently refreshed rather than signed out.
  */
-export default clerkMiddleware(async (auth, req) => {
+const authenticatedProxy = clerkMiddleware(async (auth, req) => {
   const pathname = req.nextUrl.pathname;
   const kind = classifyProxyPath(pathname);
 
@@ -57,6 +59,16 @@ export default clerkMiddleware(async (auth, req) => {
 
   return adminAuthErrorResponse("unauthenticated");
 }, { signInUrl: "/sign-in" });
+
+export default function proxy(req: NextRequest, event: NextFetchEvent) {
+  // Marketing pages have no session-dependent content. Avoid Clerk handshakes
+  // and auth-provider latency on their initial HTML. All APIs, account, admin,
+  // checkout success and unknown routes still use the existing auth middleware.
+  if ((req.method === "GET" || req.method === "HEAD") && isPublicSearchPage(req.nextUrl.pathname)) {
+    return NextResponse.next();
+  }
+  return authenticatedProxy(req, event);
+}
 
 export const config = {
   matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],

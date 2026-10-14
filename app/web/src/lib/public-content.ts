@@ -13,7 +13,26 @@ export type PublicContentItem = {
   ctaLabel?: string | null;
   isPinned?: boolean;
   createdAt: string;
+  updatedAt?: string | null;
+  eventDate?: string | null;
+  eventEndDate?: string | null;
+  eventAddress?: string | null;
+  eventAllDay?: boolean;
+  /** Derived from identical published news/event copy; never an editor-supplied URL. */
+  canonicalPath?: string;
 };
+
+/** Prefer the event URL when the same announcement is published in both feeds. */
+export function canonicalizePublicNews(news: PublicContentItem[], events: PublicContentItem[]) {
+  const normalized = (value: string) => value.replace(/\s+/g, " ").trim();
+  return news.map((item) => {
+    const duplicate = item.body?.trim() && events.find((event) =>
+      event.type === "events" && normalized(event.title) === normalized(item.title) &&
+      normalized(event.body) === normalized(item.body),
+    );
+    return { ...item, canonicalPath: duplicate ? `/events/${encodeURIComponent(duplicate.id)}` : undefined };
+  });
+}
 
 /** Accepts the backend's `items` payload and returns well-formed content items. */
 export function normalizePublicContentItems(items: unknown): PublicContentItem[] {

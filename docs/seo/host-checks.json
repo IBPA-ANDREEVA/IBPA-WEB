@@ -1,0 +1,38 @@
+[
+  {
+    "url": "http://ibpassociations.org/",
+    "status": 308,
+    "final_url": "http://ibpassociations.org/",
+    "error": null
+  },
+  {
+    "url": "https://www.ibpassociations.org/",
+    "status": 0,
+    "final_url": "https://www.ibpassociations.org/",
+    "error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:997)>"
+  },
+  {
+    "url": "http://www.ibpassociations.org/",
+    "status": 308,
+    "final_url": "http://www.ibpassociations.org/",
+    "error": null
+  },
+  {
+    "url": "https://ibpa-web.vercel.app/",
+    "status": 200,
+    "final_url": "https://ibpassociations.org/",
+    "error": null
+  },
+  {
+    "url": "https://ibpassociations.org/news/",
+    "status": 308,
+    "final_url": "https://ibpassociations.org/news/",
+    "error": null
+  },
+  {
+    "url": "https://ibpassociations.org/news?utm_source=seo-audit",
+    "status": 200,
+    "final_url": "https://ibpassociations.org/news?utm_source=seo-audit",
+    "error": null
+  }
+]

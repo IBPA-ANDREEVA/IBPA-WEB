@@ -4,10 +4,12 @@ import { EventCard } from "@/components/content/EventCard";
 import { SectionPattern } from "@/components/landing/SectionPattern";
 import { cyrillicDisplay } from "@/lib/cyrillic-fonts";
 import { homeTemplateDisplay } from "@/lib/home-template-fonts";
-import { getBackendUrl } from "@/lib/public-urls";
+import { fetchPublicContentServer } from "@/lib/public-content-server";
+import { contentPath } from "@/lib/seo/content";
 import type { ContentImageMetadata } from "@/lib/content-image";
 
 interface EventItem {
+  detailHref: string;
   date: string;
   name: string;
   location: string;
@@ -22,33 +24,8 @@ type EventsSectionProps = {
   locale: "en" | "ru" | "uk";
 };
 
-type ContentItem = {
-  id: string;
-  title: string;
-  body: string;
-  coverImage?: string | null;
-  coverAspect?: number | null;
-  cover_aspect?: number | null;
-  imageMetadata?: ContentImageMetadata | null;
-  ctaUrl?: string | null;
-  createdAt: string;
-};
-
-async function getEvents() {
-  const response = await fetch(getBackendUrl("/api/content/public?type=events&target=site"), {
-    next: { revalidate: 300, tags: ["public-content"] },
-  }).catch(() => null);
-
-  if (!response?.ok) {
-    return [] as ContentItem[];
-  }
-
-  const data = await response.json().catch(() => ({}));
-  return Array.isArray(data.items) ? (data.items as ContentItem[]) : [];
-}
-
 export const EventsSection = async ({ locale }: EventsSectionProps) => {
-  const items = await getEvents();
+  const items = await fetchPublicContentServer("events") ?? [];
   const useEnglishHomepageTypography = true;
   const headlineClassName = useEnglishHomepageTypography
     ? `${homeTemplateDisplay.className} font-black tracking-[-0.05em]`
@@ -58,8 +35,8 @@ export const EventsSection = async ({ locale }: EventsSectionProps) => {
   const copy =
     locale === "ru"
       ? {
-          eyebrow: "Предстоящие события",
-          title: "Будущие события",
+          eyebrow: "События IBPA",
+          title: "События сообщества",
           description:
             "IBPA регулярно организует профессиональные события, которые поддерживают образование, нетворкинг и сотрудничество в индустрии красоты.",
           subdescription:
@@ -71,8 +48,8 @@ export const EventsSection = async ({ locale }: EventsSectionProps) => {
         }
       : locale === "uk"
         ? {
-            eyebrow: "Майбутні події",
-            title: "Майбутні події",
+            eyebrow: "Події IBPA",
+            title: "Події спільноти",
             description:
               "IBPA регулярно організовує професійні події, що підтримують освіту, нетворкінг і співпрацю в beauty-індустрії.",
             subdescription:
@@ -83,8 +60,8 @@ export const EventsSection = async ({ locale }: EventsSectionProps) => {
             siteLabel: "Опубліковано для сайту IBPA",
           }
         : {
-            eyebrow: "Upcoming Events",
-            title: "Future Events",
+            eyebrow: "IBPA Events",
+            title: "Community Events",
             description:
               "IBPA regularly organizes professional events that support education, networking, and collaboration within the beauty industry.",
             subdescription:
@@ -95,9 +72,11 @@ export const EventsSection = async ({ locale }: EventsSectionProps) => {
             siteLabel: "Published for the IBPA website",
           };
   const events: EventItem[] = items.slice(0, 1).map((item) => ({
-    date: new Date(item.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
+    detailHref: contentPath(item),
+    // Schedule fields conflict with the published copy; see docs/SEO_AUDIT.md.
+    date: "",
     name: item.title,
-    location: copy.siteLabel,
+    location: item.eventAddress || copy.siteLabel,
     img: item.coverImage || "/events/teora-event.webp",
     aspect: item.coverAspect ?? item.cover_aspect ?? 16 / 9,
     description: item.body,
@@ -143,12 +122,12 @@ export const EventsSection = async ({ locale }: EventsSectionProps) => {
                 coverImage: event.img,
                 coverAspect: event.aspect,
                 imageMetadata: event.imageMetadata,
-                eyebrow: copy.upcoming,
+                eyebrow: locale === "ru" ? "Событие" : locale === "uk" ? "Подія" : "Event",
               }}
-              imagePriority={i === 0}
+              titleHref={event.detailHref}
               imageSizes="(min-width: 1024px) 620px, 100vw"
               meta={[
-                { kind: "date", value: event.date },
+                ...(event.date ? [{ kind: "date" as const, value: event.date }] : []),
                 { kind: "location", value: event.location },
               ]}
               actions={

@@ -50,7 +50,7 @@ export function MemberCard({ member, locale, className, priority }: MemberCardPr
       </h3>
 
       {specialization ? (
-        <p className="mt-1 line-clamp-2 text-sm leading-5 text-[#4C7D9D]">
+        <p className="mt-1 line-clamp-2 text-sm leading-5 text-[#21466D]">
           {specialization}
         </p>
       ) : null}
@@ -77,7 +77,6 @@ export function MemberCard({ member, locale, className, priority }: MemberCardPr
   return (
     <Link
       href={href}
-      aria-label={member.fullName}
       className="group block h-full rounded-[28px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#72A0C1]/60 focus-visible:ring-offset-2"
     >
       {card}

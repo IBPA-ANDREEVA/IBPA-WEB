@@ -265,7 +265,7 @@ const dictionaries: Record<Locale, PublicDictionary> = {
         ],
         quote:
           "Our goal is to strengthen the beauty industry as a respected professional field built on expertise, ethics, and quality.",
-        readMore: "Read More",
+        readMore: "About IBPA",
       },
       audience: {
         title: "Who the Association Is For",

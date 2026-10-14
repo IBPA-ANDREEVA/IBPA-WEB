@@ -23,7 +23,9 @@ export const Navbar = ({ dashboardHref = "/dashboard" }: NavbarProps) => {
     pathname === "/apply" ||
     pathname === "/partnership" ||
     pathname === "/news" ||
+    pathname.startsWith("/news/") ||
     pathname === "/events" ||
+    pathname.startsWith("/events/") ||
     pathname === "/faq";
   const isCyrillicLocale = locale === "ru" || locale === "uk";
   const useEnglishTypography = true;
@@ -74,6 +76,9 @@ export const Navbar = ({ dashboardHref = "/dashboard" }: NavbarProps) => {
           <ImageWithFallback
             src={useDarkLogo ? "/branding/logo-header.webp" : "/branding/header-logo-transparent.webp"}
             alt="IBPA"
+            width={useDarkLogo ? 843 : 500}
+            height={useDarkLogo ? 341 : 250}
+            sizes={useDarkLogo ? "(min-width: 768px) 158px, 139px" : "(min-width: 768px) 128px, 112px"}
             className={logoClassName}
           />
         </Link>
@@ -95,6 +100,7 @@ export const Navbar = ({ dashboardHref = "/dashboard" }: NavbarProps) => {
             <LanguageSwitcher scrolled={useReadableTextColors} />
             <Link
               href={dashboardHref}
+              prefetch={false}
               className={`shrink-0 whitespace-nowrap rounded-full border uppercase backdrop-blur-sm transition-all flex items-center ${loginClassName} ${isCyrillicLocale ? "px-4 py-[0.72rem] text-[10px]" : "px-5 py-[0.76rem] text-[10.5px]"} ${ctaClassName}`}
             >
               {t.nav.login}
@@ -124,6 +130,7 @@ export const Navbar = ({ dashboardHref = "/dashboard" }: NavbarProps) => {
       {/* Mobile Menu */}
       <div
         id="mobile-navigation"
+        inert={!isOpen}
         className={`fixed left-0 top-[76px] h-[calc(100vh-76px)] w-full border-t border-slate-100 bg-white/95 p-8 shadow-2xl backdrop-blur-3xl transition-all duration-300 lg:hidden ${
           isOpen ? "pointer-events-auto translate-y-0 opacity-100" : "pointer-events-none -translate-y-3 opacity-0"
         }`}
@@ -148,6 +155,7 @@ export const Navbar = ({ dashboardHref = "/dashboard" }: NavbarProps) => {
           </Link>
           <Link
             href={dashboardHref}
+            prefetch={false}
             onClick={() => setIsOpen(false)}
             className={`rounded-full border border-slate-200 px-8 py-4 text-center text-xs uppercase text-slate-800 ${ctaClassName}`}
           >
