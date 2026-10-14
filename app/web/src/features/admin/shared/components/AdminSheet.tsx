@@ -16,6 +16,8 @@ type AdminSheetProps = {
   leftRail?: ReactNode;
   rightRail?: ReactNode;
   sideRail?: ReactNode;
+  /** Full-width strip pinned under the header, above the scrolling body. */
+  banner?: ReactNode;
   children: ReactNode;
   className?: string;
   size?: "md" | "lg" | "xl";
@@ -37,6 +39,7 @@ export function AdminSheet({
   leftRail,
   rightRail,
   sideRail,
+  banner,
   children,
   className,
   size = "xl",
@@ -114,6 +117,10 @@ export function AdminSheet({
               </DialogPrimitive.Close>
             </div>
           </div>
+
+          {banner ? (
+            <div className="shrink-0 border-b border-[#D9E4F2] bg-[#F8FBFF] px-5 py-3 sm:px-7">{banner}</div>
+          ) : null}
 
           <div className="relative min-h-0 flex-1">
             <div

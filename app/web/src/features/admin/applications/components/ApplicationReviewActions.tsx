@@ -53,7 +53,7 @@ export function ApplicationReviewActions({
   const [requestedChanges, setRequestedChanges] = useState("");
   const isBusy = Boolean(busyAction);
   const memberStatus = memberApplication?.status;
-  const canReview = record.kind === "member" && !record.isMembershipChange && (memberStatus === "pending" || memberStatus === "review");
+  const canReview = record.kind === "member" && (memberStatus === "pending" || memberStatus === "review");
   const isAlreadyInReview = memberStatus === "review";
   const canApprove =
     record.kind === "partner" || memberStatus === "pending" || memberStatus === "review";

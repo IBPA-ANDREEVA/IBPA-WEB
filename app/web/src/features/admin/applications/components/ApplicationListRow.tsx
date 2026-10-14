@@ -69,7 +69,7 @@ export function ApplicationListRow({
             </p>
             {record.isMembershipChange ? (
               <span className="pointer-events-none inline-flex shrink-0 items-center gap-1 rounded-full border border-[#8CB8D4] bg-[#E4F2FB] px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em] text-[#1F5D8F]">
-                <Repeat2 className="size-3" /> Change request
+                <Repeat2 className="size-3" /> Update
               </span>
             ) : (
               <span className="pointer-events-none hidden shrink-0 rounded-full border border-[#D7E5F4] bg-[#F6FAFF] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#55708D] sm:inline">
@@ -102,7 +102,10 @@ export function ApplicationListRow({
           </p>
           {record.isMembershipChange ? (
             <p className="pointer-events-none mt-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#4C7D9D]">
-              Priority review · requested {record.membershipPackage}
+              {record.membershipChange
+                ? `${record.membershipChange.fromCategory} to ${record.membershipChange.toCategory}`
+                : `Requested ${record.membershipPackage}`}
+              {" · priority review"}
             </p>
           ) : null}
         </div>
