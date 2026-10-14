@@ -82,7 +82,13 @@ import {
   getMembershipChangeDetails,
   isMembershipChangeApplicationData,
   normalizeMembershipCategory,
+  type MembershipCategory,
 } from "../features/memberships/server/membership-change";
+import { buildMembershipChangePrefill } from "../features/memberships/server/membership-change-prefill";
+import {
+  validateApplicationRequirements,
+  validateOrganizationApplication,
+} from "../features/applications/server/application-requirements";
 
 export const dashboardRouter = Router();
 export const cardsRouter = Router();
@@ -454,28 +460,17 @@ dashboardRouter.get("/membership-change", clerkMiddleware(clerkOptions), async (
   if (!auth.userId) return res.status(401).json({ error: "Unauthorized" });
 
   try {
-    const access = await requireDashboardAccess(auth.userId, auth.sessionClaims);
-    if (!access?.canonicalUser || !access.membership) {
-      return res.status(403).json(DASHBOARD_ACCESS_ERROR);
-    }
-    if (isTeamMemberAccess(access.accessType) || access.application?.type === "PARTNER") {
-      return res.status(403).json({
-        error: "Membership changes are available to individual and business members only.",
-      });
-    }
+    const context = await resolveMembershipChangeContext(auth.userId, auth.sessionClaims);
+    if (context.failure) return res.status(context.failure.status).json(context.failure.body);
+    const { access, currentCategory } = context;
 
-    const currentCategory = normalizeMembershipCategory(access.membership.type);
-    if (!currentCategory) {
-      return res.status(422).json({ error: "Your current membership category cannot be changed online." });
-    }
-
-    const latestRequest = await findLatestMembershipChange(access.db, access.canonicalUser.id);
+    const latestRequest = await findLatestMembershipChange(access.db, access.canonicalUser!.id);
     return res.json({
       currentMembership: {
-        id: access.membership.id,
+        id: access.membership!.id,
         category: currentCategory,
         amount: MEMBERSHIP_ANNUAL_AMOUNTS[currentCategory],
-        expiresAt: access.membership.expiresAt,
+        expiresAt: access.membership!.expiresAt,
       },
       latestRequest: toMembershipChangeResponse(latestRequest),
     });
@@ -485,39 +480,96 @@ dashboardRouter.get("/membership-change", clerkMiddleware(clerkOptions), async (
   }
 });
 
+// Starting values for the change application: everything the member already
+// submitted, re-keyed for the requested package.
+dashboardRouter.get("/membership-change/prefill", clerkMiddleware(clerkOptions), async (req, res) => {
+  const auth = getAuth(req);
+  if (!auth.userId) return res.status(401).json({ error: "Unauthorized" });
+
+  const requestedCategory = normalizeMembershipCategory(req.query.to);
+  if (!requestedCategory) {
+    return res.status(400).json({ error: "Select a valid membership category." });
+  }
+
+  try {
+    const context = await resolveMembershipChangeContext(auth.userId, auth.sessionClaims);
+    if (context.failure) return res.status(context.failure.status).json(context.failure.body);
+    const { access, currentCategory } = context;
+
+    if (currentCategory === requestedCategory) {
+      return res.status(409).json({ error: `You already have the ${currentCategory} membership.` });
+    }
+    const latestRequest = await findLatestMembershipChange(access.db, access.canonicalUser!.id);
+    if (latestRequest && OPEN_MEMBERSHIP_CHANGE_STATUSES.has(latestRequest.status)) {
+      return res.status(409).json({
+        error: "You already have a membership change under review.",
+        request: toMembershipChangeResponse(latestRequest),
+      });
+    }
+
+    const balance = calculateMembershipBalance(currentCategory, requestedCategory);
+    if (!balance) {
+      return res.status(400).json({ error: "Unable to calculate this membership change." });
+    }
+
+    const profile = access.profile;
+    return res.json({
+      currentMembership: {
+        category: currentCategory,
+        amount: balance.oldAmount,
+        expiresAt: access.membership!.expiresAt,
+      },
+      target: { category: requestedCategory, amount: balance.newAmount, balanceDue: balance.balanceDue },
+      previousApplicationId: access.application?.id ?? null,
+      application: buildMembershipChangePrefill({
+        previousData: getApplicationData(access.application),
+        fromCategory: currentCategory,
+        toCategory: requestedCategory,
+        email: access.canonicalUser!.email,
+        profile: {
+          firstName: profile?.firstName,
+          lastName: profile?.lastName,
+          phone: profile?.phone,
+          city: profile?.city,
+          country: profile?.country,
+          instagram: profile?.instagram,
+          website: profile?.website,
+        },
+      }),
+    });
+  } catch (error) {
+    console.error("[Dashboard membership change] Failed to prefill", error);
+    return res.status(500).json({ error: "Unable to load your application right now." });
+  }
+});
+
 dashboardRouter.post("/membership-change", clerkMiddleware(clerkOptions), async (req, res) => {
   const auth = getAuth(req);
   if (!auth.userId) return res.status(401).json({ error: "Unauthorized" });
 
   const requestedCategory = normalizeMembershipCategory(req.body?.membershipCategory);
-  const reason = trimValue(req.body?.reason, 1200);
+  const submitted = asRecord(req.body?.application) ?? {};
   if (!requestedCategory) {
     return res.status(400).json({ error: "Select a valid membership category." });
   }
-  if (reason.length < 10) {
-    return res.status(400).json({ error: "Tell us briefly why this membership is the right fit (at least 10 characters)." });
+  if (Object.keys(submitted).length === 0) {
+    return res.status(400).json({ error: "Application details are required." });
   }
 
-  try {
-    const access = await requireDashboardAccess(auth.userId, auth.sessionClaims);
-    if (!access?.canonicalUser || !access.membership) {
-      return res.status(403).json(DASHBOARD_ACCESS_ERROR);
-    }
-    if (isTeamMemberAccess(access.accessType) || access.application?.type === "PARTNER") {
-      return res.status(403).json({
-        error: "Membership changes are available to individual and business members only.",
-      });
-    }
+  const validationError = validateOrganizationApplication(requestedCategory, submitted)
+    || validateApplicationRequirements(requestedCategory, submitted);
+  if (validationError) return res.status(400).json({ error: validationError });
 
-    const currentCategory = normalizeMembershipCategory(access.membership.type);
-    if (!currentCategory) {
-      return res.status(422).json({ error: "Your current membership category cannot be changed online." });
-    }
+  try {
+    const context = await resolveMembershipChangeContext(auth.userId, auth.sessionClaims);
+    if (context.failure) return res.status(context.failure.status).json(context.failure.body);
+    const { access, currentCategory } = context;
+
     if (currentCategory === requestedCategory) {
       return res.status(409).json({ error: `You already have the ${currentCategory} membership.` });
     }
 
-    const latestRequest = await findLatestMembershipChange(access.db, access.canonicalUser.id);
+    const latestRequest = await findLatestMembershipChange(access.db, access.canonicalUser!.id);
     if (latestRequest && OPEN_MEMBERSHIP_CHANGE_STATUSES.has(latestRequest.status)) {
       return res.status(409).json({
         error: "You already have a membership change under review.",
@@ -533,36 +585,50 @@ dashboardRouter.post("/membership-change", clerkMiddleware(clerkOptions), async 
     const now = new Date();
     const requestId = crypto.randomUUID();
     const paymentToken = crypto.randomUUID();
-    const fullName = access.application?.fullName
-      || [access.profile?.firstName, access.profile?.lastName].filter(Boolean).join(" ")
-      || access.canonicalUser.email;
+    const applicantName = requestedCategory === "Brand"
+      ? trimValue(submitted.brandPrimaryContact, 120) || trimValue(submitted.brandName, 120)
+      : [trimValue(submitted.firstName, 60), trimValue(submitted.lastName, 60)].filter(Boolean).join(" ");
+    const fullName = applicantName.length >= 2
+      ? applicantName
+      : access.application?.fullName
+        || [access.profile?.firstName, access.profile?.lastName].filter(Boolean).join(" ")
+        || access.canonicalUser!.email;
+    const phone = optionalTrimmedValue(submitted.phone ?? submitted.brandContactPhone, 50)
+      ?? access.application?.phone
+      ?? access.profile?.phone
+      ?? null;
     const membershipChange = {
-      previousMembershipId: access.membership.id,
+      previousMembershipId: access.membership!.id,
       previousApplicationId: access.application?.id ?? null,
       fromCategory: currentCategory,
       toCategory: requestedCategory,
       oldAmount: balance.oldAmount,
       newAmount: balance.newAmount,
       balanceDue: balance.balanceDue,
-      reason,
+      reason: trimValue(req.body?.note, 1200),
       submittedAt: now.toISOString(),
     };
 
+    // The only write: one new application row. Membership, payment, and
+    // certificate records stay untouched until the change is approved and paid.
     const created = await upsertCanonicalApplication(access.db, {
       id: requestId,
-      userId: access.canonicalUser.id,
+      userId: access.canonicalUser!.id,
       type: "MEMBER",
       packageName: requestedCategory,
       status: "SUBMITTED",
       fullName,
-      email: access.canonicalUser.email,
-      phone: access.application?.phone ?? access.profile?.phone ?? null,
+      email: access.canonicalUser!.email,
+      phone,
       paymentLink: `/payment-link/${paymentToken}`,
       applicationData: {
-        applicationKind: "MEMBERSHIP_CHANGE",
-        isMembershipChange: true,
+        ...submitted,
         membershipCategory: requestedCategory,
         applicantType: MEMBERSHIP_APPLICANT_TYPES[requestedCategory],
+        accountType: "member",
+        applicationKind: "MEMBERSHIP_CHANGE",
+        isMembershipChange: true,
+        promoCode: null,
         membershipChange,
       },
       applicationFiles: [],
@@ -576,6 +642,37 @@ dashboardRouter.post("/membership-change", clerkMiddleware(clerkOptions), async 
     return res.status(500).json({ error: "Unable to submit your membership change right now." });
   }
 });
+
+type MembershipChangeContext =
+  | { failure: { status: number; body: Record<string, unknown> }; access?: undefined; currentCategory?: undefined }
+  | { failure?: undefined; access: DashboardAccessContext; currentCategory: MembershipCategory };
+
+async function resolveMembershipChangeContext(clerkUserId: string, sessionClaims?: unknown): Promise<MembershipChangeContext> {
+  const access = await requireDashboardAccess(clerkUserId, sessionClaims);
+  if (!access?.canonicalUser || !access.membership) {
+    return { failure: { status: 403, body: DASHBOARD_ACCESS_ERROR as Record<string, unknown> } };
+  }
+  if (isTeamMemberAccess(access.accessType) || access.application?.type === "PARTNER") {
+    return {
+      failure: {
+        status: 403,
+        body: { error: "Membership changes are available to individual and business members only." } as Record<string, unknown>,
+      },
+    };
+  }
+
+  const currentCategory = normalizeMembershipCategory(access.membership.type);
+  if (!currentCategory) {
+    return {
+      failure: {
+        status: 422,
+        body: { error: "Your current membership category cannot be changed online." } as Record<string, unknown>,
+      },
+    };
+  }
+
+  return { access, currentCategory };
+}
 
 async function requireDashboardAccess(clerkUserId: string, sessionClaims?: unknown): Promise<DashboardAccessContext | null> {
   const session = await ensureSessionUser(clerkUserId, sessionClaims);
