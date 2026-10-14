@@ -85,6 +85,11 @@ test("website JSON-LD names the site and references the organization", () => {
   assert.equal("potentialAction" in site, false, "no SearchAction: the site has no search");
 });
 
+test("website JSON-LD identifies the server-rendered language", () => {
+  assert.equal(websiteJsonLd("ru").inLanguage, "ru");
+  assert.equal(websiteJsonLd("uk").inLanguage, "uk");
+});
+
 test("breadcrumb JSON-LD starts at Home and numbers positions from 1", () => {
   const crumbs = breadcrumbJsonLd([
     { name: "Resources", path: "/resources" },

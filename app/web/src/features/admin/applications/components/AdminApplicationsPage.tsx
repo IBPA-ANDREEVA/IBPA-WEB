@@ -61,6 +61,7 @@ import { ApplicationDetailsPanel } from "./ApplicationDetailsPanel";
 import { ApplicationListRow } from "./ApplicationListRow";
 import { ApplicationMediaRail } from "./ApplicationMediaRail";
 import { ApplicationReviewRail } from "./ApplicationReviewRail";
+import { ApplicationVersionSlider } from "./ApplicationVersionSlider";
 
 const baseFilters: AdminApplicationFilters = {
   applicantType: "all",
@@ -203,6 +204,12 @@ export function AdminApplicationsPage() {
     } finally {
       if (requestId === detailRequestRef.current) setIsLoadingFiles(false);
     }
+  };
+
+  const switchRelatedApplication = (id: string) => {
+    if (id === selectedApplication?.id) return;
+    const record = applications.find((item) => item.kind === "member" && item.id === id);
+    if (record) void openApplication(record);
   };
 
   const closeSheet = () => {
@@ -596,10 +603,20 @@ export function AdminApplicationsPage() {
           selectedApplication
             ? selectedApplication.kind === "member"
               ? selectedApplication.isMembershipChange
-                ? "Priority membership change"
+                ? "Membership update"
                 : "Member application"
               : "Partner application"
             : undefined
+        }
+        banner={
+          memberDetail?.relatedApplications && memberDetail.relatedApplications.length > 1 ? (
+            <ApplicationVersionSlider
+              activeId={memberDetail.id}
+              disabled={isLoadingDetail}
+              items={memberDetail.relatedApplications}
+              onSelect={switchRelatedApplication}
+            />
+          ) : null
         }
         leftRail={renderMediaRail()}
         onOpenChange={(next) => (next ? null : closeSheet())}

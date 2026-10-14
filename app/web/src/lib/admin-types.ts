@@ -19,6 +19,19 @@ export type AdminOrder = {
   createdAt: string;
   certificateNumber?: string | null;
   promoCode?: ApplicationPromoCode | null;
+  /** The previous application and the open update built on it, when the member has both. */
+  relatedApplications?: RelatedApplication[];
+  /** Answers on the application a membership change was based on. */
+  previousApplicationPayload?: ApplicationPayload | null;
+};
+
+export type RelatedApplication = {
+  id: string;
+  role: "previous" | "update";
+  name: string;
+  membershipCategory?: string | null;
+  status: OrderStatus;
+  createdAt: string;
 };
 
 /** Promo code an applicant entered, and whether it still discounts on approval. */

@@ -9,6 +9,7 @@ import type {
   AdminApplicationRecord,
   AdminApplicationStatusFilter,
   AdminApplicationKind,
+  ApplicationFieldItem,
   ApplicationFieldSection,
   ApplicationFileGroup,
   ApplicationQueueResponse,
@@ -252,8 +253,42 @@ export function filterApplicationRecords(
   });
 }
 
+function previousPayloadOf(application: MemberApplicationDetail) {
+  const value = application.previousApplicationPayload;
+  return value && typeof value === "object" ? (value as Record<string, unknown>) : null;
+}
+
+function buildItem(
+  payload: Record<string, unknown>,
+  previous: Record<string, unknown> | null,
+  field: string,
+): ApplicationFieldItem | null {
+  const value = formatApplicationValue(field, payload[field]);
+  if (!value) return null;
+  if (!previous) return { label: getApplicationFieldLabel(field), value };
+
+  const previousValue = formatApplicationValue(field, previous[field]);
+  const change = !previousValue ? "new" : previousValue !== value ? "changed" : undefined;
+  return {
+    label: getApplicationFieldLabel(field),
+    value,
+    ...(change ? { change } : {}),
+    ...(change === "changed" ? { previousValue } : {}),
+  };
+}
+
+/** How many answers an update added or edited compared with the application it replaces. */
+export function summarizeApplicationChanges(sections: ApplicationFieldSection[]) {
+  const items = sections.flatMap((section) => section.items);
+  return {
+    added: items.filter((item) => item.change === "new").length,
+    edited: items.filter((item) => item.change === "changed").length,
+  };
+}
+
 export function buildMemberApplicationSections(application: MemberApplicationDetail) {
   const payload = payloadOf(application);
+  const previous = previousPayloadOf(application);
   const membershipCategory = typeof payload.membershipCategory === "string"
     ? payload.membershipCategory
     : application.membershipCategory;
@@ -372,31 +407,19 @@ export function buildMemberApplicationSections(application: MemberApplicationDet
     },
   ];
 
-  return sections
-    .map<ApplicationFieldSection>((section) => ({
-      items: section.fields
-        .map((field) => ({
-          label: getApplicationFieldLabel(field),
-          value: formatApplicationValue(field, payload[field]),
-        }))
-        .filter((item) => item.value),
-      title: section.title,
-    }))
-    .filter((section) => section.items.length > 0);
+  return buildSections(payload, sections, previous);
 }
 
 function buildSections(
   payload: Record<string, unknown>,
   sections: Array<{ title: string; fields: string[] }>,
+  previous: Record<string, unknown> | null = null,
 ) {
   return sections
     .map<ApplicationFieldSection>((section) => ({
       items: section.fields
-        .map((field) => ({
-          label: getApplicationFieldLabel(field),
-          value: formatApplicationValue(field, payload[field]),
-        }))
-        .filter((item) => item.value),
+        .map((field) => buildItem(payload, previous, field))
+        .filter((item): item is ApplicationFieldItem => item !== null),
       title: section.title,
     }))
     .filter((section) => section.items.length > 0);

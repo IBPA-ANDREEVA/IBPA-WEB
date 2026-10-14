@@ -9,7 +9,7 @@ import { AdminEmptyState } from "../../shared/components/AdminEmptyState";
 import { AdminSectionCard } from "../../shared/components/AdminSectionCard";
 import { AdminStatusBadge } from "../../shared/components/AdminStatusBadge";
 import { formatAdminDateTime } from "../../shared/utils/admin-formatters";
-import { buildMemberApplicationSections } from "../server/application-admin.service";
+import { buildMemberApplicationSections, summarizeApplicationChanges } from "../server/application-admin.service";
 import type {
   AdminApplicationRecord,
   ApplicationAdditionalFile,
@@ -93,17 +93,33 @@ function FieldList({ sections }: { sections: ApplicationFieldSection[] }) {
 
               return (
                 <div
-                  className={`rounded-[18px] border border-[#DCE7F5] bg-[#F8FBFF] px-4 py-3 ${
-                    isLong ? "md:col-span-2" : ""
-                  }`}
+                  className={`rounded-[18px] border px-4 py-3 ${
+                    item.change === "new" ? "border-[#9BC4DD] bg-[#F1F8FD]" : "border-[#DCE7F5] bg-[#F8FBFF]"
+                  } ${isLong ? "md:col-span-2" : ""}`}
                   key={`${section.title}-${item.label}`}
                 >
-                  <dt className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#6C7F95]">
+                  <dt className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-[#6C7F95]">
                     {item.label}
+                    {item.change ? (
+                      <span
+                        className={
+                          item.change === "new"
+                            ? "rounded-full bg-[#1F5D8F] px-1.5 py-0.5 text-[9px] tracking-[0.12em] text-white"
+                            : "rounded-full bg-[#FFF1D6] px-1.5 py-0.5 text-[9px] tracking-[0.12em] text-[#8A5A00]"
+                        }
+                      >
+                        {item.change === "new" ? "New" : "Edited"}
+                      </span>
+                    ) : null}
                   </dt>
                   <dd className="mt-1.5 whitespace-pre-wrap break-words text-sm leading-5 text-[#10203B]">
                     {value || "Not provided"}
                   </dd>
+                  {item.change === "changed" && item.previousValue ? (
+                    <p className="mt-1.5 whitespace-pre-wrap break-words text-xs leading-5 text-[#8AA2BD]">
+                      Before: {item.previousValue}
+                    </p>
+                  ) : null}
                 </div>
               );
             })}
@@ -122,12 +138,20 @@ function formatMoney(cents: number) {
   }).format(cents / 100);
 }
 
-function MembershipChangeCard({ record }: { record: AdminApplicationRecord }) {
+function MembershipChangeCard({
+  record,
+  changes,
+  hasPrevious,
+}: {
+  record: AdminApplicationRecord;
+  changes: { added: number; edited: number } | null;
+  hasPrevious: boolean;
+}) {
   const change = record.membershipChange;
   if (!change) {
     return (
       <section className="rounded-[24px] border border-[#9BC4DD] bg-[#F2F9FE] p-5 text-sm text-[#315F84]">
-        This record is a membership change, not a new-member application.
+        This record is a membership update, not a new-member application.
       </section>
     );
   }
@@ -136,10 +160,16 @@ function MembershipChangeCard({ record }: { record: AdminApplicationRecord }) {
     <section className="overflow-hidden rounded-[26px] border border-[#94BDD8] bg-white shadow-[0_20px_55px_rgba(31,93,143,0.12)]">
       <div className="bg-[linear-gradient(135deg,#10203B_0%,#285D86_100%)] px-5 py-5 text-white sm:px-6">
         <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.22em] text-[#C8E2F3]">
-          <Repeat2 className="size-4" /> Priority membership change
+          <Repeat2 className="size-4" /> Membership update
         </div>
-        <h3 className="mt-2 text-xl font-semibold tracking-[-0.02em]">This is not a new application.</h3>
-        <p className="mt-1 text-sm leading-6 text-white/65">Review the member's current status, requested status, and difference-only balance.</p>
+        <h3 className="mt-2 text-xl font-semibold tracking-[-0.02em]">
+          {change.fromCategory} to {change.toCategory}
+        </h3>
+        <p className="mt-1 text-sm leading-6 text-white/65">
+          {hasPrevious
+            ? "This is the member's full application for the new package, started from their previous answers. Use the switcher above to compare."
+            : "This is the member's full application for the new package."}
+        </p>
       </div>
 
       <div className="grid gap-3 p-5 sm:grid-cols-[1fr_auto_1fr] sm:items-center sm:p-6">
@@ -156,15 +186,22 @@ function MembershipChangeCard({ record }: { record: AdminApplicationRecord }) {
         </div>
       </div>
 
-      <div className="grid gap-4 border-t border-[#D7E5F4] bg-[#F8FBFF] px-5 py-5 sm:grid-cols-[minmax(0,1fr)_180px] sm:px-6">
+      <div className="grid gap-4 border-t border-[#D7E5F4] bg-[#F8FBFF] px-5 py-5 sm:grid-cols-[minmax(0,1fr)_200px] sm:px-6">
         <div>
-          <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#8AA2BD]">Member's reason</p>
-          <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-[#10203B]">{change.reason || "No reason provided."}</p>
+          <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#8AA2BD]">Compared with the previous application</p>
+          <p className="mt-2 text-sm leading-6 text-[#10203B]">
+            {changes
+              ? `${changes.added} new ${changes.added === 1 ? "answer" : "answers"} and ${changes.edited} edited ${changes.edited === 1 ? "answer" : "answers"}. Marked in the fields below.`
+              : "The previous application is no longer available for comparison."}
+          </p>
+          {change.reason ? (
+            <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-[#55708D]">Note from the member: {change.reason}</p>
+          ) : null}
         </div>
         <div className="rounded-[18px] border border-emerald-200 bg-emerald-50 px-4 py-3 sm:text-right">
-          <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-emerald-700">Balance after approval</p>
+          <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-emerald-700">Payment link amount</p>
           <p className="mt-1 text-2xl font-semibold text-emerald-950">{formatMoney(change.balanceDue)}</p>
-          <p className="mt-1 text-[11px] text-emerald-700/75">New price minus old price</p>
+          <p className="mt-1 text-[11px] text-emerald-700/75">New price minus old price. Renewal date is unchanged.</p>
         </div>
       </div>
     </section>
@@ -206,6 +243,10 @@ export function ApplicationDetailsPanel({
   const memberSections = memberApplication
     ? buildMemberApplicationSections(memberApplication)
     : [];
+  const hasPrevious = Boolean(memberApplication?.previousApplicationPayload);
+  const updateChanges = record.isMembershipChange && hasPrevious
+    ? summarizeApplicationChanges(memberSections)
+    : null;
 
   const membershipSections = memberSections.filter(
     (section) => section.title === applicationSectionTitles.summary,
@@ -237,7 +278,7 @@ export function ApplicationDetailsPanel({
   const memberContent =
     record.kind === "member" && memberApplication ? (
       <div className="space-y-5">
-        {record.isMembershipChange ? <MembershipChangeCard record={record} /> : null}
+        {record.isMembershipChange ? <MembershipChangeCard changes={updateChanges} hasPrevious={hasPrevious} record={record} /> : null}
         {showMembershipSummary && membershipSections.length ? (
           <div className={showMembershipSummary === "mobile" ? "xl:hidden" : undefined}>
             <PanelCard title="Membership">
@@ -246,17 +287,13 @@ export function ApplicationDetailsPanel({
           </div>
         ) : null}
 
-        {!record.isMembershipChange ? (
-          <>
-            <PanelCard title="Personal information">
-              <FieldList sections={personalSections} />
-            </PanelCard>
+        <PanelCard title="Personal information">
+          <FieldList sections={personalSections} />
+        </PanelCard>
 
-            <PanelCard title="Professional information">
-              <FieldList sections={professionalSections} />
-            </PanelCard>
-          </>
-        ) : null}
+        <PanelCard title="Professional information">
+          <FieldList sections={professionalSections} />
+        </PanelCard>
       </div>
     ) : null;
 

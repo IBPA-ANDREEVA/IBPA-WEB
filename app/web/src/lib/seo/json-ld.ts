@@ -1,4 +1,5 @@
 import { ORGANIZATION } from "@/lib/seo/organization";
+import type { Locale } from "@/lib/locale";
 import { absoluteUrl } from "@/lib/seo/site";
 
 export type JsonLdObject = Record<string, unknown>;
@@ -66,7 +67,7 @@ export function organizationJsonLd(): JsonLdObject {
  * WebSite entity. `name` and `alternateName` feed Google's site-name display.
  * No SearchAction is declared because the site has no search feature.
  */
-export function websiteJsonLd(): JsonLdObject {
+export function websiteJsonLd(locale: Locale = "en"): JsonLdObject {
   return {
     "@context": SCHEMA_CONTEXT,
     "@type": "WebSite",
@@ -74,7 +75,7 @@ export function websiteJsonLd(): JsonLdObject {
     url: absoluteUrl("/"),
     name: ORGANIZATION.name,
     alternateName: [...ORGANIZATION.alternateNames],
-    inLanguage: "en",
+    inLanguage: locale,
     publisher: { "@id": organizationId() },
   };
 }

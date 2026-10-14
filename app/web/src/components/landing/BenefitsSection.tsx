@@ -14,8 +14,8 @@ export const BenefitsSection = ({ locale }: BenefitsSectionProps) => {
     locale === "ru"
       ? {
           eyebrow: "Преимущества сообщества",
-          title: "Почему IBPA",
-          detailsCta: "Все тарифы и пакеты",
+          title: "Преимущества профессионального членства",
+          detailsCta: "Изучить членство в beauty-ассоциации",
           description:
             "Членство в ассоциации создано для того, чтобы усиливать вашу профессиональную репутацию, видимость и доступ к международному beauty-сообществу.",
           imageAlt: "Преимущества сообщества IBPA",
@@ -50,8 +50,8 @@ export const BenefitsSection = ({ locale }: BenefitsSectionProps) => {
       : locale === "uk"
         ? {
             eyebrow: "Переваги спільноти",
-            title: "Чому IBPA",
-            detailsCta: "Усі тарифи та пакети",
+            title: "Переваги професійного членства",
+            detailsCta: "Ознайомитися з членством у beauty-асоціації",
             description:
               "Членство створене для того, щоб посилювати вашу професійну репутацію, видимість і доступ до міжнародної beauty-спільноти.",
             imageAlt: "Переваги спільноти IBPA",
@@ -85,8 +85,8 @@ export const BenefitsSection = ({ locale }: BenefitsSectionProps) => {
           }
         : {
             eyebrow: "Membership Benefits",
-            title: "Why Join IBPA",
-            detailsCta: "All Membership Details",
+            title: "Beauty Professional Membership Benefits",
+            detailsCta: "Explore Beauty Association Membership",
             description:
               "Membership is designed to build credibility, visibility, and meaningful access across the international beauty industry.",
             imageAlt: "Benefits of the IBPA community",

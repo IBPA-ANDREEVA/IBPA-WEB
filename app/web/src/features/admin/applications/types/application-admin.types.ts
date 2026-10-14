@@ -55,11 +55,17 @@ export type MembershipChangeSummary = {
 };
 
 export type MemberApplicationDetail = AdminOrder;
+export type { RelatedApplication } from "@/lib/admin-types";
 export type PartnerApplicationDetail = AdminPartnerApplication;
+
+export type ApplicationFieldChange = "new" | "changed";
 
 export type ApplicationFieldItem = {
   label: string;
   value: string;
+  /** Set when this answer was added or edited compared with the previous application. */
+  change?: ApplicationFieldChange;
+  previousValue?: string;
 };
 
 export type ApplicationFieldSection = {

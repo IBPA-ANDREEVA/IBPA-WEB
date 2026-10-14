@@ -172,10 +172,10 @@ export default function Membership() {
         <div className="max-w-3xl space-y-8">
           <motion.div {...fadeInUp} className="space-y-4">
             <h2 className={`text-5xl uppercase leading-[0.94] text-slate-900 ${headlineClassName}`}>
-              {isRu ? "Выберите свой уровень" : isUk ? "Оберіть свій рівень" : "Choose Your Level"}
+              {isRu ? "Членство в beauty-ассоциации для каждого этапа карьеры" : isUk ? "Членство в beauty-асоціації для кожного етапу кар’єри" : "Beauty Association Membership for Every Career Stage"}
             </h2>
             <p className={`text-xl leading-relaxed text-slate-600 ${bodyClassName}`}>
-              {isRu ? "IBPA предлагает несколько тарифов и пакетов участия, разработанных с учётом профессионального уровня, роли в индустрии и целей участника." : isUk ? "IBPA пропонує кілька тарифів і пакетів участі, розроблених з урахуванням професійного рівня, ролі в індустрії та цілей учасника." : "IBPA offers several membership categories designed around professional level, role in the industry, and member goals."}
+              {isRu ? "IBPA предлагает категории членства для начинающих и практикующих специалистов, преподавателей, владельцев beauty-бизнеса и брендов. Сравните преимущества и выберите вариант, соответствующий вашей роли и целям." : isUk ? "IBPA пропонує категорії членства для початківців і практикуючих фахівців, викладачів, власників beauty-бізнесу та брендів. Порівняйте переваги й оберіть варіант, що відповідає вашій ролі та цілям." : "IBPA offers beauty association membership for emerging and practicing professionals, educators, beauty business owners, and brands. Compare the benefits and choose the option that fits your role and goals."}
             </p>
           </motion.div>
           <motion.div {...fadeInUp} transition={{ delay: 0.2 }} className="flex gap-4 rounded-[40px] bg-[#F1F3F5] p-8 shadow-[0_18px_55px_rgba(39,54,72,0.08)]">

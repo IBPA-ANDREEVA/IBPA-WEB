@@ -1,3 +1,5 @@
+import type { Locale } from "@/lib/locale";
+
 export type PageSeo = {
   /** Canonical, site-relative path. */
   path: string;
@@ -21,23 +23,23 @@ export const PAGE_SEO = {
   home: {
     path: "/",
     // Rendered with `absoluteTitle`: the full brand name must stay in the title.
-    title: "International Beauty Association for Professionals | IBPA",
+    title: "International Beauty Professionals Association | IBPA",
     description:
-      "IBPA is an international beauty association for estheticians, cosmetologists, lash and brow artists, educators, salon owners, and brands. Explore membership.",
+      "IBPA is a beauty professional association for specialists, educators, salon owners, and brands, with education, standards, events, and networking.",
     breadcrumb: "Home",
   },
   about: {
     path: "/about",
-    title: "About IBPA: Mission, Vision & Nonprofit Status",
+    title: "About the International Beauty Professionals Association",
     description:
-      "Learn how the International Beauty Professionals Association works: its mission, vision, strategic pillars, and California-registered nonprofit status.",
+      "Learn how the International Beauty Professionals Association supports standards, education, collaboration, and responsible beauty industry growth.",
     breadcrumb: "About",
   },
   membership: {
     path: "/membership",
-    title: "Beauty Association Membership: Categories & Benefits",
+    title: "Beauty Association Membership & Benefits",
     description:
-      "Compare IBPA membership for specialists, practicing professionals, educators, salon owners, and brands. See what each category includes and how to apply.",
+      "Compare beauty association membership options for specialists, professionals, educators, salon owners, and brands, including benefits and application steps.",
     breadcrumb: "Membership",
   },
   criteria: {
@@ -49,9 +51,9 @@ export const PAGE_SEO = {
   },
   standards: {
     path: "/standards",
-    title: "Professional Standards, Ethics & Policies",
+    title: "Beauty Industry Professional Standards & Ethics",
     description:
-      "Read IBPA's professional standards, code of ethics, membership policies, bylaws, and governance documents in one place.",
+      "Review IBPA beauty industry professional standards, ethics, membership policies, governance documents, and public association policies.",
     breadcrumb: "Standards",
   },
   governance: {
@@ -70,9 +72,9 @@ export const PAGE_SEO = {
   },
   events: {
     path: "/events",
-    title: "Beauty Industry Events & Championships",
+    title: "Beauty Industry Events & Professional Networking",
     description:
-      "IBPA events and online championships for beauty professionals worldwide, focused on education, networking, competition, and collaboration.",
+      "Explore IBPA beauty industry events for education, competitions, professional networking, and international collaboration among beauty professionals.",
     breadcrumb: "Events",
   },
   news: {
@@ -132,3 +134,93 @@ export const PAGE_SEO = {
     breadcrumb: "Cancellation Policy",
   },
 } as const satisfies Record<string, PageSeo>;
+
+export type LocalizedPageSeoKey = "home" | "about" | "membership" | "standards" | "events";
+
+const LOCALIZED_CORE_PAGE_SEO = {
+  en: {
+    home: PAGE_SEO.home,
+    about: PAGE_SEO.about,
+    membership: PAGE_SEO.membership,
+    standards: PAGE_SEO.standards,
+    events: PAGE_SEO.events,
+  },
+  ru: {
+    home: {
+      path: "/",
+      title: "Международная ассоциация beauty-профессионалов | IBPA",
+      description:
+        "IBPA — международная ассоциация для beauty-специалистов, преподавателей, владельцев салонов и брендов: образование, стандарты, события и нетворкинг.",
+      breadcrumb: "Главная",
+    },
+    about: {
+      path: "/about",
+      title: "О Международной ассоциации beauty-профессионалов",
+      description:
+        "Узнайте, как International Beauty Professionals Association развивает стандарты, образование, сотрудничество и ответственное развитие beauty-индустрии.",
+      breadcrumb: "Об ассоциации",
+    },
+    membership: {
+      path: "/membership",
+      title: "Членство в beauty-ассоциации: категории и преимущества",
+      description:
+        "Сравните категории членства IBPA для специалистов, профессионалов, преподавателей, владельцев салонов и брендов, включая преимущества и этапы заявки.",
+      breadcrumb: "Членство",
+    },
+    standards: {
+      path: "/standards",
+      title: "Профессиональные стандарты beauty-индустрии",
+      description:
+        "Изучите профессиональные стандарты, этический кодекс, правила членства, документы управления и публичные политики IBPA.",
+      breadcrumb: "Стандарты",
+    },
+    events: {
+      path: "/events",
+      title: "События beauty-индустрии и профессиональный нетворкинг",
+      description:
+        "Откройте события IBPA для образования, профессионального нетворкинга, соревнований и международного сотрудничества beauty-профессионалов.",
+      breadcrumb: "События",
+    },
+  },
+  uk: {
+    home: {
+      path: "/",
+      title: "Міжнародна асоціація beauty-професіоналів | IBPA",
+      description:
+        "IBPA — міжнародна асоціація для beauty-фахівців, викладачів, власників салонів і брендів: освіта, стандарти, події та професійний нетворкінг.",
+      breadcrumb: "Головна",
+    },
+    about: {
+      path: "/about",
+      title: "Про Міжнародну асоціацію beauty-професіоналів",
+      description:
+        "Дізнайтеся, як International Beauty Professionals Association розвиває стандарти, освіту, співпрацю та відповідальне зростання beauty-індустрії.",
+      breadcrumb: "Про асоціацію",
+    },
+    membership: {
+      path: "/membership",
+      title: "Членство в beauty-асоціації: категорії та переваги",
+      description:
+        "Порівняйте категорії членства IBPA для фахівців, професіоналів, викладачів, власників салонів і брендів, з перевагами та етапами подання заявки.",
+      breadcrumb: "Членство",
+    },
+    standards: {
+      path: "/standards",
+      title: "Професійні стандарти beauty-індустрії",
+      description:
+        "Ознайомтеся з професійними стандартами, етичним кодексом, правилами членства, документами управління та публічними політиками IBPA.",
+      breadcrumb: "Стандарти",
+    },
+    events: {
+      path: "/events",
+      title: "Події beauty-індустрії та професійний нетворкінг",
+      description:
+        "Відкрийте події IBPA для освіти, професійного нетворкінгу, змагань і міжнародної співпраці beauty-професіоналів.",
+      breadcrumb: "Події",
+    },
+  },
+} as const satisfies Record<Locale, Record<LocalizedPageSeoKey, PageSeo>>;
+
+export function getLocalizedPageSeo(key: LocalizedPageSeoKey, locale: Locale): PageSeo {
+  return LOCALIZED_CORE_PAGE_SEO[locale][key];
+}

@@ -1,0 +1,1735 @@
+"use client";
+
+import React from "react";
+import Link from "next/link";
+import dynamic from "next/dynamic";
+import { motion, AnimatePresence } from "motion/react";
+import { useForm } from "react-hook-form";
+import {
+  CheckCircle2,
+  ChevronLeft,
+  ChevronRight,
+  FileCheck,
+  Globe,
+  GraduationCap,
+  Link as LinkIcon,
+  Send,
+  ShieldCheck,
+  Star,
+  User,
+  Briefcase,
+} from "lucide-react";
+import { toast } from "sonner";
+import { ImageWithFallback } from "@/components/figma/ImageWithFallback";
+import { ApplicationFileUploadField } from "@/components/forms/ApplicationFileUploadField";
+import { ProfilePhotoUploadField } from "@/components/forms/ProfilePhotoUploadField";
+import { countryOptions } from "@/constants/countries";
+import { cyrillicDisplay, cyrillicEditorial } from "@/lib/cyrillic-fonts";
+import { homeTemplateDisplay } from "@/lib/home-template-fonts";
+import {
+  buildApplyHref,
+  getMembershipCategory,
+  membershipConfigById,
+  membershipConfigs,
+  MembershipCategory,
+} from "@/lib/membership";
+import { getBackendUrl } from "@/lib/public-urls";
+import { useI18n } from "@/lib/i18n";
+import {
+  getOrganizationStepFields,
+  isOrganizationApplication,
+  organizationApplicationLabels,
+} from "@/lib/organization-application";
+import { OrganizationApplicationStep } from "./OrganizationApplicationStep";
+import {
+  getNewApplicationFields,
+  getRemainingNewFields,
+  isApplicationFieldFilled,
+  getStepFields as getFieldNamesForStep,
+  includesSubcategorySection,
+  requiresProofDocuments,
+  requiresLicenseNumber,
+} from "@/lib/application-steps";
+import { ChangeHeader, ChangeOverviewStep, ChangeSidebar } from "./ChangeOverviewStep";
+
+type FormData = {
+  profilePhotoFiles: string[];
+  credentialProofFiles: string[];
+  portfolioImages: string[];
+  trainerEducationPlanFiles: string[];
+  trainerCertificateFiles: string[];
+  trainerExperienceProofFiles: string[];
+  businessProfilePhotoFiles: string[];
+  businessProfessionalCertificationFiles: string[];
+  businessSupportingDocumentFiles: string[];
+  businessPortfolioImages: string[];
+  businessClientTestimonialFiles: string[];
+  brandReviewFiles: string[];
+  brandProductFiles: string[];
+  brandAchievementDocumentFiles: string[];
+  brandSupportingDocumentFiles: string[];
+  membershipCategory: MembershipCategory;
+  applicantType: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth?: string;
+  email: string;
+  phone: string;
+  citizenship: string;
+  streetAddress?: string;
+  city: string;
+  state?: string;
+  zipCode?: string;
+  country: string;
+  yearsExperience: string;
+  professionalDesc: string;
+  workSetting: string;
+  placeOfWork?: string;
+  workingJurisdictions: string;
+  educationDesc: string;
+  schoolName?: string;
+  educationDates?: string;
+  hasLicense: "Yes" | "No" | "Not required";
+  licenseNumber?: string;
+  additionalEducation?: string;
+  specialization: string[];
+  specializationOther?: string;
+  studentSchool?: string;
+  studentProgName?: string;
+  studentStartDate?: string;
+  studentEndDate?: string;
+  studentMotivation?: string;
+  educatorRole?: string;
+  educatorSubjects?: string;
+  educatorYears?: string;
+  educatorFormat?: "Offline" | "Online" | "Both";
+  studentCount?: string;
+  bizName?: string;
+  bizType?: string;
+  bizYear?: string;
+  bizTeamSize?: string;
+  bizServices?: string;
+  brandName?: string;
+  brandYear?: string;
+  brandMarket?: string;
+  brandType?: string;
+  preferredName?: string;
+  businessCurrentPosition?: string;
+  businessCurrentPositionOther?: string;
+  professionalBiography?: string;
+  professionalExperience?: string;
+  professionalEducation?: string;
+  professionalAchievements?: string;
+  bizTypeOther?: string;
+  businessCountry?: string;
+  businessCity?: string;
+  businessAddress?: string;
+  businessWebsite?: string;
+  businessInstagram?: string;
+  businessFacebook?: string;
+  businessTikTok?: string;
+  businessLinkedIn?: string;
+  businessYouTube?: string;
+  businessOtherSocial?: string;
+  businessDescription?: string;
+  businessAchievements?: string;
+  businessMission?: string;
+  businessIndustryContribution?: string;
+  businessMediaFeatured?: "Yes" | "No";
+  businessMediaDescription?: string;
+  businessPublications?: "Yes" | "No";
+  businessSpeakingExperience?: "Yes" | "No";
+  businessJudgingExperience?: "Yes" | "No";
+  businessProfessionalMemberships?: string;
+  brandTypeOther?: string;
+  brandRegistrationCountry?: string;
+  brandCity?: string;
+  brandAddress?: string;
+  brandWebsite?: string;
+  brandInstagram?: string;
+  brandFacebook?: string;
+  brandSocialWebsite?: string;
+  brandTikTok?: string;
+  brandLinkedIn?: string;
+  brandYouTube?: string;
+  brandPinterest?: string;
+  brandOtherSocial?: string;
+  brandPrimaryContact?: string;
+  brandContactPosition?: string;
+  brandContactPositionOther?: string;
+  brandContactEmail?: string;
+  brandContactPhone?: string;
+  brandDescription?: string;
+  brandMission?: string;
+  brandValues?: string;
+  brandProductsServices?: string;
+  brandProductCategories: string[];
+  brandProductCategoryOther?: string;
+  brandCatalogLinks?: string;
+  brandOperatingCountries?: string;
+  brandEmployeeCount?: string;
+  brandAchievements?: string;
+  brandCertifications: string[];
+  brandCertificationOther?: string;
+  brandPublicationsYesNo?: "Yes" | "No";
+  brandPublicationsDetails?: string;
+  brandExhibitionsYesNo?: "Yes" | "No";
+  brandExhibitionsDetails?: string;
+  brandIndustryContribution?: string;
+  brandCooperationMethods: string[];
+  brandCooperationOther?: string;
+  brandAdditionalLinks?: string;
+  brandMemberBenefits: string[];
+  brandMemberBenefitOther?: string;
+  achievementsYesNo?: "Yes" | "No";
+  achievementsDesc?: string;
+  competitionsYesNo?: "Yes" | "No";
+  competitionName?: string;
+  competitionYear?: string;
+  competitionResult?: string;
+  speakerEducatorJudge?: "Yes" | "No";
+  publicationsYesNo?: "Yes" | "No";
+  publicationsLinks?: string;
+  professionalCommunityYesNo?: "Yes" | "No";
+  otherOrganizationsYesNo?: "Yes" | "No";
+  otherOrganizationName?: string;
+  otherOrganizationStatus?: string;
+  otherOrganizationYears?: string;
+  instagramLink: string;
+  websiteLink?: string;
+  linkedinLink?: string;
+  portfolioLink?: string;
+  whyJoin: string;
+  contributionDesc: string;
+  certifyTrue: boolean;
+  understandReview: boolean;
+  agreeStandards: boolean;
+  privacyConsent: boolean;
+  additionalDocumentationConsent: boolean;
+  legalName: string;
+  signature: string;
+  promoCode: string;
+};
+
+const STEPS = [
+  { id: "category", title: { en: "Category", ru: "Категория", uk: "Категорія" }, icon: <Star size={18} /> },
+  { id: "contact", title: { en: "Contact", ru: "Контакты", uk: "Контакти" }, icon: <User size={18} /> },
+  { id: "profile", title: { en: "Profile", ru: "Профиль", uk: "Профіль" }, icon: <Briefcase size={18} /> },
+  { id: "credentials", title: { en: "Credentials", ru: "Квалификация", uk: "Кваліфікація" }, icon: <GraduationCap size={18} /> },
+  { id: "details", title: { en: "Details", ru: "Детали", uk: "Деталі" }, icon: <Globe size={18} /> },
+  { id: "motivation", title: { en: "Motivation", ru: "Мотивация", uk: "Мотивація" }, icon: <LinkIcon size={18} /> },
+  { id: "confirm", title: { en: "Confirm", ru: "Подтверждение", uk: "Підтвердження" }, icon: <FileCheck size={18} /> },
+];
+
+const specializationOptions = [
+  { value: "Brow Artist", en: "Brow Artist", ru: "Бровист", uk: "Бровіст" },
+  { value: "Lash Artist", en: "Lash Artist", ru: "Лэшмейкер", uk: "Лешмейкер" },
+  { value: "Makeup Artist", en: "Makeup Artist", ru: "Визажист", uk: "Візажист" },
+  { value: "Esthetician", en: "Esthetician", ru: "Эстетист", uk: "Естетист" },
+  { value: "PMU Artist", en: "PMU Artist", ru: "PMU-специалист", uk: "PMU-фахівець" },
+  { value: "Nail Technician", en: "Nail Technician", ru: "Нейл-специалист", uk: "Нейл-фахівець" },
+  { value: "Hair Professional", en: "Hair Professional", ru: "Парикмахер", uk: "Перукар" },
+  { value: "Cosmetologist", en: "Cosmetologist", ru: "Косметолог", uk: "Косметолог" },
+  { value: "Salon Owner", en: "Salon Owner", ru: "Владелец салона", uk: "Власник салону" },
+  { value: "Educator", en: "Educator", ru: "Преподаватель", uk: "Викладач" },
+  { value: "Beauty School", en: "Beauty School", ru: "Школа красоты", uk: "Школа краси" },
+  { value: "Distributor", en: "Distributor", ru: "Дистрибьютор", uk: "Дистриб'ютор" },
+  { value: "Other", en: "Other", ru: "Другое", uk: "Інше" },
+];
+
+const APPLY_DRAFT_KEY = "ibpa-application-draft";
+
+const BLANK_APPLICATION: Partial<FormData> = {
+  membershipCategory: "Specialist",
+  applicantType: membershipConfigById.Specialist.applicantType,
+  profilePhotoFiles: [],
+  credentialProofFiles: [],
+  portfolioImages: [],
+  trainerEducationPlanFiles: [],
+  trainerCertificateFiles: [],
+  trainerExperienceProofFiles: [],
+  businessProfilePhotoFiles: [],
+  businessProfessionalCertificationFiles: [],
+  businessSupportingDocumentFiles: [],
+  businessPortfolioImages: [],
+  businessClientTestimonialFiles: [],
+  brandReviewFiles: [],
+  brandProductFiles: [],
+  brandAchievementDocumentFiles: [],
+  brandSupportingDocumentFiles: [],
+  brandProductCategories: [],
+  brandCertifications: [],
+  brandCooperationMethods: [],
+  brandMemberBenefits: [],
+  specialization: [],
+  hasLicense: "Yes",
+  promoCode: "",
+};
+const SubmittedState = dynamic(
+  () => import("./SubmittedState").then((mod) => mod.SubmittedState),
+  { ssr: false },
+);
+const DetailsStep = dynamic(
+  () => import("./DetailsStep").then((mod) => mod.DetailsStep),
+  { ssr: false },
+);
+const MotivationStep = dynamic(
+  () => import("./MotivationStep").then((mod) => mod.MotivationStep),
+  { ssr: false },
+);
+const ConfirmStep = dynamic(
+  () => import("./ConfirmStep").then((mod) => mod.ConfirmStep),
+  { ssr: false },
+);
+
+const fieldLabels: Partial<Record<keyof FormData, { en: string; ru: string; uk: string }>> = {
+  profilePhotoFiles: { en: "Profile photo", ru: "Фото профиля", uk: "Фото профілю" },
+  credentialProofFiles: { en: "Proof documents", ru: "Подтверждающие документы", uk: "Підтверджувальні документи" },
+  portfolioImages: { en: "Portfolio images", ru: "Фото работ", uk: "Фото робіт" },
+  trainerEducationPlanFiles: { en: "Education Plan / Методичка", ru: "Методичка / план обучения", uk: "Методичка / план навчання" },
+  trainerCertificateFiles: { en: "Certificate", ru: "Сертификат", uk: "Сертифікат" },
+  trainerExperienceProofFiles: { en: "Proof of educator experience", ru: "Подтверждение преподавательского опыта", uk: "Підтвердження викладацького досвіду" },
+  membershipCategory: { en: "Membership category", ru: "Категория участия", uk: "Категорія участі" },
+  applicantType: { en: "Applicant type", ru: "Тип заявителя", uk: "Тип заявника" },
+  firstName: { en: "First name", ru: "Имя", uk: "Ім’я" },
+  lastName: { en: "Last name", ru: "Фамилия", uk: "Прізвище" },
+  dateOfBirth: { en: "Date of birth", ru: "Дата рождения", uk: "Дата народження" },
+  email: { en: "Email", ru: "Email", uk: "Email" },
+  phone: { en: "Phone number", ru: "Телефон", uk: "Телефон" },
+  citizenship: { en: "Citizenship", ru: "Гражданство", uk: "Громадянство" },
+  streetAddress: { en: "Street address", ru: "Улица и адрес", uk: "Вулиця та адреса" },
+  city: { en: "City", ru: "Город", uk: "Місто" },
+  state: { en: "State / Region", ru: "Штат / регион", uk: "Штат / регіон" },
+  zipCode: { en: "ZIP / Postal code", ru: "ZIP / индекс", uk: "ZIP / індекс" },
+  country: { en: "Country", ru: "Страна", uk: "Країна" },
+  yearsExperience: { en: "Years of experience", ru: "Опыт работы", uk: "Досвід роботи" },
+  professionalDesc: { en: "Professional resume", ru: "Профессиональное резюме", uk: "Професійне резюме" },
+  workSetting: { en: "Work setting", ru: "Формат работы", uk: "Формат роботи" },
+  placeOfWork: { en: "Place of work", ru: "Место работы", uk: "Місце роботи" },
+  workingJurisdictions: { en: "Working jurisdictions", ru: "Где вы работаете", uk: "Де ви працюєте" },
+  educationDesc: { en: "Professional training and qualifications", ru: "Профессиональная подготовка и полученные квалификации", uk: "Професійна підготовка та отримані кваліфікації" },
+  schoolName: { en: "Key educational program / lead educator", ru: "Ключевая образовательная программа / ведущий преподаватель", uk: "Ключова освітня програма / провідний викладач" },
+  educationDates: { en: "Education dates", ru: "Даты обучения", uk: "Дати навчання" },
+  hasLicense: { en: "Professional license", ru: "Профессиональная лицензия", uk: "Професійна ліцензія" },
+  licenseNumber: { en: "License number", ru: "Номер лицензии", uk: "Номер ліцензії" },
+  additionalEducation: { en: "Additional professional qualifications", ru: "Дополнительные профессиональные квалификации", uk: "Додаткові професійні кваліфікації" },
+  specialization: { en: "Subcategory / Specialization", ru: "Подкатегория / специализация", uk: "Підкатегорія / спеціалізація" },
+  specializationOther: { en: "Other specialization", ru: "Другая специализация", uk: "Інша спеціалізація" },
+  studentSchool: { en: "School / Academy", ru: "Школа / академия", uk: "Школа / академія" },
+  studentProgName: { en: "Program name", ru: "Название программы", uk: "Назва програми" },
+  studentStartDate: { en: "Start date", ru: "Дата начала", uk: "Дата початку" },
+  studentEndDate: { en: "Expected graduation", ru: "Ожидаемая дата окончания", uk: "Очікувана дата завершення" },
+  studentMotivation: { en: "Specialist motivation", ru: "Почему вы подаете заявку сейчас?", uk: "Чому ви подаєте заявку зараз?" },
+  educatorRole: { en: "Educator role", ru: "Роль преподавателя", uk: "Роль викладача" },
+  educatorSubjects: { en: "Subjects taught", ru: "Какие дисциплины вы преподаете", uk: "Які дисципліни ви викладаєте" },
+  educatorYears: { en: "Teaching years", ru: "Опыт преподавания", uk: "Досвід викладання" },
+  educatorFormat: { en: "Training format", ru: "Формат обучения", uk: "Формат навчання" },
+  studentCount: { en: "Approximate student count", ru: "Примерное число студентов", uk: "Приблизна кількість студентів" },
+  bizName: { en: "Business name", ru: "Название бизнеса", uk: "Назва бізнесу" },
+  bizType: { en: "Business type", ru: "Тип бизнеса", uk: "Тип бізнесу" },
+  bizYear: { en: "Year established", ru: "Год основания", uk: "Рік заснування" },
+  bizTeamSize: { en: "Team size", ru: "Размер команды", uk: "Розмір команди" },
+  bizServices: { en: "Main services", ru: "Основные услуги", uk: "Основні послуги" },
+  brandName: { en: "Brand / company name", ru: "Название бренда / компании", uk: "Назва бренду / компанії" },
+  brandYear: { en: "Year established", ru: "Год основания", uk: "Рік заснування" },
+  brandMarket: { en: "Market / geography", ru: "Рынок / география", uk: "Ринок / географія" },
+  brandType: { en: "Brand type", ru: "Тип бренда", uk: "Тип бренду" },
+  achievementsYesNo: { en: "Professional achievements", ru: "Профессиональные достижения", uk: "Професійні досягнення" },
+  achievementsDesc: { en: "Describe your achievements", ru: "Опишите ваши достижения", uk: "Опишіть ваші досягнення" },
+  competitionsYesNo: { en: "Competition participation", ru: "Участие в чемпионатах / конкурсах", uk: "Участь у чемпіонатах / конкурсах" },
+  competitionName: { en: "Competition name", ru: "Название конкурса", uk: "Назва конкурсу" },
+  competitionYear: { en: "Competition year", ru: "Год участия", uk: "Рік участі" },
+  competitionResult: { en: "Competition result", ru: "Результат", uk: "Результат" },
+  speakerEducatorJudge: { en: "Speaker / educator / judge", ru: "Спикер / преподаватель / судья", uk: "Спікер / викладач / суддя" },
+  publicationsYesNo: { en: "Publications and media", ru: "Публикации и медиа", uk: "Публікації та медіа" },
+  publicationsLinks: { en: "Publication links", ru: "Ссылки на публикации", uk: "Посилання на публікації" },
+  professionalCommunityYesNo: { en: "Professional community participation", ru: "Участие в профессиональном сообществе", uk: "Участь у професійній спільноті" },
+  otherOrganizationsYesNo: { en: "Other professional organizations", ru: "Другие профессиональные организации", uk: "Інші професійні організації" },
+  otherOrganizationName: { en: "Organization name", ru: "Название организации", uk: "Назва організації" },
+  otherOrganizationStatus: { en: "Membership status", ru: "Статус членства", uk: "Статус членства" },
+  otherOrganizationYears: { en: "Membership years", ru: "Годы членства", uk: "Роки членства" },
+  instagramLink: { en: "Instagram", ru: "Instagram", uk: "Instagram" },
+  websiteLink: { en: "Website link", ru: "Ссылка на сайт", uk: "Посилання на сайт" },
+  linkedinLink: { en: "LinkedIn profile", ru: "Профиль LinkedIn", uk: "Профіль LinkedIn" },
+  portfolioLink: { en: "Portfolio link", ru: "Ссылка на портфолио", uk: "Посилання на портфоліо" },
+  whyJoin: { en: "Why join IBPA", ru: "Почему вы хотите вступить в IBPA?", uk: "Чому ви хочете приєднатися до IBPA?" },
+  contributionDesc: { en: "Industry contribution", ru: "Вклад в индустрию", uk: "Внесок в індустрію" },
+  certifyTrue: { en: "Accuracy confirmation", ru: "Подтверждение точности", uk: "Підтвердження точності" },
+  understandReview: { en: "Review acknowledgement", ru: "Подтверждение понимания этапа рассмотрения", uk: "Підтвердження розуміння етапу розгляду" },
+  agreeStandards: { en: "Standards agreement", ru: "Согласие со стандартами", uk: "Згода зі стандартами" },
+  privacyConsent: { en: "Privacy consent", ru: "Согласие на обработку данных", uk: "Згода на обробку даних" },
+  legalName: { en: "Full legal name", ru: "Полное юридическое имя", uk: "Повне юридичне ім’я" },
+  signature: { en: "Electronic signature", ru: "Электронная подпись", uk: "Електронний підпис" },
+  ...organizationApplicationLabels,
+};
+
+function formatPhoneNumber(value: string) {
+  const digits = value.replace(/\D/g, "").slice(0, 11);
+
+  if (!digits) return "";
+
+  if (digits[0] === "1") {
+    const country = digits.slice(0, 1);
+    const area = digits.slice(1, 4);
+    const prefix = digits.slice(4, 7);
+    const line = digits.slice(7, 11);
+
+    if (digits.length <= 1) return `+${country}`;
+    if (digits.length <= 4) return `+${country} (${area}`;
+    if (digits.length <= 7) return `+${country} (${area}) ${prefix}`;
+    return `+${country} (${area}) ${prefix}-${line}`;
+  }
+
+  if (digits.length <= 3) return digits;
+  if (digits.length <= 6) return `${digits.slice(0, 3)} ${digits.slice(3)}`;
+  return `${digits.slice(0, 3)} ${digits.slice(3, 6)} ${digits.slice(6)}`;
+}
+
+function getPhoneDigits(value: string) {
+  return value.replace(/\D/g, "");
+}
+
+function getStepFields(step: number, category: MembershipCategory) {
+  return getFieldNamesForStep(step, category) as (keyof FormData)[];
+}
+
+function getReviewEditToken() {
+  const params = new URLSearchParams(window.location.search);
+  return (params.get("token") || params.get("review") || "").trim();
+}
+
+function isDedicatedApplicationEditRoute() {
+  return window.location.pathname === "/application/edit";
+}
+
+export type MembershipChangeContext = {
+  fromCategory: MembershipCategory;
+  toCategory: MembershipCategory;
+  /** Annual prices in cents. */
+  oldAmount: number;
+  newAmount: number;
+  balanceDue: number;
+  expiresAt?: string | null;
+  /** Answers the member already gave, re-keyed for the new package. */
+  initialValues: Record<string, unknown>;
+  backHref: string;
+  onSubmitted: () => void;
+};
+
+const CHANGE_DRAFT_PREFIX = "ibpa-membership-change-draft";
+
+export function ApplyForm({ change }: { change?: MembershipChangeContext }) {
+  const { locale } = useI18n();
+  const isRu = locale === "ru";
+  const isUk = locale === "uk";
+  const t = (en: string, ru: string, uk: string) => (isRu ? ru : isUk ? uk : en);
+  const useEnglishTypography = true;
+  const headlineClassName = useEnglishTypography
+    ? `${homeTemplateDisplay.className} font-black tracking-[-0.05em]`
+    : cyrillicDisplay.className;
+  const editorialClassName = useEnglishTypography ? "font-sans italic" : `${cyrillicEditorial.className} italic`;
+  const [currentStep, setCurrentStep] = React.useState(0);
+  const [submitted, setSubmitted] = React.useState(false);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [honeypot, setHoneypot] = React.useState("");
+  const [reviewToken, setReviewToken] = React.useState("");
+  const [isReviewEdit, setIsReviewEdit] = React.useState(false);
+  const [isReviewLoading, setIsReviewLoading] = React.useState(false);
+  const [reviewLoadError, setReviewLoadError] = React.useState("");
+  const [requestedChanges, setRequestedChanges] = React.useState("");
+  const isFinalStep = currentStep === STEPS.length - 1;
+  const draftKey = change
+    ? `${CHANGE_DRAFT_PREFIX}:${change.fromCategory}:${change.toCategory}`
+    : APPLY_DRAFT_KEY;
+  // For a membership change the form starts from what the member already gave.
+  const initialValues = React.useMemo<FormData>(() => {
+    const base = { ...BLANK_APPLICATION } as FormData;
+    if (!change) return base;
+    return {
+      ...base,
+      ...(change.initialValues as Partial<FormData>),
+      membershipCategory: change.toCategory,
+      applicantType: membershipConfigById[change.toCategory].applicantType,
+      promoCode: "",
+    };
+  }, [change]);
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    trigger,
+    reset,
+    getFieldState,
+    unregister,
+    formState: { errors },
+  } = useForm<FormData>({
+    mode: "onChange",
+    defaultValues: initialValues,
+  });
+
+  const selectedCategory = watch("membershipCategory");
+  const promoCode = watch("promoCode") || "";
+  const watchedSpecializations = watch("specialization");
+  const selectedSpecializations = Array.isArray(watchedSpecializations) ? watchedSpecializations : [];
+  const hasOtherSpecialization = selectedSpecializations.includes("Other");
+  const selectedConfig = membershipConfigById[selectedCategory] || membershipConfigById.Specialist;
+  const selectedConfigTitle = isRu ? selectedConfig.titleRu : isUk ? selectedConfig.titleUk : selectedConfig.title;
+  const selectedConfigShortTitle = isRu ? selectedConfig.shortTitleRu : isUk ? selectedConfig.shortTitleUk : selectedConfig.shortTitle;
+  const selectedConfigSummary = isRu ? selectedConfig.summaryRu : isUk ? selectedConfig.summaryUk : selectedConfig.summary;
+  const localizedApplicantType = selectedConfig.applicantType === "Individual"
+    ? (isRu ? "Частное лицо" : isUk ? "Приватна особа" : "Individual")
+    : selectedConfig.applicantType === "Business"
+      ? (isRu ? "Бизнес" : isUk ? "Бізнес" : "Business")
+      : selectedConfig.applicantType === "School"
+        ? (isRu ? "Школа" : isUk ? "Школа" : "School")
+        : (isRu ? "Бренд" : isUk ? "Бренд" : "Brand");
+
+  // Set when form values are restored programmatically (saved draft or an
+  // additional-review edit link) so the category-cleanup effect below doesn't
+  // treat the restored category as a user-driven switch and wipe the values.
+  const restoredCategoryRef = React.useRef<MembershipCategory | null>(null);
+
+  React.useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    if (!change && (getReviewEditToken() || isDedicatedApplicationEditRoute())) {
+      return;
+    }
+
+    const savedDraft = window.localStorage.getItem(draftKey);
+    if (!savedDraft) {
+      return;
+    }
+
+    try {
+      const parsedDraft = JSON.parse(savedDraft) as Partial<FormData>;
+      const draftCategory = change ? change.toCategory : getMembershipCategory(parsedDraft.membershipCategory);
+      reset(
+        {
+          ...(change
+            ? initialValues
+            : {
+              applicantType: membershipConfigById.Specialist.applicantType,
+              profilePhotoFiles: [],
+              credentialProofFiles: [],
+              portfolioImages: [],
+              trainerEducationPlanFiles: [],
+              trainerCertificateFiles: [],
+              trainerExperienceProofFiles: [],
+              specialization: [],
+              hasLicense: "Yes",
+            }),
+          ...parsedDraft,
+          membershipCategory: draftCategory || "Specialist",
+        },
+        { keepDefaultValues: true },
+      );
+      restoredCategoryRef.current = draftCategory || "Specialist";
+    } catch {
+      window.localStorage.removeItem(draftKey);
+    }
+    // Restore once on mount; later edits are saved by the watcher below.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reset]);
+
+  React.useEffect(() => {
+    if (change) return;
+    const token = getReviewEditToken();
+    if (!token) {
+      if (isDedicatedApplicationEditRoute()) {
+        setReviewLoadError("This application edit link is invalid or incomplete.");
+      }
+      return;
+    }
+
+    setReviewToken(token);
+    setIsReviewLoading(true);
+    setReviewLoadError("");
+
+    void fetch(`/api/application-review?token=${encodeURIComponent(token)}`, { cache: "no-store" })
+      .then(async (response) => {
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          throw new Error(typeof payload.error === "string" ? payload.error : "Could not load this application.");
+        }
+        if (!payload.application || typeof payload.application !== "object" || Array.isArray(payload.application)) {
+          throw new Error("Could not load this application.");
+        }
+
+        const savedApplication = payload.application as Partial<FormData>;
+        const savedCategory = getMembershipCategory(savedApplication.membershipCategory);
+        reset(
+          {
+            applicantType: membershipConfigById.Specialist.applicantType,
+            profilePhotoFiles: [],
+            credentialProofFiles: [],
+            portfolioImages: [],
+            trainerEducationPlanFiles: [],
+            trainerCertificateFiles: [],
+            trainerExperienceProofFiles: [],
+            specialization: [],
+            hasLicense: "Yes",
+            ...savedApplication,
+            membershipCategory: savedCategory || "Specialist",
+          },
+          { keepDefaultValues: true },
+        );
+        restoredCategoryRef.current = savedCategory || "Specialist";
+        setRequestedChanges(typeof payload.requestedChanges === "string" ? payload.requestedChanges : "");
+        setIsReviewEdit(true);
+      })
+      .catch((error) => {
+        setReviewLoadError(error instanceof Error ? error.message : "Could not load this application.");
+      })
+      .finally(() => setIsReviewLoading(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reset]);
+
+  React.useEffect(() => {
+    if (reviewToken || change) return;
+    const params = new URLSearchParams(window.location.search);
+    const category = getMembershipCategory(params.get("category"));
+    if (!category) {
+      return;
+    }
+
+    setValue("membershipCategory", category, { shouldDirty: false, shouldTouch: false });
+  }, [change, reviewToken, setValue]);
+
+  React.useEffect(() => {
+    setValue("applicantType", (membershipConfigById[selectedCategory] || membershipConfigById.Specialist).applicantType, {
+      shouldDirty: false,
+      shouldTouch: false,
+    });
+  }, [selectedCategory, setValue]);
+
+  const previousCategoryRef = React.useRef<MembershipCategory>(selectedCategory);
+  React.useEffect(() => {
+    const previousCategory = previousCategoryRef.current;
+    if (previousCategory === selectedCategory) {
+      return;
+    }
+    previousCategoryRef.current = selectedCategory;
+
+    const isRestoredCategory = restoredCategoryRef.current === selectedCategory;
+    restoredCategoryRef.current = null;
+    if (isRestoredCategory) {
+      return;
+    }
+
+    const previousFields = Array.from(new Set(
+      [1, 2, 3, 4, 5, 6].flatMap((step) => getStepFields(step, previousCategory)),
+    ));
+    unregister(previousFields);
+  }, [selectedCategory, unregister]);
+
+  React.useEffect(() => {
+    if (!includesSubcategorySection(selectedCategory)) {
+      setValue("specialization", [], { shouldDirty: false, shouldTouch: false, shouldValidate: false });
+      setValue("specializationOther", "", { shouldDirty: false, shouldTouch: false, shouldValidate: false });
+    }
+  }, [selectedCategory, setValue]);
+
+  React.useEffect(() => {
+    if (!hasOtherSpecialization) {
+      setValue("specializationOther", "", { shouldDirty: false, shouldTouch: false, shouldValidate: false });
+    }
+  }, [hasOtherSpecialization, setValue]);
+
+  React.useEffect(() => {
+    if (selectedCategory !== "Trainer") {
+      setValue("trainerEducationPlanFiles", [], { shouldDirty: false, shouldTouch: false, shouldValidate: false });
+      setValue("trainerCertificateFiles", [], { shouldDirty: false, shouldTouch: false, shouldValidate: false });
+      setValue("trainerExperienceProofFiles", [], { shouldDirty: false, shouldTouch: false, shouldValidate: false });
+    }
+  }, [selectedCategory, setValue]);
+
+  React.useEffect(() => {
+    const subscription = watch((value) => {
+      if (typeof window === "undefined" || submitted || reviewToken) {
+        return;
+      }
+
+      window.localStorage.setItem(draftKey, JSON.stringify(value));
+    });
+
+    return () => subscription.unsubscribe();
+  }, [draftKey, reviewToken, submitted, watch]);
+
+  const profilePhotoFiles = watch("profilePhotoFiles") || [];
+  const credentialProofFiles = watch("credentialProofFiles") || [];
+  const portfolioImages = watch("portfolioImages") || [];
+  const trainerEducationPlanFiles = watch("trainerEducationPlanFiles") || [];
+  const trainerCertificateFiles = watch("trainerCertificateFiles") || [];
+  const trainerExperienceProofFiles = watch("trainerExperienceProofFiles") || [];
+
+  React.useEffect(() => {
+    register("profilePhotoFiles", {
+      validate: (value: string[]) =>
+        selectedCategory === "Business" ||
+        (Array.isArray(value) && value.length >= 1) ||
+        (isRu ? "Загрузите фото профиля." : isUk ? "Завантажте фото профілю." : "Upload a profile photo."),
+    });
+  }, [isRu, isUk, register, selectedCategory]);
+
+  React.useEffect(() => {
+    register("credentialProofFiles", {
+      validate: (value: string[]) =>
+        !requiresProofDocuments(selectedCategory) ||
+        isOrganizationApplication(selectedCategory) ||
+        (Array.isArray(value) && value.length >= 1) ||
+        (isRu
+          ? "Загрузите хотя бы один подтверждающий документ."
+          : isUk
+            ? "Завантажте принаймні один підтверджувальний документ."
+            : "Upload at least one proof document."),
+    });
+  }, [isRu, isUk, register, selectedCategory]);
+
+  React.useEffect(() => {
+    register("portfolioImages", {
+      validate: (value: string[]) => {
+        const requiresPortfolio =
+          selectedCategory === "Specialist" ||
+          selectedCategory === "Professional" ||
+          selectedCategory === "Trainer";
+
+        if (!requiresPortfolio) {
+          return true;
+        }
+
+        if (!Array.isArray(value) || value.length < 5) {
+          return isRu
+            ? "Загрузите минимум 5 изображений примеров работ."
+            : isUk
+              ? "Завантажте щонайменше 5 зображень прикладів робіт."
+              : "Upload at least 5 sample work images.";
+        }
+
+        if (value.length > 10) {
+          return isRu
+            ? "Можно загрузить максимум 10 изображений."
+            : isUk
+              ? "Можна завантажити максимум 10 зображень."
+              : "You can upload up to 10 images.";
+        }
+
+        return true;
+      },
+    });
+  }, [isRu, isUk, register, selectedCategory]);
+
+  React.useEffect(() => {
+    register("trainerEducationPlanFiles", {
+      validate: (value: string[]) =>
+        selectedCategory !== "Trainer" ||
+        (Array.isArray(value) && value.length >= 1) ||
+        (isRu ? "Загрузите методичку или план обучения." : isUk ? "Завантажте методичку або план навчання." : "Upload an education plan / методичка."),
+    });
+    register("trainerCertificateFiles", {
+      validate: (value: string[]) =>
+        selectedCategory !== "Trainer" ||
+        (Array.isArray(value) && value.length >= 1) ||
+        (isRu ? "Загрузите сертификат." : isUk ? "Завантажте сертифікат." : "Upload a certificate."),
+    });
+    register("trainerExperienceProofFiles", {
+      validate: (value: string[]) =>
+        selectedCategory !== "Trainer" ||
+        (Array.isArray(value) && value.length >= 5) ||
+        (isRu
+          ? "Загрузите минимум 5 фото подтверждения преподавательского опыта."
+          : isUk
+            ? "Завантажте щонайменше 5 фото підтвердження викладацького досвіду."
+            : "Upload at least 5 proof photos for educator experience."),
+    });
+  }, [isRu, isUk, register, selectedCategory]);
+
+  const getFieldLabel = React.useCallback(
+    (field: keyof FormData) => {
+      const item = fieldLabels[field];
+      if (!item) return String(field);
+      return isRu ? item.ru : isUk ? item.uk : item.en;
+    },
+    [isRu, isUk],
+  );
+
+  const renderFieldError = React.useCallback(
+    (field: keyof FormData) => {
+      const message =
+        errors[field]?.message ||
+        (errors[field]?.type === "required"
+          ? isRu
+            ? "Это поле обязательно."
+            : isUk
+              ? "Це поле обов’язкове."
+              : "This field is required."
+          : undefined);
+      if (!message) {
+        return null;
+      }
+
+      return <p className="field-error">{message}</p>;
+    },
+    [errors, isRu, isUk],
+  );
+
+  const nextStep = async () => {
+    const fields = getStepFields(currentStep, selectedCategory);
+    const isValid = await trigger(fields, { shouldFocus: true });
+
+    if (!isValid) {
+      const missingFields = fields.filter((field) => getFieldState(field).invalid);
+      const missingLabelList = missingFields.map(getFieldLabel).join(", ");
+
+      toast.error(
+        isRu
+          ? `Заполните обязательные поля: ${missingLabelList}.`
+          : isUk
+            ? `Заповніть обов’язкові поля: ${missingLabelList}.`
+          : `Please complete the required fields: ${missingLabelList}.`,
+      );
+      return;
+    }
+
+    setCurrentStep((step) => Math.min(step + 1, STEPS.length - 1));
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const prevStep = () => {
+    setCurrentStep((step) => Math.max(step - 1, 0));
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const onSubmit = async (data: FormData) => {
+    if (!isFinalStep) {
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const isResubmission = Boolean(reviewToken && isReviewEdit);
+      const submissionName = data.membershipCategory === "Brand"
+        ? data.brandPrimaryContact?.trim() || data.brandName?.trim() || "Brand applicant"
+        : `${data.firstName || ""} ${data.lastName || ""}`.trim();
+      const submissionEmail = data.membershipCategory === "Brand" ? data.brandContactEmail : data.email;
+      const submissionPhone = data.membershipCategory === "Brand" ? data.brandContactPhone : data.phone;
+      const response = await fetch(
+        change ? "/api/dashboard/membership-change" : isResubmission ? "/api/application-review" : "/api/orders",
+        {
+          method: change || !isResubmission ? "POST" : "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(
+            change
+              ? { membershipCategory: change.toCategory, application: data }
+              : {
+                name: submissionName,
+                email: submissionEmail,
+                phone: submissionPhone,
+                package: data.membershipCategory,
+                applicantType: data.applicantType,
+                application: data,
+                ...(isResubmission ? { token: reviewToken } : { honeypot }),
+              },
+          ),
+        },
+      );
+
+      if (!response.ok) {
+        let message = "Failed to submit application";
+        try {
+          const payload = await response.json();
+          if (payload && typeof payload.error === "string" && payload.error.trim()) {
+            message = payload.error;
+          }
+        } catch {
+          const fallbackText = await response.text().catch(() => "");
+          if (fallbackText.trim()) {
+            message = fallbackText;
+          }
+        }
+
+        throw new Error(message);
+      }
+
+      if (change) {
+        window.localStorage.removeItem(draftKey);
+        toast.success("Request sent. We will email you if anything else is needed.");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        change.onSubmitted();
+        return;
+      }
+
+      const { default: confetti } = await import("canvas-confetti");
+      confetti({
+        particleCount: 140,
+        spread: 70,
+        origin: { y: 0.65 },
+        colors: ["#B9D9EB", "#708090", "#FFFFFF"],
+      });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      if (typeof window !== "undefined") {
+        window.localStorage.removeItem(draftKey);
+      }
+      setSubmitted(true);
+    } catch (error) {
+      console.error(error);
+      toast.error(
+        error instanceof Error && error.message.trim().length > 0
+          ? error.message
+          : "We couldn't submit your application. Please try again.",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const jumpToStep = (step: number) => {
+    setCurrentStep(Math.min(Math.max(step, 0), STEPS.length - 1));
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+  const carriedCount = change
+    ? Object.entries(change.initialValues).filter(([key, value]) =>
+        key !== "membershipCategory" && key !== "applicantType" && isApplicationFieldFilled(key, value) && value !== true).length
+    : 0;
+  const formRef = React.useRef<HTMLFormElement | null>(null);
+  const newFields = React.useMemo(
+    () => (change ? getNewApplicationFields(change.fromCategory, change.toCategory) : []),
+    [change],
+  );
+  const remainingNewFields = change
+    ? getRemainingNewFields(newFields, watch() as unknown as Record<string, unknown>)
+    : [];
+  const remainingFieldKey = remainingNewFields.map((item) => item.field).join("|");
+  const remainingByStep = (step: number) => remainingNewFields.filter((item) => item.step === step);
+
+  // Tags the inputs a member still has to fill for the new package so the form
+  // can mark them. Step content mounts lazily, so keep tagging as it appears.
+  React.useEffect(() => {
+    const root = formRef.current;
+    if (!change || !root) return;
+
+    const remaining = remainingFieldKey ? remainingFieldKey.split("|") : [];
+    const tag = () => {
+      root.querySelectorAll("[data-change-new]").forEach((element) => element.removeAttribute("data-change-new"));
+      for (const field of remaining) {
+        root.querySelectorAll(`[name="${field}"], [data-field="${field}"]`).forEach((element) => {
+          if (element instanceof HTMLInputElement && (element.type === "checkbox" || element.type === "radio")) return;
+          const wrapper = element.hasAttribute("data-field")
+            ? element
+            : element.closest(".space-y-2") ?? element.parentElement;
+          wrapper?.setAttribute("data-change-new", "true");
+        });
+      }
+    };
+
+    tag();
+    const observer = new MutationObserver(tag);
+    observer.observe(root, { childList: true, subtree: true });
+    return () => observer.disconnect();
+  }, [change, currentStep, remainingFieldKey]);
+
+  if (submitted) {
+    return (
+      <SubmittedState
+        isRu={isRu}
+        isUk={isUk}
+        headlineClassName={headlineClassName}
+        editorialClassName={editorialClassName}
+        selectedConfigShortTitle={selectedConfig.shortTitle}
+        selectedConfigTitle={selectedConfig.title}
+        localizedApplicantType={localizedApplicantType}
+        selectedPrice={selectedConfig.price}
+      />
+    );
+  }
+
+  if (isReviewLoading) {
+    return (
+      <div className="flex min-h-[60vh] items-center justify-center bg-white px-6 text-center text-slate-600">
+        Loading your application…
+      </div>
+    );
+  }
+
+  if (reviewLoadError) {
+    return (
+      <div className="flex min-h-[60vh] items-center justify-center bg-white px-6 text-center">
+        <div className="max-w-lg rounded-[28px] border border-red-100 bg-red-50 p-8 text-red-900">
+          <h1 className="text-2xl font-semibold">Application edit link unavailable</h1>
+          <p className="mt-3 text-sm leading-6">{reviewLoadError}</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-white min-h-screen selection:bg-[#B9D9EB] selection:text-black pb-24">
+      {change ? (
+        <ChangeHeader change={change} headlineClassName={headlineClassName} />
+      ) : (
+      <section className="relative min-h-[44vh] flex items-center justify-center overflow-hidden bg-[#F1F3F5]">
+        <div className="absolute inset-0">
+          <ImageWithFallback
+            src="https://images.unsplash.com/photo-1733222013409-fdf64cae08de?q=80&w=2000"
+            className="w-full h-full object-cover grayscale-[0.4] opacity-20 mix-blend-multiply"
+            alt="Application background"
+          />
+        </div>
+        <div className="relative z-10 max-w-6xl mx-auto px-6 pt-20 pb-16 text-center space-y-6">
+          <p className="text-[10px] uppercase tracking-[0.5em] text-[#708090]">{isRu ? "Заявка в сообщество" : isUk ? "Заявка до спільноти" : "Membership application"}</p>
+          <h1 className={`text-6xl sm:text-7xl md:text-9xl uppercase leading-[0.92] text-slate-900 ${headlineClassName}`}>
+            {isReviewEdit ? <>Update <span className="text-[#72A0C1]">application</span></> : isRu ? <>Подать заявку в <span className="text-[#72A0C1]">IBPA</span></> : isUk ? <>Подати заявку до <span className="text-[#72A0C1]">IBPA</span></> : <>Apply for <span className="text-[#72A0C1]">IBPA</span></>}
+          </h1>
+          <p className="max-w-3xl mx-auto text-lg md:text-xl text-slate-600 font-light leading-relaxed">
+            {isRu
+              ? "Выберите тариф или пакет участия, пройдите соответствующие этапы рассмотрения и отправьте профиль, который соответствует вашей роли в бьюти-индустрии."
+              : isUk
+                ? "Оберіть тариф або пакет участі, пройдіть відповідні етапи розгляду й надішліть профіль, що відповідає вашій ролі в б’юті-індустрії."
+              : "Choose your membership category, complete the relevant review steps, and submit a profile that matches your role in the beauty industry."}
+          </p>
+        </div>
+      </section>
+      )}
+
+      <div className={`max-w-6xl mx-auto px-6 relative z-20 ${change ? "-mt-10" : "-mt-12"}`}>
+        {isReviewEdit ? (
+          <div className="mb-6 rounded-[28px] border border-[#B9D9EB] bg-[#F0F8FF] p-6 text-slate-800 shadow-sm">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#1F5D8F]">Requested changes</p>
+            <p className="mt-3 whitespace-pre-wrap text-sm leading-6">{requestedChanges}</p>
+            <p className="mt-3 text-sm text-slate-600">Update any part of your application, including files, then submit it for another review.</p>
+          </div>
+        ) : null}
+        <div className="bg-white/90 backdrop-blur-xl border border-slate-100 rounded-[40px] shadow-2xl p-4 md:p-8 flex justify-between gap-3 overflow-x-auto no-scrollbar">
+          {STEPS.map((step, index) => (
+            <div key={step.id} className="flex flex-col items-center gap-2 min-w-20">
+              <div
+                className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
+                  index === currentStep
+                    ? "bg-black text-white scale-110 shadow-lg"
+                    : index < currentStep
+                      ? "bg-[#B9D9EB] text-white"
+                      : "bg-slate-100 text-slate-300"
+                }`}
+              >
+                {index < currentStep ? <CheckCircle2 size={18} /> : step.icon}
+              </div>
+              <span className={`hidden md:block text-[10px] font-bold uppercase tracking-widest ${index === currentStep ? "text-black" : "text-slate-400"}`}>
+                {change && index === 0 ? "Your change" : isRu ? step.title.ru : isUk ? step.title.uk : step.title.en}
+              </span>
+              {change && remainingByStep(index).length > 0 ? (
+                <span className="-mt-1 rounded-full bg-[#EAF4FB] px-2 py-0.5 text-[10px] font-bold tabular-nums text-[#1F5D8F]">
+                  {remainingByStep(index).length} new
+                </span>
+              ) : null}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="max-w-6xl mx-auto px-6 mt-12 md:mt-20 grid lg:grid-cols-[minmax(0,1fr)_320px] gap-8 items-start">
+        <form
+          ref={formRef}
+          onSubmit={(event) => {
+            event.preventDefault();
+          }}
+          onKeyDown={(event) => {
+            if (
+              event.key === "Enter" &&
+              !(event.target instanceof HTMLTextAreaElement)
+            ) {
+              event.preventDefault();
+            }
+          }}
+          className="space-y-12 bg-[#F1F3F5] p-8 md:p-14 rounded-[56px] border border-slate-200 shadow-sm"
+        >
+          <div className="hidden" aria-hidden="true">
+            <label htmlFor="company-website">Company website</label>
+            <input
+              id="company-website"
+              type="text"
+              tabIndex={-1}
+              autoComplete="off"
+              value={honeypot}
+              onChange={(event) => setHoneypot(event.target.value)}
+            />
+          </div>
+
+          {change && currentStep >= 1 && currentStep <= 5 && remainingByStep(currentStep).length > 0 ? (
+            <div role="note" className="rounded-[28px] border border-[#B9D9EB] bg-white p-5">
+              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#1F5D8F]">
+                New for {membershipConfigById[change.toCategory].shortTitle} on this step
+              </p>
+              <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                {remainingByStep(currentStep).map((item) => getFieldLabel(item.field as keyof FormData)).join(", ")}
+              </p>
+            </div>
+          ) : null}
+
+          <AnimatePresence mode="wait">
+            {currentStep >= 1 && currentStep <= 5 && isOrganizationApplication(selectedCategory) && (
+              <OrganizationApplicationStep
+                step={currentStep}
+                selectedCategory={selectedCategory}
+                isRu={isRu}
+                isUk={isUk}
+                headlineClassName={headlineClassName}
+                editorialClassName={editorialClassName}
+                register={register}
+                watch={watch}
+                setValue={setValue}
+                renderFieldError={renderFieldError}
+              />
+            )}
+            {currentStep === 0 && change && (
+              <ChangeOverviewStep
+                change={change}
+                headlineClassName={headlineClassName}
+                editorialClassName={editorialClassName}
+                carriedCount={carriedCount}
+                newFields={newFields}
+                remaining={remainingNewFields}
+                stepTitles={STEPS.map((step) => step.title)}
+                labelFor={(field) => getFieldLabel(field as keyof FormData)}
+                onJump={jumpToStep}
+              />
+            )}
+            {currentStep === 0 && !change && (
+              <motion.div key="category" initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -16 }} className="space-y-10">
+                <div className="space-y-3">
+                  <h2 className={`text-3xl md:text-4xl uppercase tracking-tight text-slate-900 ${headlineClassName}`}>{isRu ? "Выберите тариф или пакет" : isUk ? "Оберіть тариф або пакет" : "Choose your membership path"}</h2>
+                  <p className={`text-slate-500 ${editorialClassName}`}>
+                    {isRu
+                      ? "Начните с категории, которая лучше всего отражает вашу текущую роль. Мы адаптируем следующие шаги заявки под нее."
+                      : isUk
+                        ? "Почніть із категорії, яка найкраще відображає вашу поточну роль. Ми адаптуємо наступні кроки заявки під неї."
+                      : "Start with the category that best reflects your current role. We will adapt the next steps of the application accordingly."}
+                  </p>
+                </div>
+
+                <div className="grid gap-3">
+                  {membershipConfigs.map((config) => (
+                    <label
+                      key={config.id}
+                      className={`block rounded-[26px] border-2 p-4 md:p-5 cursor-pointer transition-all ${
+                        selectedCategory === config.id
+                          ? "bg-white border-[#B9D9EB] shadow-lg"
+                          : "border-slate-200 bg-transparent hover:border-[#B9D9EB]/50"
+                      }`}
+                    >
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="flex gap-3">
+                          <input
+                            type="radio"
+                            value={config.id}
+                            {...register("membershipCategory", { required: true })}
+                            className="mt-1 w-4 h-4 accent-black"
+                          />
+                          <div className="space-y-1.5">
+                            <p className={`text-xl md:text-2xl uppercase leading-none text-slate-900 ${headlineClassName}`}>{isRu ? config.titleRu : isUk ? config.titleUk : config.title}</p>
+                            <p className="text-xs md:text-sm text-slate-500 leading-relaxed max-w-2xl">{isRu ? config.summaryRu : isUk ? config.summaryUk : config.summary}</p>
+                            <p className="text-[9px] md:text-[10px] uppercase tracking-[0.2em] font-bold text-slate-400">
+                              {isRu ? "Тип заявки" : isUk ? "Тип заявки" : "Application type"}: {config.applicantType === "Individual" ? (isRu ? "Частное лицо" : isUk ? "Приватна особа" : "Individual") : config.applicantType === "Business" ? (isRu ? "Бизнес" : isUk ? "Бізнес" : "Business") : config.applicantType === "School" ? (isRu ? "Школа" : isUk ? "Школа" : "School") : (isRu ? "Бренд" : isUk ? "Бренд" : "Brand")}
+                            </p>
+                          </div>
+                        </div>
+                            <p className={`shrink-0 text-2xl leading-none text-[#72A0C1] md:text-3xl ${headlineClassName}`}>{config.price}</p>
+                      </div>
+                    </label>
+                  ))}
+                </div>
+
+                <div className="rounded-[32px] bg-white p-6 border border-slate-100">
+                  <p className="text-[10px] uppercase tracking-widest font-bold text-[#708090]">{isRu ? "Что происходит после отправки" : isUk ? "Що відбувається після надсилання" : "What happens after submission"}</p>
+                  <p className="mt-3 text-slate-600 leading-relaxed">
+                    {isRu
+                      ? "Вашу заявку рассматривает комиссия по отбору. Если она будет одобрена, мы отправим вам инструкции по оплате и активации на электронную почту. В этом процессе нет лишних промежуточных шагов."
+                      : isUk
+                        ? "Вашу заявку розглядає комісія з відбору. Якщо її буде схвалено, ми надішлемо вам інструкції щодо оплати та активації електронною поштою. У цьому процесі немає зайвих проміжних кроків."
+                      : "Your application is reviewed by the Membership Review Board. If approved, we email you the next activation and payment instructions. There are no extra detours in this flow."}
+                  </p>
+                </div>
+              </motion.div>
+            )}
+
+            {currentStep === 1 && !isOrganizationApplication(selectedCategory) && (
+              <motion.div key="contact" initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -16 }} className="space-y-10">
+                <div className="space-y-3">
+                  <h2 className={`text-3xl md:text-4xl uppercase tracking-tight text-slate-900 ${headlineClassName}`}>Applicant contact details</h2>
+                  <p className={`text-slate-500 ${editorialClassName}`}>Use the person or company contact details that should receive review updates.</p>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-8">
+                  <div className="space-y-2">
+                    <label className="field-label">First Name *</label>
+                    <input {...register("firstName", { required: isRu ? "Введите имя." : isUk ? "Введіть ім’я." : "Enter your first name." })} className="form-input" placeholder="First name" />
+                    {renderFieldError("firstName")}
+                  </div>
+                  <div className="space-y-2">
+                    <label className="field-label">Last Name *</label>
+                    <input {...register("lastName", { required: isRu ? "Введите фамилию." : isUk ? "Введіть прізвище." : "Enter your last name." })} className="form-input" placeholder="Last name" />
+                    {renderFieldError("lastName")}
+                  </div>
+                  {(selectedCategory === "Specialist" || selectedCategory === "Professional" || selectedCategory === "Trainer") && (
+                    <div className="space-y-2">
+                      <label className="field-label">Date of Birth *</label>
+                      <input
+                        type="date"
+                        {...register("dateOfBirth", {
+                          required: isRu ? "Введите дату рождения." : isUk ? "Введіть дату народження." : "Enter your date of birth.",
+                        })}
+                        className="form-input"
+                      />
+                      {renderFieldError("dateOfBirth")}
+                    </div>
+                  )}
+                  <div className="space-y-2">
+                    <label className="field-label">Email Address *</label>
+                    <input
+                      type="email"
+                      inputMode="email"
+                      autoComplete="email"
+                      {...register("email", {
+                        required: isRu ? "Введите email." : isUk ? "Введіть email." : "Enter your email.",
+                        pattern: {
+                          value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                          message: isRu ? "Введите корректный email." : isUk ? "Введіть коректний email." : "Enter a valid email address.",
+                        },
+                        setValueAs: (value: string) => value.trim().toLowerCase(),
+                      })}
+                      className="form-input"
+                      placeholder="email@example.com"
+                    />
+                    {renderFieldError("email")}
+                  </div>
+                  <div className="space-y-2">
+                    <label className="field-label">Phone Number *</label>
+                    <input
+                      type="tel"
+                      inputMode="numeric"
+                      autoComplete="tel"
+                      {...register("phone", {
+                        required: isRu ? "Введите номер телефона." : isUk ? "Введіть номер телефону." : "Enter your phone number.",
+                        validate: (value) =>
+                          getPhoneDigits(value).length >= 10 || (isRu ? "Введите корректный номер телефона." : isUk ? "Введіть коректний номер телефону." : "Enter a valid phone number."),
+                        onChange: (event) => {
+                          event.target.value = formatPhoneNumber(event.target.value);
+                        },
+                      })}
+                      className="form-input"
+                      placeholder="+1 (234) 567-8901"
+                    />
+                    {renderFieldError("phone")}
+                  </div>
+                  <div className="space-y-2">
+                    <label className="field-label">Citizenship *</label>
+                    <select {...register("citizenship", { required: isRu ? "Выберите гражданство." : isUk ? "Оберіть громадянство." : "Select your citizenship." })} className="form-input appearance-none">
+                      <option value="">Select country</option>
+                      {countryOptions.map((country) => (
+                        <option key={country} value={country}>
+                          {country}
+                        </option>
+                      ))}
+                    </select>
+                    {renderFieldError("citizenship")}
+                  </div>
+                  <div className="space-y-2">
+                    <label className="field-label">Country *</label>
+                    <select {...register("country", { required: isRu ? "Выберите страну проживания." : isUk ? "Оберіть країну проживання." : "Select your country of residence." })} className="form-input appearance-none">
+                      <option value="">Select country</option>
+                      {countryOptions.map((country) => (
+                        <option key={country} value={country}>
+                          {country}
+                        </option>
+                      ))}
+                    </select>
+                    {renderFieldError("country")}
+                  </div>
+                  <div className="space-y-2 md:col-span-2">
+                    <label className="field-label">Street Address</label>
+                    <input {...register("streetAddress")} className="form-input" placeholder="Street address" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="field-label">City *</label>
+                    <input {...register("city", { required: isRu ? "Введите город." : isUk ? "Введіть місто." : "Enter your city." })} className="form-input" placeholder="City" />
+                    {renderFieldError("city")}
+                  </div>
+                  <div className="space-y-2">
+                    <label className="field-label">State / Region</label>
+                    <input {...register("state")} className="form-input" placeholder="State / region" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="field-label">ZIP / Postal Code</label>
+                    <input {...register("zipCode")} className="form-input" placeholder="ZIP / postal code" />
+                  </div>
+                  <ProfilePhotoUploadField
+                    label={t("Profile photo", "Фото профиля", "Фото профілю")}
+                    description={t(
+                      "Upload a clear, professional headshot. It represents you to the Membership Review Board and on your member profile.",
+                      "Загрузите четкий профессиональный портрет. Он представляет вас комиссии по отбору и в профиле участника.",
+                      "Завантажте чіткий професійний портрет. Він представляє вас комісії з відбору та в профілі учасника.",
+                    )}
+                    value={profilePhotoFiles}
+                    onChange={(urls) => {
+                      setValue("profilePhotoFiles", urls, {
+                        shouldDirty: true,
+                        shouldTouch: true,
+                        shouldValidate: true,
+                      });
+                    }}
+                    error={renderFieldError("profilePhotoFiles")}
+                  />
+                </div>
+              </motion.div>
+            )}
+
+            {currentStep === 2 && !isOrganizationApplication(selectedCategory) && (
+              <motion.div key="profile" initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -16 }} className="space-y-10">
+                <div className="space-y-3">
+                  <h2 className={`text-3xl md:text-4xl uppercase tracking-tight text-slate-900 ${headlineClassName}`}>Professional snapshot</h2>
+                  <p className={`text-slate-500 ${editorialClassName}`}>This gives the board a quick picture of your current role and level of activity.</p>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-8">
+                  {includesSubcategorySection(selectedCategory) && (
+                    <div className="md:col-span-2 rounded-[24px] border border-[#B9D9EB]/50 bg-white/80 p-5">
+                      <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#708090]">
+                        {t("Specialization", "Специализация", " Спеціалізація")} *
+                      </p>
+                      <div className="mt-5 grid gap-2 md:grid-cols-2">
+                        {specializationOptions.map((option) => (
+                          <label
+                            key={option.value}
+                            className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white p-3 text-sm text-slate-700 transition-colors hover:border-[#B9D9EB]"
+                          >
+                            <input
+                              type="checkbox"
+                              value={option.value}
+                              {...register("specialization", {
+                                validate: (value) =>
+                                  !includesSubcategorySection(selectedCategory) ||
+                                  (Array.isArray(value) && value.length > 0) ||
+                                  t("Select at least one specialization.", "Выберите хотя бы одну специализацию.", "Оберіть хоча б одну спеціалізацію."),
+                              })}
+                              className="accent-black"
+                            />
+                            <span>{option.en}</span>
+                          </label>
+                        ))}
+                      </div>
+                      {renderFieldError("specialization")}
+
+                      {hasOtherSpecialization && (
+                        <div className="mt-5 space-y-2">
+                          <label className="field-label">
+                            {t("Other specialization", "Другая специализация", "Інша спеціалізація")} *
+                          </label>
+                          <input
+                            {...register("specializationOther", {
+                              validate: (value) =>
+                                !hasOtherSpecialization ||
+                                !!value?.trim() ||
+                                t("Enter your specialization.", "Укажите вашу специализацию.", "Вкажіть вашу спеціалізацію."),
+                            })}
+                            className="form-input"
+                            placeholder={t("Describe your specialization", "Опишите вашу специализацию", "Опишіть вашу спеціалізацію")}
+                          />
+                          {renderFieldError("specializationOther")}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  <div className="space-y-2">
+                    <label className="field-label">Years of Experience *</label>
+                    <select {...register("yearsExperience", { required: true })} className="form-input appearance-none">
+                      <option value="">Select range</option>
+                      <option value="<1">Less than 1 year</option>
+                      <option value="1-2">1-2 years</option>
+                      <option value="3-5">3-5 years</option>
+                      <option value="5-10">5-10 years</option>
+                      <option value="10+">10+ years</option>
+                    </select>
+                    {renderFieldError("yearsExperience")}
+                  </div>
+                  <div className="space-y-2">
+                    <label className="field-label">Work Setting *</label>
+                    <select {...register("workSetting", { required: true })} className="form-input appearance-none">
+                      <option value="">Select setting</option>
+                      <option value="Independent">Independent</option>
+                      <option value="Salon / Studio">Salon / Studio</option>
+                      <option value="Academy / School">Academy / School</option>
+                      <option value="Brand / Company">Brand / Company</option>
+                      <option value="Other">Other</option>
+                    </select>
+                    {renderFieldError("workSetting")}
+                  </div>
+                  <div className="space-y-2">
+                    <label className="field-label">Place of Work</label>
+                    <input {...register("placeOfWork")} className="form-input" placeholder="Salon, academy, or company name" />
+                  </div>
+                  <div className="space-y-2 md:col-span-2">
+                    <label className="field-label">Professional Resume *</label>
+                    <textarea
+                      {...register("professionalDesc", { required: isRu ? "Добавьте профессиональное резюме." : isUk ? "Додайте професійне резюме." : "Add your professional resume." })}
+                      rows={4}
+                      className="form-input"
+                      placeholder="Describe your professional activity, specialization, training (if any), achievements, and contribution to the beauty industry. Please provide a clear and detailed description of your experience and work.
+"
+                    />
+                    {renderFieldError("professionalDesc")}
+                  </div>
+                  <div className="space-y-2 md:col-span-2">
+                    <label className="field-label">Working Jurisdictions *</label>
+                    <input {...register("workingJurisdictions", { required: true })} className="form-input" placeholder="Countries, states, or markets where you actively work" />
+                    {renderFieldError("workingJurisdictions")}
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
+            {currentStep === 3 && !isOrganizationApplication(selectedCategory) && (
+              <motion.div key="credentials" initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -16 }} className="space-y-10">
+                <div className="space-y-3">
+                  <h2 className={`text-3xl md:text-4xl uppercase tracking-tight text-slate-900 ${headlineClassName}`}>Education and qualifications</h2>
+                  <p className={`text-slate-500 ${editorialClassName}`}>Share the education or credentials that support your application.</p>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-8">
+                  <div className="space-y-2 md:col-span-2">
+                    <label className="field-label">Professional training and qualifications earned *</label>
+                    <textarea
+                      {...register("educationDesc", { required: isRu ? "Добавьте сведения о подготовке и квалификациях." : isUk ? "Додайте відомості про підготовку та кваліфікації." : "Add your professional training and qualifications." })}
+                      rows={4}
+                      className="form-input"
+                      placeholder="List educational programs, courses, training with educators, and any certificates or qualifications you have earned"
+                    />
+                    {renderFieldError("educationDesc")}
+                  </div>
+                  <div className="space-y-2">
+                    <label className="field-label">Key educational program / lead educator</label>
+                    <input
+                      {...register("schoolName")}
+                      className="form-input"
+                      placeholder="Name the most influential training program, academy, or educator in your professional development"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="field-label">Education Dates</label>
+                    <input {...register("educationDates")} className="form-input" placeholder="Example: 2021-2023" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="field-label">Professional License *</label>
+                    <select {...register("hasLicense", { required: true })} className="form-input appearance-none">
+                      <option value="Yes">Yes, licensed</option>
+                      <option value="No">No, not licensed</option>
+                      <option value="Not required">Not required in my jurisdiction</option>
+                    </select>
+                    {renderFieldError("hasLicense")}
+                  </div>
+                  <div className="space-y-2">
+                    <label className="field-label">License Number{requiresLicenseNumber(selectedCategory) ? " *" : ""}</label>
+                    <input
+                      {...register("licenseNumber", {
+                        validate: (value) =>
+                          !requiresLicenseNumber(selectedCategory) ||
+                          !!value?.trim() ||
+                          (isRu ? "Укажите номер лицензии." : isUk ? "Вкажіть номер ліцензії." : "Enter your license number."),
+                      })}
+                      className="form-input"
+                      placeholder="License number if applicable"
+                    />
+                    {renderFieldError("licenseNumber")}
+                  </div>
+                  <div className="space-y-2 md:col-span-2">
+                    <label className="field-label">Additional professional qualifications</label>
+                    <textarea
+                      {...register("additionalEducation")}
+                      rows={3}
+                      className="form-input"
+                      placeholder="List any additional courses, masterclasses, training, certifications, and professional programs that strengthened your skills"
+                    />
+                  </div>
+                  <ApplicationFileUploadField
+                    endpoint="applicationDocumentUploader"
+                    label={t("Proof documents", "Подтверждающие документы", "Підтверджувальні документи")}
+                    description={
+                      requiresProofDocuments(selectedCategory)
+                        ? t(
+                            "Upload documents that confirm the training, qualifications, and license you listed above. PDF, DOC, DOCX, or image files, up to 10.",
+                            "Загрузите документы, подтверждающие указанные выше обучение, квалификации и лицензию. PDF, DOC, DOCX или изображения, до 10 файлов.",
+                            "Завантажте документи, що підтверджують зазначені вище навчання, кваліфікації та ліцензію. PDF, DOC, DOCX або зображення, до 10 файлів.",
+                          )
+                        : t(
+                            "Optional for Specialist membership. If you already have documents that confirm your training, add them here. PDF, DOC, DOCX, or image files, up to 10.",
+                            "Необязательно для категории Specialist. Если у вас уже есть документы, подтверждающие обучение, добавьте их здесь. PDF, DOC, DOCX или изображения, до 10 файлов.",
+                            "Необов’язково для категорії Specialist. Якщо у вас уже є документи, що підтверджують навчання, додайте їх тут. PDF, DOC, DOCX або зображення, до 10 файлів.",
+                          )
+                    }
+                    examples={[
+                      t("Certificates", "Сертификаты", "Сертифікати"),
+                      t("Diplomas", "Дипломы", "Дипломи"),
+                      t("Professional licenses", "Профессиональные лицензии", "Професійні ліцензії"),
+                      t("Proof of education", "Подтверждение образования", "Підтвердження освіти"),
+                      t("Course completion records", "Документы о прохождении курсов", "Документи про проходження курсів"),
+                    ]}
+                    value={credentialProofFiles}
+                    onChange={(urls) => {
+                      setValue("credentialProofFiles", urls, {
+                        shouldDirty: true,
+                        shouldTouch: true,
+                        shouldValidate: true,
+                      });
+                    }}
+                    accept=".pdf,.doc,.docx,image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                    chooseLabel={t("Choose files", "Выбрать файлы", "Обрати файли")}
+                    multiple
+                    maxFiles={10}
+                    required={requiresProofDocuments(selectedCategory)}
+                    error={renderFieldError("credentialProofFiles")}
+                  />
+                </div>
+              </motion.div>
+            )}
+
+            {currentStep === 4 && !isOrganizationApplication(selectedCategory) && (
+              <DetailsStep
+                isRu={isRu}
+                isUk={isUk}
+                headlineClassName={headlineClassName}
+                editorialClassName={editorialClassName}
+                selectedCategory={selectedCategory}
+                detailTitle={isRu ? selectedConfig.detailTitleRu : isUk ? selectedConfig.detailTitleUk : selectedConfig.detailTitle}
+                detailDescription={isRu ? selectedConfig.detailDescriptionRu : isUk ? selectedConfig.detailDescriptionUk : selectedConfig.detailDescription}
+                register={register}
+                watch={watch}
+                renderFieldError={renderFieldError}
+                portfolioImages={portfolioImages}
+                onPortfolioImagesChange={(urls) => {
+                  setValue("portfolioImages", urls, {
+                    shouldDirty: true,
+                    shouldTouch: true,
+                    shouldValidate: true,
+                  });
+                }}
+                trainerEducationPlanFiles={trainerEducationPlanFiles}
+                onTrainerEducationPlanFilesChange={(urls) => {
+                  setValue("trainerEducationPlanFiles", urls, {
+                    shouldDirty: true,
+                    shouldTouch: true,
+                    shouldValidate: true,
+                  });
+                }}
+                trainerCertificateFiles={trainerCertificateFiles}
+                onTrainerCertificateFilesChange={(urls) => {
+                  setValue("trainerCertificateFiles", urls, {
+                    shouldDirty: true,
+                    shouldTouch: true,
+                    shouldValidate: true,
+                  });
+                }}
+                trainerExperienceProofFiles={trainerExperienceProofFiles}
+                onTrainerExperienceProofFilesChange={(urls) => {
+                  setValue("trainerExperienceProofFiles", urls, {
+                    shouldDirty: true,
+                    shouldTouch: true,
+                    shouldValidate: true,
+                  });
+                }}
+              />
+            )}
+
+            {currentStep === 5 && !isOrganizationApplication(selectedCategory) && (
+              <MotivationStep
+                isRu={isRu}
+                isUk={isUk}
+                headlineClassName={headlineClassName}
+                editorialClassName={editorialClassName}
+                selectedCategory={selectedCategory}
+                register={register}
+                watch={watch}
+                renderFieldError={renderFieldError}
+              />
+            )}
+
+            {currentStep === 6 && (
+              <ConfirmStep
+                isRu={isRu}
+                isUk={isUk}
+                headlineClassName={headlineClassName}
+                editorialClassName={editorialClassName}
+                selectedConfigTitle={selectedConfigTitle}
+                localizedApplicantType={localizedApplicantType}
+                selectedPrice={selectedConfig.price}
+                selectedCategory={selectedCategory}
+                register={register}
+                renderFieldError={renderFieldError}
+                promoCode={promoCode}
+                onPromoCodeApplied={(code) =>
+                  setValue("promoCode", code, { shouldDirty: true })
+                }
+                onPromoCodeCleared={() => setValue("promoCode", "", { shouldDirty: true })}
+                hidePromoCode={Boolean(change)}
+              />
+            )}
+          </AnimatePresence>
+
+          <div className="flex justify-between gap-4 pt-10 border-t border-slate-200">
+            {currentStep > 0 ? (
+              <button type="button" onClick={prevStep} className="px-8 py-4 border border-slate-200 rounded-full text-xs font-bold uppercase tracking-widest text-slate-900 flex items-center gap-3 hover:bg-white transition-all">
+                <ChevronLeft size={16} /> {isRu ? "Назад" : isUk ? "Назад" : "Back"}
+              </button>
+            ) : (
+              <Link href={change ? change.backHref : "/membership"} className="px-8 py-4 border border-slate-200 rounded-full text-xs font-bold uppercase tracking-widest text-slate-900">
+                {change ? "Back to billing" : isRu ? "Назад к сообществу" : isUk ? "Назад до спільноти" : "Back to Membership"}
+              </Link>
+            )}
+
+            {!isFinalStep ? (
+              <button type="button" onClick={nextStep} className="ml-auto px-10 py-5 bg-black text-white rounded-full text-xs font-bold uppercase tracking-widest flex items-center gap-3 hover:scale-105 transition-all shadow-xl">
+                {isRu ? "Продолжить" : isUk ? "Продовжити" : "Continue"} <ChevronRight size={16} />
+              </button>
+            ) : (
+              <button
+                type="button"
+                disabled={isSubmitting}
+                onClick={() => {
+                  void handleSubmit(onSubmit)();
+                }}
+                className="ml-auto px-12 py-6 bg-[#B9D9EB] text-black rounded-full text-xs font-bold uppercase tracking-widest flex items-center gap-4 hover:scale-105 transition-all shadow-2xl disabled:opacity-60"
+              >
+                {isSubmitting ? (isRu ? "Отправка..." : isUk ? "Надсилання..." : "Submitting...") : (change ? "Send for review" : isReviewEdit ? "Resubmit Application" : isRu ? "Отправить заявку" : isUk ? "Надіслати заявку" : "Submit Application")} <Send size={18} />
+              </button>
+            )}
+          </div>
+        </form>
+
+        <aside className="space-y-6 sticky top-28">
+          {change ? (
+            <ChangeSidebar
+              change={change}
+              remaining={remainingNewFields}
+              labelFor={(field) => getFieldLabel(field as keyof FormData)}
+              onJump={jumpToStep}
+            />
+          ) : (
+          <>
+          <div className="rounded-[36px] bg-white border border-slate-100 p-8 shadow-sm">
+            <p className="text-[10px] uppercase tracking-[0.4em] font-bold text-[#708090]">{isRu ? "Выбранный тариф" : isUk ? "Обраний тариф" : "Selected membership"}</p>
+            <h3 className={`mt-4 text-3xl uppercase text-slate-900 ${headlineClassName}`}>{selectedConfigTitle}</h3>
+            <p className={`mt-3 text-lg text-[#72A0C1] ${headlineClassName}`}>{selectedConfig.price}</p>
+            <p className="mt-4 text-sm leading-relaxed text-slate-600">{selectedConfigSummary}</p>
+            <p className="mt-5 text-[10px] uppercase tracking-widest font-bold text-slate-400">{isRu ? "Тип заявки" : isUk ? "Тип заявки" : "Applicant type"}: {localizedApplicantType}</p>
+          </div>
+
+          <div className="rounded-[36px] bg-white border border-slate-100 p-8 shadow-sm">
+            <p className="text-[10px] uppercase tracking-[0.4em] font-bold text-[#708090]">{isRu ? "Нужна другая категория?" : isUk ? "Потрібна інша категорія?" : "Need another category?"}</p>
+            <div className="mt-5 space-y-3">
+              {membershipConfigs.filter((config) => config.id !== selectedCategory).map((config) => (
+                <Link key={config.id} href={buildApplyHref(config.id)} className="block text-sm font-medium text-slate-500 hover:text-black transition-colors">
+                  {isRu ? config.titleRu : isUk ? config.titleUk : config.title}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-[36px] bg-[#F8FBFD] border border-slate-100 p-8">
+            <div className="flex items-start gap-4">
+              <ShieldCheck size={24} className="text-[#72A0C1] shrink-0 mt-1" />
+              <div className="space-y-3">
+                <p className="text-sm font-bold uppercase tracking-widest text-slate-900">{isRu ? "Процесс рассмотрения" : isUk ? "Процес розгляду" : "Review process"}</p>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  {isRu
+                    ? "Вы отправляете анкету один раз. Мы рассматриваем её один раз. Если заявка одобрена, следующий шаг — оплата и активация по электронной почте. Без лишней цепочки редиректов и без дублирующих форм."
+                    : isUk
+                      ? "Ви надсилаєте анкету один раз. Ми розглядаємо її один раз. Якщо заявку схвалено, наступний крок — оплата й активація електронною поштою. Без зайвого ланцюжка редиректів і без дублюючих форм."
+                    : "Submit once. We review once. If approved, the next step is payment and activation by email. No extra redirect chain, no duplicate form."}
+                </p>
+              </div>
+            </div>
+          </div>
+          </>
+          )}
+        </aside>
+      </div>
+
+      <style>{`
+        .field-label {
+          font-size: 10px;
+          text-transform: uppercase;
+          letter-spacing: 0.2em;
+          font-weight: 700;
+          color: rgb(100 116 139);
+        }
+
+        .form-input {
+          width: 100%;
+          background-color: white;
+          padding: 1rem 1.25rem;
+          border-radius: 1.25rem;
+          border: 1px solid rgba(185, 217, 235, 0.22);
+          font-family: serif;
+          font-style: italic;
+          transition: all 0.25s ease;
+          outline: none;
+        }
+
+        .form-input:focus {
+          border-color: #B9D9EB;
+          box-shadow: 0 0 0 4px rgba(185, 217, 235, 0.12);
+        }
+
+        .space-y-2:has(.field-error) .field-label {
+          color: rgb(220 38 38);
+        }
+
+        .space-y-2:has(.field-error) .form-input {
+          border-color: rgba(220, 38, 38, 0.45);
+          box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.08);
+          background-color: rgba(254, 242, 242, 0.9);
+        }
+
+        .field-error {
+          font-size: 12px;
+          color: rgb(220 38 38);
+          line-height: 1.4;
+        }
+
+        [data-change-new="true"] .field-label:first-of-type::after {
+          content: "New";
+          margin-left: 0.6rem;
+          padding: 0.15rem 0.5rem;
+          border-radius: 999px;
+          background: #eaf4fb;
+          color: #1f5d8f;
+          letter-spacing: 0.14em;
+        }
+
+        [data-change-new="true"] .form-input {
+          border-color: #72a0c1;
+          background-color: #f6fbff;
+        }
+
+        [data-change-new="true"][data-field] {
+          border-radius: 32px;
+          outline: 2px solid rgba(114, 160, 193, 0.45);
+          outline-offset: 10px;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+
+        .no-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
+    </div>
+  );
+}

@@ -25,7 +25,10 @@ import { adminClerkMiddleware, requireAdminAccess } from "../services/admin";
 import { createRateLimiter, getClientAddress } from "../lib/rate-limit";
 import { ensureCanonicalUser } from "../features/users/server/user.service";
 import { upsertCanonicalApplication, findCanonicalApplicationById, upsertCanonicalApplicationFile, deleteCanonicalApplicationFilesExcept, deleteCanonicalApplicationAggregate, listCanonicalApplicationFileRecords } from "../features/applications/server/application.repository";
-import { validateApplicationRequirements } from "../features/applications/server/application-requirements";
+import {
+  validateApplicationRequirements,
+  validateOrganizationApplication,
+} from "../features/applications/server/application-requirements";
 import { upsertCanonicalPayment } from "../features/payments/server/payment.repository";
 import { upsertCanonicalMembership } from "../features/memberships/server/membership.repository";
 import { upsertCanonicalCertificate } from "../features/certificates/server/certificate.repository";
@@ -243,129 +246,6 @@ function textValue(value: unknown) {
   if (typeof value === "string") return value.trim();
   if (typeof value === "number") return String(value);
   return "";
-}
-
-function humanizeApplicationField(field: string) {
-  return field
-    .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
-    .replace(/^./, (character) => character.toUpperCase());
-}
-
-function validateOrganizationApplication(
-  membershipPackage: keyof typeof MEMBERSHIP_PRICE_KEYS,
-  payload: Record<string, unknown>,
-) {
-  if (membershipPackage !== "Business" && membershipPackage !== "Brand") {
-    return null;
-  }
-
-  const requiredText = (fields: string[]) => {
-    const missing = fields.find((field) => typeof payload[field] !== "string" || !String(payload[field]).trim());
-    return missing ? `${humanizeApplicationField(missing)} is required.` : null;
-  };
-  const requiredFiles = (field: string, minimum: number) => {
-    const value = payload[field];
-    return Array.isArray(value) && value.filter((item) => typeof item === "string" && item.trim()).length >= minimum
-      ? null
-      : `${humanizeApplicationField(field)} requires at least ${minimum} file${minimum === 1 ? "" : "s"}.`;
-  };
-  const requiredSelections = (field: string) => {
-    const value = payload[field];
-    return Array.isArray(value) && value.some((item) => typeof item === "string" && item.trim())
-      ? null
-      : `Select at least one ${humanizeApplicationField(field).toLowerCase()}.`;
-  };
-  const requiredAgreements = [
-    "certifyTrue",
-    "additionalDocumentationConsent",
-    "agreeStandards",
-    "understandReview",
-    "privacyConsent",
-  ];
-  const missingAgreement = requiredAgreements.find((field) => payload[field] !== true);
-  if (missingAgreement) {
-    return `${humanizeApplicationField(missingAgreement)} must be accepted.`;
-  }
-
-  if (membershipPackage === "Business") {
-    const textError = requiredText([
-      "firstName", "lastName", "dateOfBirth", "country", "city", "phone", "email", "businessCurrentPosition",
-      "yearsExperience", "professionalBiography", "professionalExperience", "professionalEducation", "professionalAchievements",
-      "bizName", "bizType", "bizYear", "businessCountry", "businessCity", "businessAddress", "businessWebsite",
-      "businessInstagram", "bizTeamSize", "businessDescription", "bizServices", "businessAchievements", "businessMission",
-      "businessIndustryContribution", "businessMediaFeatured", "businessPublications", "businessSpeakingExperience",
-      "businessJudgingExperience", "whyJoin", "contributionDesc",
-    ]);
-    if (textError) return textError;
-    if (payload.businessCurrentPosition === "Other") {
-      const error = requiredText(["businessCurrentPositionOther"]);
-      if (error) return error;
-    }
-    if (payload.bizType === "Other") {
-      const error = requiredText(["bizTypeOther"]);
-      if (error) return error;
-    }
-    if (payload.businessMediaFeatured === "Yes") {
-      const error = requiredText(["businessMediaDescription"]);
-      if (error) return error;
-    }
-    return requiredFiles("businessProfilePhotoFiles", 1)
-      || requiredFiles("businessProfessionalCertificationFiles", 1)
-      || requiredFiles("businessSupportingDocumentFiles", 1)
-      || requiredFiles("businessPortfolioImages", 5)
-      || requiredFiles("businessClientTestimonialFiles", 5);
-  }
-
-  const textError = requiredText([
-    "brandName", "brandType", "brandYear", "brandRegistrationCountry", "brandCity", "brandAddress", "brandWebsite",
-    "brandInstagram", "brandSocialWebsite", "brandPrimaryContact", "brandContactPosition", "brandContactEmail", "brandContactPhone",
-    "brandDescription", "brandMission", "brandValues", "brandProductsServices", "brandOperatingCountries", "brandEmployeeCount",
-    "brandAchievements", "brandPublicationsYesNo", "brandExhibitionsYesNo", "brandIndustryContribution", "whyJoin",
-  ]);
-  if (textError) return textError;
-  if (payload.brandType === "Other") {
-    const error = requiredText(["brandTypeOther"]);
-    if (error) return error;
-  }
-  if (payload.brandContactPosition === "Other") {
-    const error = requiredText(["brandContactPositionOther"]);
-    if (error) return error;
-  }
-  if (payload.brandPublicationsYesNo === "Yes") {
-    const error = requiredText(["brandPublicationsDetails"]);
-    if (error) return error;
-  }
-  if (payload.brandExhibitionsYesNo === "Yes") {
-    const error = requiredText(["brandExhibitionsDetails"]);
-    if (error) return error;
-  }
-
-  const selectionError = requiredSelections("brandProductCategories")
-    || requiredSelections("brandCertifications")
-    || requiredSelections("brandCooperationMethods")
-    || requiredSelections("brandMemberBenefits");
-  if (selectionError) return selectionError;
-  if ((payload.brandProductCategories as unknown[]).includes("Other")) {
-    const error = requiredText(["brandProductCategoryOther"]);
-    if (error) return error;
-  }
-  if ((payload.brandCertifications as unknown[]).includes("Other")) {
-    const error = requiredText(["brandCertificationOther"]);
-    if (error) return error;
-  }
-  if ((payload.brandCooperationMethods as unknown[]).includes("Other")) {
-    const error = requiredText(["brandCooperationOther"]);
-    if (error) return error;
-  }
-  if ((payload.brandMemberBenefits as unknown[]).includes("Other")) {
-    const error = requiredText(["brandMemberBenefitOther"]);
-    if (error) return error;
-  }
-
-  return requiredFiles("brandReviewFiles", 5)
-    || requiredFiles("brandProductFiles", 1)
-    || requiredFiles("brandAchievementDocumentFiles", 5)
-    || requiredFiles("brandSupportingDocumentFiles", 1);
 }
 
 function mapCanonicalStatusToLegacy(status: string | null | undefined) {
@@ -1157,15 +1037,26 @@ ordersRouter.patch("/review-edit", async (req, res) => {
     });
 
     const existingPayload = asRecord(existing.applicationData);
+    const isChangeRequest = isMembershipChangeApplicationData(existingPayload);
     const normalizedApplication = {
       ...(applicationData as Record<string, unknown>),
       membershipCategory: membershipPackage,
       accountType: "member",
       applicantType: MEMBERSHIP_APPLICANT_TYPES[membershipPackage],
-      promoCode: await normalizeSubmittedPromoCode(
-        db,
-        (applicationData as Record<string, unknown>).promoCode ?? existingPayload.promoCode,
-      ),
+      promoCode: isChangeRequest
+        ? null
+        : await normalizeSubmittedPromoCode(
+          db,
+          (applicationData as Record<string, unknown>).promoCode ?? existingPayload.promoCode,
+        ),
+      // A membership change stays a change after the member edits it.
+      ...(isChangeRequest
+        ? {
+          applicationKind: existingPayload.applicationKind,
+          isMembershipChange: true,
+          membershipChange: existingPayload.membershipChange,
+        }
+        : {}),
       additionalReview: {
         ...asRecord(existingPayload.additionalReview),
         editToken: null,
@@ -1197,6 +1088,66 @@ ordersRouter.patch("/review-edit", async (req, res) => {
   }
 });
 
+const OPEN_CHANGE_STATUSES = new Set(["SUBMITTED", "UNDER_REVIEW", "APPROVED", "PAYMENT_SENT"]);
+
+type RelatedApplicationRole = "previous" | "update";
+
+function toRelatedApplication(application: typeof coreApplications.$inferSelect, role: RelatedApplicationRole) {
+  return {
+    id: application.id,
+    role,
+    name: application.fullName,
+    membershipCategory: application.packageName,
+    status: mapCanonicalStatusToLegacy(application.status),
+    createdAt: application.createdAt,
+  };
+}
+
+/**
+ * The applications an admin should be able to flip between for one member: the
+ * application a change was based on, and the open change request built on it.
+ */
+async function findRelatedApplications(
+  db: ReturnType<typeof requireDb>,
+  application: typeof coreApplications.$inferSelect,
+) {
+  if (!application.userId) return { related: [], previous: null as typeof coreApplications.$inferSelect | null };
+
+  const siblings: typeof coreApplications.$inferSelect[] = await db
+    .select()
+    .from(coreApplications)
+    .where(and(eq(coreApplications.userId, application.userId), eq(coreApplications.type, "MEMBER")))
+    .orderBy(desc(coreApplications.createdAt));
+
+  const change = isMembershipChangeApplicationData(application.applicationData)
+    ? getMembershipChangeDetails(asRecord(application.applicationData).membershipChange)
+    : null;
+
+  if (change) {
+    const previous = siblings.find((item) =>
+      item.id !== application.id
+      && (item.id === change.previousApplicationId || item.id === change.previousMembershipId),
+    ) ?? null;
+    return {
+      previous,
+      related: previous ? [toRelatedApplication(previous, "previous"), toRelatedApplication(application, "update")] : [],
+    };
+  }
+
+  const update = siblings.find((item) => {
+    if (item.id === application.id || !OPEN_CHANGE_STATUSES.has(item.status)) return false;
+    const details = isMembershipChangeApplicationData(item.applicationData)
+      ? getMembershipChangeDetails(asRecord(item.applicationData).membershipChange)
+      : null;
+    return details?.previousApplicationId === application.id || details?.previousMembershipId === application.id;
+  });
+
+  return {
+    previous: null,
+    related: update ? [toRelatedApplication(application, "previous"), toRelatedApplication(update, "update")] : [],
+  };
+}
+
 ordersRouter.get("/:id", adminClerkMiddleware, requireAdminAccess, async (req, res) => {
   try {
     const id = getSingleValue(req.params.id);
@@ -1210,6 +1161,8 @@ ordersRouter.get("/:id", adminClerkMiddleware, requireAdminAccess, async (req, r
       return res.status(404).json({ error: "Application not found" });
     }
 
+    const { related, previous } = await findRelatedApplications(db, application);
+
     return res.json({
       id: application.id,
       email: application.email,
@@ -1217,6 +1170,8 @@ ordersRouter.get("/:id", adminClerkMiddleware, requireAdminAccess, async (req, r
       membershipCategory: application.packageName,
       applicantType: MEMBERSHIP_APPLICANT_TYPES[(application.packageName || "Professional") as keyof typeof MEMBERSHIP_PRICE_KEYS] || "Individual",
       applicationPayload: application.applicationData,
+      previousApplicationPayload: previous?.applicationData ?? null,
+      relatedApplications: related,
       applicationKind: asRecord(application.applicationData).applicationKind ?? null,
       status: mapCanonicalStatusToLegacy(application.status),
       stripeSessionId: payment?.stripeSessionId ?? null,

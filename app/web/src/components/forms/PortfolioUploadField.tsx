@@ -21,6 +21,7 @@ type PortfolioUploadFieldProps = {
   onChange: (urls: string[]) => void;
   error?: React.ReactNode;
   hideRequirementsText?: boolean;
+  fieldName?: string;
 };
 
 const MIN_FILES = 5;
@@ -34,6 +35,7 @@ export function PortfolioUploadField({
   onChange,
   error,
   hideRequirementsText = false,
+  fieldName,
 }: PortfolioUploadFieldProps) {
   void isRu;
   void isUk;
@@ -86,7 +88,7 @@ export function PortfolioUploadField({
   };
 
   return (
-    <div className="space-y-4 md:col-span-2">
+    <div className="space-y-4 md:col-span-2" data-field={fieldName}>
       <div className="space-y-2">
         <label className="field-label">Portfolio / example work images *</label>
         {!hideRequirementsText ? (

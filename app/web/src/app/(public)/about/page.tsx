@@ -124,7 +124,7 @@ export default function About() {
               <span className="text-[#B9D9EB]">{isRu ? "Об" : isUk ? "Про" : "About"}</span>{" "}
               <span className="text-[#B9D9EB]">IBPA</span>
             </h1>
-            <span className={`mt-2 text-3xl lowercase text-slate-400 md:-mt-6 md:text-5xl ${homeTemplateAccent.className}`}>{isRu ? "наша история и видение" : isUk ? "наша історія та бачення" : "our story & vision"}</span>
+            <span className={`mt-2 text-3xl lowercase text-slate-400 md:-mt-6 md:text-5xl ${homeTemplateAccent.className}`}>{isRu ? "международная организация beauty-индустрии" : isUk ? "міжнародна організація beauty-індустрії" : "an international beauty industry organization"}</span>
           </div>
         </div>
       </section>
@@ -285,7 +285,7 @@ export default function About() {
             </div>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/membership#packages" className={`rounded-full bg-black px-8 py-4 text-center text-sm uppercase text-white ${uiClassName}`}>
-                {isRu ? "Смотреть тарифы" : isUk ? "Переглянути тарифи" : "View Membership"}
+                {isRu ? "Изучить членство в beauty-ассоциации" : isUk ? "Ознайомитися з членством у beauty-асоціації" : "Explore Beauty Association Membership"}
               </Link>
               <Link href="/criteria" className={`rounded-full border border-slate-300 bg-white px-8 py-4 text-center text-sm uppercase text-slate-900 ${uiClassName}`}>
                 {isRu ? "Изучить критерии" : isUk ? "Переглянути критерії" : "Review Criteria"}

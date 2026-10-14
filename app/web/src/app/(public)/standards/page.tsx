@@ -71,7 +71,7 @@ const documents: DocumentEntry[] = [
       uk: "Угода про членство",
     },
     description: {
-      en: "Agreement template covering participant responsibilities, association expectations, and accepted use of status.",
+      en: "Agreement covering participant responsibilities, association expectations, and accepted use of membership status.",
       ru: "Соглашение с обязанностями участника, ожиданиями ассоциации и правилами использования статуса.",
       uk: "Угода з обов’язками учасника, очікуваннями асоціації та правилами використання статусу.",
     },
@@ -234,26 +234,26 @@ export default function Standards() {
 
   const copy = {
     eyebrow: isRu ? "Библиотека документов" : isUk ? "Бібліотека документів" : "Document Library",
-    title: isRu ? "Документы и стандарты IBPA" : isUk ? "Документи та стандарти IBPA" : "IBPA Documents & Standards",
+    title: isRu ? "Профессиональные стандарты" : isUk ? "Професійні стандарти" : "Professional Standards",
     subtitle: isRu
-      ? "Ключевые внутренние документы, политики и регламенты IBPA в одном архиве. Каждый файл открывается в новой вкладке."
+      ? "Профессиональные стандарты, этический кодекс, правила членства, документы управления и публичные политики IBPA в одной библиотеке. Каждый файл открывается в новой вкладке."
       : isUk
-        ? "Ключові внутрішні документи, політики та регламенти IBPA в одному архіві. Кожен файл відкривається в новій вкладці."
-        : "Core internal documents, policies, and governance files of IBPA in one archive. Each file opens in a new tab.",
-    introTitle: isRu ? "Единый архив для работы команды" : isUk ? "Єдиний архів для роботи команди" : "A Central Archive for Team Use",
+        ? "Професійні стандарти, етичний кодекс, правила членства, документи управління та публічні політики IBPA в одній бібліотеці. Кожен файл відкривається в новій вкладці."
+        : "IBPA professional standards, ethics, membership rules, governance documents, and public policies in one library. Each file opens in a new tab.",
+    introTitle: isRu ? "Стандарты и политики beauty-индустрии" : isUk ? "Стандарти та політики beauty-індустрії" : "Beauty Industry Professional Standards & Policies",
     introBody: isRu
-      ? "Библиотека включает стандарты, governance-документы, membership-политики, юридические материалы и внутренние процедуры. Сейчас файлы можно использовать как структурную основу и заглушки для будущего наполнения."
+      ? "Библиотека объединяет профессиональные стандарты IBPA, этический кодекс, правила членства, документы управления и политики организации. Откройте PDF, чтобы ознакомиться с полным текстом, областью применения и указанной датой вступления в силу."
       : isUk
-        ? "Бібліотека включає стандарти, governance-документи, membership-політики, юридичні матеріали та внутрішні процедури. Наразі файли можна використовувати як структурну основу та заглушки для майбутнього наповнення."
-        : "The library includes standards, governance documents, membership policies, legal materials, and internal procedures. For now, the files can serve as structural placeholders and future-ready reference documents.",
+        ? "Бібліотека об’єднує професійні стандарти IBPA, етичний кодекс, правила членства, документи управління та політики організації. Відкрийте PDF, щоб ознайомитися з повним текстом, сферою застосування та вказаною датою набрання чинності."
+        : "This library brings together IBPA professional standards, its code of ethics, membership rules, governance documents, and organizational policies. Open each PDF to review its full scope and stated effective date.",
     archiveLabel: isRu ? "Документов в библиотеке" : isUk ? "Документів у бібліотеці" : "Documents in the library",
     archiveValue: `${documents.length}`,
     cta: isRu ? "Открыть PDF" : isUk ? "Відкрити PDF" : "Open PDF",
     helper: isRu
-      ? "Все документы открываются в новой вкладке. При необходимости их можно в будущем заменить финальными версиями без изменения структуры страницы."
+      ? "Откройте документ, чтобы проверить полный текст, область применения и указанную дату вступления в силу."
       : isUk
-        ? "Усі документи відкриваються в новій вкладці. За потреби їх можна в майбутньому замінити фінальними версіями без зміни структури сторінки."
-        : "All documents open in a new tab. They can be replaced later with final versions without changing the structure of the page.",
+        ? "Відкрийте документ, щоб перевірити повний текст, сферу застосування та вказану дату набрання чинності."
+        : "Open a document to review its full text, scope, and stated effective date.",
   };
 
   return (

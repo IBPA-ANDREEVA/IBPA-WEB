@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { Locale } from "@/lib/locale";
 import { SITE_DISPLAY_NAME } from "@/lib/seo/organization";
 import { absoluteUrl, DEFAULT_OG_IMAGE } from "@/lib/seo/site";
 
@@ -18,6 +19,8 @@ type PageMetadataInput = {
   absoluteTitle?: boolean;
   /** Keep the page out of search results. */
   noindex?: boolean;
+  /** Locale of the server-rendered page variant. */
+  locale?: Locale;
 };
 
 const shareImage = {
@@ -41,6 +44,7 @@ export function buildPageMetadata({
   path,
   absoluteTitle = false,
   noindex = false,
+  locale = "en",
 }: PageMetadataInput): Metadata {
   const fullTitle = absoluteTitle ? title : `${title} | ${TITLE_SUFFIX}`;
   const pageUrl = absoluteUrl(path);
@@ -53,7 +57,7 @@ export function buildPageMetadata({
     openGraph: {
       type: "website",
       siteName: SITE_DISPLAY_NAME,
-      locale: "en_US",
+      locale: locale === "ru" ? "ru_RU" : locale === "uk" ? "uk_UA" : "en_US",
       url: pageUrl,
       title: fullTitle,
       description,

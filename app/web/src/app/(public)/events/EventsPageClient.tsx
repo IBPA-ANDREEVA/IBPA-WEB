@@ -91,14 +91,14 @@ export function EventsPageClient({ initialItems }: EventsPageClientProps) {
             {isRu ? "События IBPA" : isUk ? "Події IBPA" : "IBPA Events"}
           </p>
           <h1 className={`break-words text-5xl uppercase leading-[0.92] text-slate-900 sm:text-7xl md:text-9xl ${headlineClassName}`}>
-            {isRu ? <>Календарь <span className="text-[#72A0C1]">событий</span></> : isUk ? <>Календар <span className="text-[#72A0C1]">подій</span></> : <>Professional Events <span className="text-[#72A0C1]">Calendar</span></>}
+            {isRu ? <>События <span className="text-[#72A0C1]">beauty-индустрии</span></> : isUk ? <>Події <span className="text-[#72A0C1]">beauty-індустрії</span></> : <>Beauty Industry <span className="text-[#72A0C1]">Events</span></>}
           </h1>
           <p className={`max-w-3xl text-lg leading-relaxed text-slate-600 ${bodyClassName}`}>
             {isRu
               ? "Наша программа событий сфокусирована на образовании, профессиональном общении, конкурсах и международном сотрудничестве внутри индустрии красоты."
               : isUk
                 ? "Наша програма подій зосереджена на освіті, професійному спілкуванні, конкурсах і міжнародній співпраці в індустрії краси."
-              : "Our event program is focused on education, networking, competitions, and cross-border collaboration inside the beauty industry."}
+              : "Explore beauty industry events for education, professional networking, competitions, and cross-border collaboration among beauty professionals."}
           </p>
         </div>
 
@@ -142,7 +142,7 @@ export function EventsPageClient({ initialItems }: EventsPageClientProps) {
 
         <div className="flex flex-col gap-4 sm:flex-row">
           <Link href="/membership#packages" className={`inline-flex justify-center rounded-full border border-slate-300 bg-white px-8 py-4 text-sm uppercase text-slate-900 ${uiClassName}`}>
-            {isRu ? "Смотреть тарифы и пакеты" : isUk ? "Переглянути тарифи та пакети" : "Explore Membership"}
+            {isRu ? "Изучить членство в beauty-ассоциации" : isUk ? "Ознайомитися з членством у beauty-асоціації" : "Explore Beauty Association Membership"}
           </Link>
         </div>
       </div>

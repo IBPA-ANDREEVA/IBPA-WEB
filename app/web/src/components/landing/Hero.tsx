@@ -16,7 +16,7 @@ export const Hero = ({ locale }: HeroProps) => {
           titleBottom: "Professionals Association",
             subtitle: "Где красота создает сообщество",
           description:
-            "IBPA объединяет бьюти-специалистов, преподавателей и бренды для развития отраслевых стандартов, образования и глобального роста.",
+            "IBPA — международная ассоциация для beauty-специалистов, преподавателей, владельцев салонов и брендов. Членство открывает доступ к образованию, профессиональным стандартам, событиям, признанию и международному нетворкингу.",
           primaryCta: "Подать заявку",
           secondaryCta: "Партнер / Спонсор",
           ticker: [
@@ -32,7 +32,7 @@ export const Hero = ({ locale }: HeroProps) => {
             titleBottom: "Professionals Association",
             subtitle: "Де краса створює спільноту",
             description:
-              "IBPA об’єднує beauty-фахівців, викладачів і бренди для розвитку галузевих стандартів, освіти та глобального зростання.",
+              "IBPA — міжнародна асоціація для beauty-фахівців, викладачів, власників салонів і брендів. Членство відкриває доступ до освіти, професійних стандартів, подій, визнання та міжнародного нетворкінгу.",
             primaryCta: "Подати заявку",
             secondaryCta: "Партнер / Спонсор",
             ticker: [
@@ -47,7 +47,7 @@ export const Hero = ({ locale }: HeroProps) => {
             titleBottom: "Professionals Association",
             subtitle: "Where Beauty Becomes Community",
             description:
-              "IBPA connects beauty professionals, educators, and brands to advance industry standards, education, and global growth",
+              "IBPA is an international beauty professional association for specialists, educators, salon owners, and brands. Membership supports education, professional standards, industry recognition, events, and global networking.",
             primaryCta: "Become a Member",
             secondaryCta: "Partner / Sponsor",
             ticker: [
