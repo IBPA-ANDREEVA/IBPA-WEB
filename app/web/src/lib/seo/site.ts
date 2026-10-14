@@ -1,7 +1,5 @@
-import { getLandingOrigin } from "@/lib/public-urls";
-
 /** The one public origin search engines should index. */
-export const CANONICAL_SITE_ORIGIN = "https://ibpassociations.org";
+export const CANONICAL_SITE_ORIGIN = "https://www.ibpassociations.org";
 
 /**
  * Default share image (1200x630) used for Open Graph and Twitter cards.
@@ -14,30 +12,15 @@ export const DEFAULT_OG_IMAGE = {
   alt: "International Beauty Professionals Association (IBPA)",
 } as const;
 
-const MIRROR_HOSTNAME_PATTERN = /\.vercel\.app$/i;
-
 /**
  * Origin used for every SEO-facing absolute URL: canonical links, Open Graph
  * URLs, sitemap entries, robots.txt, and JSON-LD.
  *
- * `NEXT_PUBLIC_SITE_URL` is honoured so local builds and a future domain move
- * keep working, but a `*.vercel.app` value is ignored. Production once shipped
- * with that variable pointing at the Vercel mirror, which made the sitemap,
- * robots.txt, and `og:image` advertise a duplicate host instead of
- * ibpassociations.org.
+ * This is intentionally independent of runtime environment variables. A
+ * stale apex-domain value, local development origin, or Vercel preview host
+ * must not leak into public search signals or structured data.
  */
 export function getSeoOrigin(): string {
-  const configured = getLandingOrigin();
-
-  try {
-    const { origin, hostname } = new URL(configured);
-    if (!MIRROR_HOSTNAME_PATTERN.test(hostname)) {
-      return origin;
-    }
-  } catch {
-    // An empty or malformed value falls through to the canonical origin.
-  }
-
   return CANONICAL_SITE_ORIGIN;
 }
 

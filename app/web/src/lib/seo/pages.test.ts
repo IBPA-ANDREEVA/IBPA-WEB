@@ -56,14 +56,18 @@ test("breadcrumb labels are present and paths are site-relative", () => {
 test("buildPageMetadata sets a self-referencing canonical and matching share cards", () => {
   const metadata = buildPageMetadata(PAGE_SEO.membership);
 
-  assert.deepEqual(metadata.alternates, { canonical: "/membership" });
+  assert.deepEqual(metadata.alternates, { canonical: "https://www.ibpassociations.org/membership" });
   assert.equal(metadata.title, PAGE_SEO.membership.title);
   assert.equal(metadata.description, PAGE_SEO.membership.description);
   assert.equal(
     (metadata.openGraph as { title: string }).title,
     `${PAGE_SEO.membership.title} | ${TITLE_SUFFIX}`,
   );
-  assert.equal((metadata.openGraph as { url: string }).url, "/membership");
+  assert.equal((metadata.openGraph as { url: string }).url, "https://www.ibpassociations.org/membership");
+  assert.equal(
+    ((metadata.openGraph as { images: { url: string }[] }).images[0]).url,
+    "https://www.ibpassociations.org/og/ibpa-og.jpg",
+  );
   assert.equal((metadata.twitter as { card: string }).card, "summary_large_image");
   assert.equal(metadata.robots, undefined);
 });

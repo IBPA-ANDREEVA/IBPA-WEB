@@ -35,11 +35,11 @@ test("organization JSON-LD carries identity, logo, contact, and profile fields",
 
   assert.equal(org["@context"], "https://schema.org");
   assert.equal(org["@type"], "Organization");
-  assert.equal(org["@id"], "https://ibpassociations.org/#organization");
+  assert.equal(org["@id"], "https://www.ibpassociations.org/#organization");
   assert.equal(org.name, "International Beauty Professionals Association");
   assert.ok(org.alternateName.includes("IBPA"));
-  assert.equal(org.url, "https://ibpassociations.org/");
-  assert.equal(org.logo.url, "https://ibpassociations.org/branding/logo-header.webp");
+  assert.equal(org.url, "https://www.ibpassociations.org/");
+  assert.equal(org.logo.url, "https://www.ibpassociations.org/branding/logo-header.webp");
   assert.ok(org.logo.width >= 112 && org.logo.height >= 112, "Google requires a logo of at least 112x112");
   assert.equal(org.address["@type"], "PostalAddress");
   assert.equal(org.address.addressLocality, "Roseville");
@@ -69,7 +69,7 @@ test("every URL in the structured data is absolute and on the canonical origin",
     const isSocialProfile = url.startsWith("https://www.instagram.com/");
     const isSchemaContext = url === "https://schema.org";
     assert.ok(
-      url.startsWith("https://ibpassociations.org") || isSocialProfile || isSchemaContext,
+      url.startsWith("https://www.ibpassociations.org") || isSocialProfile || isSchemaContext,
       `${url} is not on the canonical origin`,
     );
   }

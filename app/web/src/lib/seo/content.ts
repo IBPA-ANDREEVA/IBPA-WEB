@@ -23,7 +23,13 @@ export function publicHttpUrl(value?: string | null): string | undefined {
   if (value.startsWith("/") && !value.startsWith("//") && !value.includes("\\")) return absoluteUrl(value);
   try {
     const url = new URL(value);
-    if (["https:", "http:"].includes(url.protocol) && !url.username && !url.password) return url.href;
+    if (!["https:", "http:"].includes(url.protocol) || url.username || url.password) return undefined;
+    if (url.hostname === "ibpassociations.org") {
+      url.protocol = "https:";
+      url.hostname = "www.ibpassociations.org";
+      url.port = "";
+    }
+    return url.href;
   } catch { /* Invalid optional URLs are omitted. */ }
   return undefined;
 }

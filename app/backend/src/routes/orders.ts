@@ -1819,7 +1819,7 @@ ordersRouter.post("/sponsorship/checkout", async (req, res) => {
 
   try {
     const priceId = getSponsorshipPriceId(tier);
-    const landingUrl = (process.env.FRONTEND_URL || "https://ibpassociations.org").replace(/\/$/, "");
+    const landingUrl = (process.env.FRONTEND_URL || "https://www.ibpassociations.org").replace(/\/$/, "");
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [{ price: priceId, quantity: 1 }],

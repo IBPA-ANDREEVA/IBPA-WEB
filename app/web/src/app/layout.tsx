@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { resolveLocale } from "@/lib/locale";
 import { cyrillicDisplay, cyrillicEditorial } from "@/lib/cyrillic-fonts";
 import { SITE_DISPLAY_NAME } from "@/lib/seo/organization";
-import { DEFAULT_OG_IMAGE, getSeoOrigin } from "@/lib/seo/site";
+import { CANONICAL_SITE_ORIGIN, DEFAULT_OG_IMAGE } from "@/lib/seo/site";
 import "../styles/index.css";
 import { Inter, Raleway } from "next/font/google";
 import { cn } from "@/lib/utils";
@@ -17,7 +17,7 @@ const raleway = Raleway({ subsets: ["latin"], weight: ["300", "400", "500", "600
 // Routes that need to be found in search export their own metadata through
 // `buildPageMetadata` (lib/seo/metadata.ts); this is the fallback for the rest.
 export const metadata: Metadata = {
-  metadataBase: new URL(getSeoOrigin()),
+  metadataBase: new URL(CANONICAL_SITE_ORIGIN),
   title: "IBPA - International Beauty Professionals Association",
   description: "Global professional community for beauty industry experts supporting growth, standards, and collaboration.",
   applicationName: "IBPA",
