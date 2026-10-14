@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight, CreditCard, LifeBuoy } from "lucide-react";
+import { CreditCard, LifeBuoy } from "lucide-react";
 
 import {
   dashboardPrimaryButtonClassName,
@@ -11,6 +11,7 @@ import {
 import type { Certificate } from "@/components/dashboard/dashboard-types";
 import { formatStatusLabel, getMembershipAmount } from "@/lib/dashboard-cabinet";
 import { useI18n } from "@/lib/i18n";
+import { ChangeMembershipMenu } from "./ChangeMembershipMenu";
 
 type BillingEntry = {
   id: string;
@@ -65,10 +66,7 @@ export function DashboardBilling({
           action={
             <div className="flex flex-wrap gap-3">
               {!isPartnerOwner ? (
-                <Link href="/dashboard/membership/change" className={dashboardPrimaryButtonClassName}>
-                  Switch membership
-                  <ArrowUpRight className="h-4 w-4" />
-                </Link>
+                <ChangeMembershipMenu currentCategory={primaryCertificate?.membershipCategory ?? membershipCategoryLabel} />
               ) : null}
 
               <Link href="/membership" className={dashboardPrimaryButtonClassName}>
