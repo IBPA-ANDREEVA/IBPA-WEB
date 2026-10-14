@@ -161,7 +161,7 @@ export const GovernancePreviewSection = ({ locale }: GovernancePreviewSectionPro
                   <h3 className={`text-[1rem] uppercase leading-[0.95] text-slate-900 md:text-[1.2rem] ${headlineClassName}`}>
                     {member.name}
                   </h3>
-                  <p className={`text-[9px] uppercase tracking-[0.22em] text-[#708090] ${uiClassName}`}>{member.role}</p>
+                  <p className={`text-[9px] uppercase tracking-[0.22em] text-[#55708D] ${uiClassName}`}>{member.role}</p>
                   <p className={`text-[0.84rem] leading-relaxed text-slate-600 md:text-[0.88rem] ${bodyClassName}`}>
                     {member.summary}
                   </p>

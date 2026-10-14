@@ -3,40 +3,16 @@ import Link from "next/link";
 import { InteractiveContentImage } from "@/components/content/InteractiveContentImage";
 import { cyrillicDisplay } from "@/lib/cyrillic-fonts";
 import { homeTemplateDisplay } from "@/lib/home-template-fonts";
-import { getBackendUrl } from "@/lib/public-urls";
-import type { ContentImageMetadata } from "@/lib/content-image";
+import { fetchPublicNewsServer } from "@/lib/public-content-server";
+import { formatPublicContentDate } from "@/lib/public-content";
+import { contentPath } from "@/lib/seo/content";
 
 type NewsSectionProps = {
   locale: "en" | "ru" | "uk";
 };
 
-type ContentItem = {
-  id: string;
-  type: "news" | "events";
-  title: string;
-  coverImage?: string | null;
-  coverAspect?: number | null;
-  cover_aspect?: number | null;
-  imageMetadata?: ContentImageMetadata | null;
-  ctaUrl?: string | null;
-  createdAt: string;
-};
-
-async function getNews() {
-  const response = await fetch(getBackendUrl("/api/content/public?type=news&target=site"), {
-    next: { revalidate: 300, tags: ["public-content"] },
-  }).catch(() => null);
-
-  if (!response?.ok) {
-    return [] as ContentItem[];
-  }
-
-  const data = await response.json().catch(() => ({}));
-  return Array.isArray(data.items) ? (data.items as ContentItem[]) : [];
-}
-
 export const NewsSection = async ({ locale }: NewsSectionProps) => {
-  const items = await getNews();
+  const items = await fetchPublicNewsServer() ?? [];
   const useEnglishHomepageTypography = true;
   const headlineClassName = useEnglishHomepageTypography
     ? `${homeTemplateDisplay.className} font-black tracking-[-0.05em]`
@@ -71,10 +47,11 @@ export const NewsSection = async ({ locale }: NewsSectionProps) => {
             newsCategory: "News",
           };
   const newsItems = items.slice(0, 2).map((item) => ({
+    href: contentPath(item),
     img: item.coverImage || "/news/beauty-forum-2025.webp",
     aspect: item.coverAspect ?? item.cover_aspect ?? 16 / 9,
     title: item.title,
-    date: new Date(item.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
+    date: formatPublicContentDate(item.createdAt, "short"),
     category: locale === "ru" ? "Новость" : locale === "uk" ? "Новина" : item.type === "news" ? copy.newsCategory : "Event",
     imageMetadata: item.imageMetadata ?? null,
   }));
@@ -88,7 +65,7 @@ export const NewsSection = async ({ locale }: NewsSectionProps) => {
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-12 mb-24">
           <div className="max-w-3xl space-y-6">
-            <p className={`text-[#708090] text-sm tracking-[0.4em] uppercase ${uiClassName}`}>{copy.eyebrow}</p>
+            <p className={`text-[#55708D] text-sm tracking-[0.4em] uppercase ${uiClassName}`}>{copy.eyebrow}</p>
             <div className="max-w-4xl">
               <h2 className={`text-[2.75rem] md:text-[4.85rem] uppercase leading-[0.94] ${headlineClassName}`}>{copy.title}</h2>
             </div>
@@ -115,18 +92,18 @@ export const NewsSection = async ({ locale }: NewsSectionProps) => {
                   sizes="(min-width: 768px) 600px, 100vw"
                 />
                 <div className="absolute inset-0 bg-black/10" />
-                <div className={`absolute bottom-6 left-6 px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-[10px] text-white uppercase tracking-[0.14em] ${uiClassName}`}>
+                <div className={`absolute bottom-6 left-6 px-4 py-2 bg-[#21466D] border border-white/20 rounded-full text-[10px] text-white uppercase tracking-[0.14em] ${uiClassName}`}>
                   {news.category}
                 </div>
               </div>
                 <div className="space-y-4 px-2">
-                <p className={`text-[#708090] text-[10px] uppercase tracking-[0.14em] ${uiClassName}`}>{news.date}</p>
+                <p className={`text-[#55708D] text-[10px] uppercase tracking-[0.14em] ${uiClassName}`}>{news.date}</p>
                 <div className="space-y-4">
                   <h3 className={`text-2xl uppercase font-bold group-hover:text-[#72A0C1] transition-colors ${headlineClassName}`}>
-                    <Link href="/news">{news.title}</Link>
+                    <Link href={news.href}>{news.title}</Link>
                   </h3>
                 </div>
-                <Link href="/news" className={`flex items-center gap-2 text-black text-[10px] uppercase tracking-[0.14em] ${uiClassName}`}>
+                <Link href={news.href} aria-label={`${copy.readArticle}: ${news.title}`} className={`flex items-center gap-2 text-black text-[10px] uppercase tracking-[0.14em] ${uiClassName}`}>
                   {copy.readArticle} <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>

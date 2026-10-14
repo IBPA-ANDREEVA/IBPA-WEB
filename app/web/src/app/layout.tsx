@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
+import { resolveLocale } from "@/lib/locale";
 import { cyrillicDisplay, cyrillicEditorial } from "@/lib/cyrillic-fonts";
 import { SITE_DISPLAY_NAME } from "@/lib/seo/organization";
 import { DEFAULT_OG_IMAGE, getSeoOrigin } from "@/lib/seo/site";
@@ -10,7 +12,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({ subsets: ["latin", "cyrillic"], variable: "--font-sans" });
-const raleway = Raleway({ subsets: ["latin"], weight: ["300", "400", "500", "600"], variable: "--font-raleway" });
+const raleway = Raleway({ subsets: ["latin"], weight: ["300", "400", "500", "600"], variable: "--font-raleway", preload: false });
 
 // Routes that need to be found in search export their own metadata through
 // `buildPageMetadata` (lib/seo/metadata.ts); this is the fallback for the rest.
@@ -40,11 +42,12 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const locale = resolveLocale((await cookies()).get("ibpa-locale")?.value);
   // ClerkProvider intentionally lives in the route groups that use Clerk on the
   // client (dashboard, sign-in, checkout success, admin) so public landing
   // pages never download clerk-js.
   return (
-    <html lang="en" className={cn("font-sans", inter.variable, cyrillicDisplay.variable, cyrillicEditorial.variable, raleway.variable)}>
+    <html lang={locale} className={cn("font-sans", inter.variable, cyrillicDisplay.variable, cyrillicEditorial.variable, raleway.variable)}>
       <body className="min-h-screen bg-[#F8FAFC] text-slate-900 antialiased">
         {children}
         <Toaster richColors position="bottom-right" />

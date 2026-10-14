@@ -7,6 +7,7 @@ import { PreservedText } from "@/components/content/PreservedText";
 import { homeTemplateDisplay } from "@/lib/home-template-fonts";
 import { useI18n } from "@/lib/i18n";
 import { fetchPublicContent, formatPublicContentDate, type PublicContentItem } from "@/lib/public-content";
+import { contentPath } from "@/lib/seo/content";
 
 type NewsPageClientProps = {
   /** Items fetched during server rendering, or `null` when that fetch failed. */
@@ -58,6 +59,7 @@ export function NewsPageClient({ initialItems }: NewsPageClientProps) {
 
   const renderedUpdates = items.map((item) => ({
     id: item.id,
+    detailHref: contentPath(item),
     category: isRu ? "Новость" : isUk ? "Новина" : "News",
     title: item.title,
     date: formatPublicContentDate(item.createdAt),
@@ -148,7 +150,7 @@ export function NewsPageClient({ initialItems }: NewsPageClientProps) {
                     </p>
 
                     <h2 className={`mt-4 text-2xl uppercase text-slate-900 ${headlineClassName}`}>
-                      {item.title}
+                      <Link href={item.detailHref} className="hover:underline">{item.title}</Link>
                     </h2>
 
                     <PreservedText
@@ -168,6 +170,7 @@ export function NewsPageClient({ initialItems }: NewsPageClientProps) {
                       <div className="mt-6">
                         <button
                           type="button"
+                          aria-expanded={Boolean(isExpanded)}
                           onClick={() => toggleExpanded(item.id)}
                           className={`inline-flex justify-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm uppercase text-slate-900 transition-colors hover:border-[#72A0C1] hover:text-[#72A0C1] ${uiClassName}`}
                         >

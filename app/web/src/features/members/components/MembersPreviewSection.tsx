@@ -64,7 +64,7 @@ export async function MembersPreviewSection({ locale }: MembersPreviewSectionPro
       <div className="relative z-10 mx-auto max-w-7xl px-6">
         <div className="flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-end">
           <div className="max-w-3xl space-y-5">
-            <p className={`text-sm uppercase tracking-[0.4em] text-[#72A0C1] ${uiClassName}`}>
+            <p className={`text-sm uppercase tracking-[0.4em] text-[#21466D] ${uiClassName}`}>
               {copy.eyebrow}
             </p>
             <h2
@@ -84,12 +84,11 @@ export async function MembersPreviewSection({ locale }: MembersPreviewSectionPro
         </div>
 
         <div className="mt-14 grid grid-cols-2 gap-4 sm:gap-5 md:grid-cols-3 lg:grid-cols-4">
-          {members.map((member, index) => (
+          {members.map((member) => (
             <MemberCard
               key={member.id}
               member={member}
               locale={locale}
-              priority={index < 4}
             />
           ))}
         </div>

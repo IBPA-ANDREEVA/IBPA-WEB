@@ -5,11 +5,16 @@ import { afterEach, test } from "node:test";
 
 import robots from "../../app/robots";
 import sitemap from "../../app/sitemap";
-import { INDEXABLE_ROUTES, NOINDEX_PUBLIC_SEGMENTS } from "./routes";
+import { INDEXABLE_ROUTES, NOINDEX_PUBLIC_SEGMENTS, isPublicSearchPage } from "./routes";
 
 const originalSiteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+const originalFetch = globalThis.fetch;
+const originalBackendUrl = process.env.BACKEND_URL;
 
 afterEach(() => {
+  globalThis.fetch = originalFetch;
+  if (originalBackendUrl === undefined) delete process.env.BACKEND_URL;
+  else process.env.BACKEND_URL = originalBackendUrl;
   if (originalSiteUrl === undefined) {
     delete process.env.NEXT_PUBLIC_SITE_URL;
   } else {
@@ -19,10 +24,13 @@ afterEach(() => {
 
 function publicRouteSegments() {
   const publicDir = path.join(process.cwd(), "src", "app", "(public)");
+  const hasPage = (dir: string): boolean => readdirSync(dir, { withFileTypes: true }).some((entry) =>
+    entry.isDirectory() ? hasPage(path.join(dir, entry.name)) : entry.name === "page.tsx",
+  );
 
   return readdirSync(publicDir).filter((entry) => {
     const entryPath = path.join(publicDir, entry);
-    return statSync(entryPath).isDirectory() && entry !== "components";
+    return statSync(entryPath).isDirectory() && entry !== "components" && hasPage(entryPath);
   });
 }
 
@@ -44,6 +52,17 @@ test("every public route folder is either in the sitemap or marked noindex", () 
   }
 });
 
+test("the public-rendering fast path never matches APIs, accounts, checkout or unknown routes", () => {
+  for (const route of INDEXABLE_ROUTES) assert.equal(isPublicSearchPage(route.path), true);
+  assert.equal(isPublicSearchPage("/news/story-1"), true);
+  assert.equal(isPublicSearchPage("/events/event-1"), true);
+  for (const path of ["/api/content", "/api/admin/content", "/api/orders", "/dashboard", "/dashboard/success",
+    "/admin", "/sign-in", "/team-invite", "/success", "/payment-link/token", "/application/edit",
+    "/profile-preview/id", "/news/id/edit", "/newsletters", "/unknown"]) {
+    assert.equal(isPublicSearchPage(path), false, path);
+  }
+});
+
 test("sitemap routes are unique, absolute paths that exist on disk", () => {
   const paths = INDEXABLE_ROUTES.map((route) => route.path);
   assert.equal(new Set(paths).size, paths.length);
@@ -59,10 +78,12 @@ test("sitemap routes are unique, absolute paths that exist on disk", () => {
   }
 });
 
-test("sitemap URLs use the canonical origin even when the env points at vercel.app", () => {
+test("sitemap URLs use the canonical origin even when the env points at vercel.app", async () => {
   process.env.NEXT_PUBLIC_SITE_URL = "https://ibpa-web.vercel.app";
+  process.env.BACKEND_URL = "http://backend.test";
+  globalThis.fetch = (async () => new Response(JSON.stringify({ items: [] }))) as typeof fetch;
 
-  const entries = sitemap();
+  const entries = await sitemap();
   assert.equal(entries.length, INDEXABLE_ROUTES.length);
 
   for (const entry of entries) {
@@ -74,6 +95,20 @@ test("sitemap URLs use the canonical origin even when the env points at vercel.a
     assert.equal("changeFrequency" in entry, false);
   }
   assert.equal(entries[0].url, "https://ibpassociations.org/");
+});
+
+test("sitemap includes published content and fails on outages rather than dropping URLs", async () => {
+  process.env.NEXT_PUBLIC_SITE_URL = "https://ibpassociations.org";
+  process.env.BACKEND_URL = "http://backend.test";
+  globalThis.fetch = (async (url: string) => new Response(JSON.stringify({ items: [
+    { id: "public-1", type: url.includes("type=news") ? "news" : "events", title: "Public story" },
+  ] }))) as typeof fetch;
+  const entries = await sitemap();
+  assert.ok(entries.some((entry) => entry.url === "https://ibpassociations.org/news/public-1"));
+  assert.ok(entries.some((entry) => entry.url === "https://ibpassociations.org/events/public-1"));
+  assert.ok(entries.slice(INDEXABLE_ROUTES.length).every((entry) => !("lastModified" in entry)));
+  globalThis.fetch = (async () => new Response("Unavailable", { status: 503 })) as typeof fetch;
+  await assert.rejects(sitemap(), /temporarily unavailable/);
 });
 
 test("robots.txt points at the canonical sitemap and does not block indexable routes", () => {

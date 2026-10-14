@@ -1,0 +1,113 @@
+{
+  "checked_at": "2026-10-14T00:01:37.857566+00:00",
+  "auth_checks": [
+    {
+      "path": "/api/admin/content",
+      "status": 401,
+      "location_origin_path": "",
+      "content_type": "application/json"
+    },
+    {
+      "path": "/api/dashboard/me",
+      "status": 401,
+      "location_origin_path": "",
+      "content_type": "application/json"
+    },
+    {
+      "path": "/admin",
+      "status": 307,
+      "location_origin_path": "https://fit-orca-62.clerk.accounts.dev/v1/client/handshake",
+      "content_type": null
+    },
+    {
+      "path": "/dashboard",
+      "status": 307,
+      "location_origin_path": "https://fit-orca-62.clerk.accounts.dev/v1/client/handshake",
+      "content_type": null
+    }
+  ],
+  "locale_checks": [
+    {
+      "cookie_locale": "en",
+      "initial_html_lang": "en",
+      "h1": [
+        "International Beauty Professionals Association"
+      ],
+      "noscript_visibility_fallback": true
+    },
+    {
+      "cookie_locale": "ru",
+      "initial_html_lang": "ru",
+      "h1": [
+        "International Beauty Professionals Association"
+      ],
+      "noscript_visibility_fallback": true
+    },
+    {
+      "cookie_locale": "ua",
+      "initial_html_lang": "uk",
+      "h1": [
+        "International Beauty Professionals Association"
+      ],
+      "noscript_visibility_fallback": true
+    }
+  ],
+  "duplicate_redirect": {
+    "path": "/news/fae7972e-23f8-4e95-b694-993b112795d8",
+    "status": 307,
+    "location": "/events/fe5ba953-3412-4bec-a84e-70eb12c684d1"
+  },
+  "production_variants": [
+    {
+      "url": "http://ibpassociations.org/",
+      "status": 200,
+      "final_url": "https://ibpassociations.org/",
+      "canonical": [
+        "https://ibpassociations.org"
+      ],
+      "error": null
+    },
+    {
+      "url": "https://www.ibpassociations.org/",
+      "status": 0,
+      "final_url": "https://www.ibpassociations.org/",
+      "canonical": [],
+      "error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:997)>"
+    },
+    {
+      "url": "https://ibpa-web.vercel.app/",
+      "status": 200,
+      "final_url": "https://ibpassociations.org/",
+      "canonical": [
+        "https://ibpassociations.org"
+      ],
+      "error": null
+    },
+    {
+      "url": "https://ibpassociations.org/news/",
+      "status": 200,
+      "final_url": "https://ibpassociations.org/news",
+      "canonical": [
+        "https://ibpassociations.org/news"
+      ],
+      "error": null
+    },
+    {
+      "url": "https://ibpassociations.org/news?utm_source=seo-audit",
+      "status": 200,
+      "final_url": "https://ibpassociations.org/news?utm_source=seo-audit",
+      "canonical": [
+        "https://ibpassociations.org/news"
+      ],
+      "error": null
+    }
+  ],
+  "schedule_conflict": [
+    {
+      "id": "fe5ba953-3412-4bec-a84e-70eb12c684d1",
+      "stored_start": "2026-06-27T12:00:00.000Z",
+      "stored_end": "2026-09-24T22:00:00.000Z",
+      "body_excerpt": "On September 25–26, 2026, Los Angeles will host the 4th Beauty Business Forum - one of the leading international events for beauty professionals, entrepreneurs, educators, and brands."
+    }
+  ]
+}

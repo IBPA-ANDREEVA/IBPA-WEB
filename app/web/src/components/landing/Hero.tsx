@@ -24,7 +24,7 @@ export const Hero = ({ locale }: HeroProps) => {
             "Международное сотрудничество",
             "Сообщество индустрии красоты",
           ],
-          heroAlt: "Главный визуал",
+          heroAlt: "",
         }
       : locale === "uk"
         ? {
@@ -40,7 +40,7 @@ export const Hero = ({ locale }: HeroProps) => {
               "Міжнародна співпраця",
               "Спільнота індустрії краси",
             ],
-            heroAlt: "Головний візуал",
+            heroAlt: "",
           }
         : {
             titleTop: "International Beauty",
@@ -55,7 +55,7 @@ export const Hero = ({ locale }: HeroProps) => {
               "International Collaboration",
               "Beauty Industry Community",
             ],
-            heroAlt: "Hero Visual",
+            heroAlt: "",
           };
 
   const useEnglishHomepageTypography = true;

@@ -123,7 +123,7 @@ export const Footer = () => {
         <div className="mb-20 grid gap-16 lg:grid-cols-4">
           <div className="space-y-8 lg:col-span-2">
             <Link href="/" className="inline-block">
-              <ImageWithFallback src="/branding/footer-logo-transparent.webp" alt="IBPA" className="h-14 w-auto object-contain md:h-16" />
+              <ImageWithFallback src="/branding/footer-logo-transparent.webp" alt="IBPA" width={500} height={250} sizes="(min-width: 768px) 128px, 112px" className="h-14 w-auto object-contain md:h-16" />
             </Link>
             <p className={`max-w-md text-lg leading-relaxed text-slate-300 ${bodyClassName}`}>
               {copy.description}

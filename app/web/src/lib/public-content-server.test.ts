@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { afterEach, beforeEach, test } from "node:test";
 
 import { formatPublicContentDate, normalizePublicContentItems } from "./public-content";
-import { fetchPublicContentServer } from "./public-content-server";
+import { fetchPublicContentServer, getPublicContentItem } from "./public-content-server";
 
 const originalFetch = globalThis.fetch;
 const backendEnvKeys = ["BACKEND_URL", "NEXT_PUBLIC_BACKEND_URL", "NEXT_PUBLIC_API_URL"] as const;
@@ -80,4 +80,19 @@ test("fetchPublicContentServer returns null instead of an empty list when the ba
   delete process.env.NEXT_PUBLIC_BACKEND_URL;
   delete process.env.NEXT_PUBLIC_API_URL;
   assert.equal(await fetchPublicContentServer("events"), null);
+});
+
+test("detail lookup stays within the published site feed and distinguishes missing items from outages", async () => {
+  let requested = "";
+  globalThis.fetch = (async (url: string) => {
+    requested = url;
+    return new Response(JSON.stringify({ items: [{ id: "public", type: "news", title: "Visible" }] }));
+  }) as typeof fetch;
+  assert.equal((await getPublicContentItem("news", "public"))?.title, "Visible");
+  assert.ok(requested.endsWith("target=site"));
+  assert.equal(await getPublicContentItem("news", "draft"), null);
+  assert.equal(await getPublicContentItem("events", "public"), null);
+  assert.equal(await getPublicContentItem("news", "../admin"), null);
+  globalThis.fetch = (async () => new Response(JSON.stringify({ invalid: true }))) as typeof fetch;
+  await assert.rejects(getPublicContentItem("news", "public"), /temporarily unavailable/);
 });

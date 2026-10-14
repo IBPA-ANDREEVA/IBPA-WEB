@@ -142,7 +142,7 @@ export const AudienceSection: React.FC = () => {
                  
                  <div className="overflow-hidden">
                     <div className="min-h-0">
-                      <div className="space-y-6 pt-4 opacity-100 md:max-h-0 md:overflow-hidden md:translate-y-6 md:opacity-0 md:transition-[max-height,opacity,transform] md:duration-[950ms] md:ease-[cubic-bezier(0.16,1,0.3,1)] md:group-hover:max-h-[320px] md:group-hover:translate-y-0 md:group-hover:opacity-100">
+                      <div className="space-y-6 pt-4 opacity-100 md:max-h-0 md:overflow-hidden md:translate-y-6 md:opacity-0 md:transition-[max-height,opacity,transform] md:duration-[950ms] md:ease-[cubic-bezier(0.16,1,0.3,1)] md:group-hover:max-h-[320px] md:group-focus-within:max-h-[320px] md:group-hover:translate-y-0 md:group-focus-within:translate-y-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100">
                         <p className={`text-slate-600 text-sm md:text-base leading-relaxed ${bodyClassName}`}>
                           {item.desc}
                         </p>
@@ -183,8 +183,11 @@ export const AudienceSection: React.FC = () => {
                 type="button"
                 onClick={() => scrollToIndex(index)}
                 aria-label={`${locale === "ru" ? "Показать карточку" : locale === "uk" ? "Показати картку" : "Show card"} ${index + 1}`}
-                className={`rounded-full transition-all ${index === activeIndex ? "h-2.5 w-6 bg-[#72A0C1]" : "h-2.5 w-2.5 bg-[#B8C7D1]/90 hover:bg-[#8FA9BA]"}`}
-              />
+                aria-pressed={index === activeIndex}
+                className="flex h-8 w-8 items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#21466D]"
+              >
+                <span aria-hidden="true" className={`block rounded-full transition-all ${index === activeIndex ? "h-2.5 w-6 bg-[#72A0C1]" : "h-2.5 w-2.5 bg-[#B8C7D1]/90 hover:bg-[#8FA9BA]"}`} />
+              </button>
             ))}
           </div>
           <div className={`inline-flex items-center gap-3 px-1 py-1 text-[10px] uppercase tracking-[0.24em] text-[#708090] md:hidden ${uiClassName}`}>

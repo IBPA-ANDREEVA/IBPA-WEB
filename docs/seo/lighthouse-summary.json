@@ -1,0 +1,1186 @@
+[
+  {
+    "report": "lighthouse-local-after-mobile.json",
+    "lighthouse_version": "13.5.0",
+    "fetch_time": "2026-10-13T23:35:36.268Z",
+    "url": "http://localhost:3012/",
+    "environment": {
+      "networkUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Mobile Safari/537.36",
+      "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "benchmarkIndex": 2449.5,
+      "credits": {
+        "axe-core": "4.14.0"
+      }
+    },
+    "form_factor": "mobile",
+    "throttling_method": "simulate",
+    "throttling": {
+      "rttMs": 150,
+      "throughputKbps": 1638.4,
+      "requestLatencyMs": 562.5,
+      "downloadThroughputKbps": 1474.5600000000002,
+      "uploadThroughputKbps": 675,
+      "cpuSlowdownMultiplier": 4
+    },
+    "scores": {
+      "performance": 63,
+      "accessibility": 96,
+      "best-practices": 73,
+      "seo": 100
+    },
+    "metrics": {
+      "first-contentful-paint": {
+        "value": 4138.663750000001,
+        "unit": "millisecond"
+      },
+      "largest-contentful-paint": {
+        "value": 5775.12255,
+        "unit": "millisecond"
+      },
+      "total-blocking-time": {
+        "value": 285.0000000000009,
+        "unit": "millisecond"
+      },
+      "cumulative-layout-shift": {
+        "value": 0,
+        "unit": "unitless"
+      },
+      "speed-index": {
+        "value": 4138.663750000001,
+        "unit": "millisecond"
+      },
+      "total-byte-weight": {
+        "value": 1039949,
+        "unit": "byte"
+      },
+      "redirects": {
+        "value": 1831.7594,
+        "unit": "millisecond"
+      },
+      "server-response-time": {
+        "value": 370,
+        "unit": "millisecond"
+      }
+    },
+    "resource_summary": [
+      {
+        "resourceType": "total",
+        "label": "Total",
+        "requestCount": 64,
+        "transferSize": 1039949
+      },
+      {
+        "resourceType": "script",
+        "label": "Script",
+        "requestCount": 19,
+        "transferSize": 603829
+      },
+      {
+        "resourceType": "image",
+        "label": "Image",
+        "requestCount": 13,
+        "transferSize": 194623
+      },
+      {
+        "resourceType": "font",
+        "label": "Font",
+        "requestCount": 5,
+        "transferSize": 114928
+      },
+      {
+        "resourceType": "document",
+        "label": "Document",
+        "requestCount": 1,
+        "transferSize": 58181
+      },
+      {
+        "resourceType": "stylesheet",
+        "label": "Stylesheet",
+        "requestCount": 3,
+        "transferSize": 39886
+      },
+      {
+        "resourceType": "other",
+        "label": "Other",
+        "requestCount": 23,
+        "transferSize": 28502
+      },
+      {
+        "resourceType": "media",
+        "label": "Media",
+        "requestCount": 0,
+        "transferSize": 0
+      },
+      {
+        "resourceType": "third-party",
+        "label": "Third-party",
+        "requestCount": 6,
+        "transferSize": 400462
+      }
+    ],
+    "failed_binary_audits": [
+      {
+        "id": "errors-in-console",
+        "title": "Browser errors were logged to the console"
+      },
+      {
+        "id": "third-party-cookies",
+        "title": "Uses third-party cookies"
+      },
+      {
+        "id": "color-contrast",
+        "title": "Background and foreground colors do not have a sufficient contrast ratio."
+      },
+      {
+        "id": "inspector-issues",
+        "title": "Issues were logged in the `Issues` panel in Chrome Devtools"
+      },
+      {
+        "id": "bf-cache",
+        "title": "Page prevented back/forward cache restoration"
+      }
+    ]
+  },
+  {
+    "report": "lighthouse-local-before-mobile.json",
+    "lighthouse_version": "13.5.0",
+    "fetch_time": "2026-10-13T23:28:44.365Z",
+    "url": "http://localhost:3012/",
+    "environment": {
+      "networkUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Mobile Safari/537.36",
+      "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "benchmarkIndex": 2452,
+      "credits": {
+        "axe-core": "4.14.0"
+      }
+    },
+    "form_factor": "mobile",
+    "throttling_method": "simulate",
+    "throttling": {
+      "rttMs": 150,
+      "throughputKbps": 1638.4,
+      "requestLatencyMs": 562.5,
+      "downloadThroughputKbps": 1474.5600000000002,
+      "uploadThroughputKbps": 675,
+      "cpuSlowdownMultiplier": 4
+    },
+    "scores": {
+      "performance": 79,
+      "accessibility": 86,
+      "best-practices": 73,
+      "seo": 92
+    },
+    "metrics": {
+      "first-contentful-paint": {
+        "value": 2407.7225,
+        "unit": "millisecond"
+      },
+      "largest-contentful-paint": {
+        "value": 2707.7225,
+        "unit": "millisecond"
+      },
+      "total-blocking-time": {
+        "value": 553.5000000000014,
+        "unit": "millisecond"
+      },
+      "cumulative-layout-shift": {
+        "value": 0,
+        "unit": "unitless"
+      },
+      "speed-index": {
+        "value": 2746.3938617456165,
+        "unit": "millisecond"
+      },
+      "total-byte-weight": {
+        "value": 1124509,
+        "unit": "byte"
+      },
+      "redirects": {
+        "value": 1839.9802499999998,
+        "unit": "millisecond"
+      },
+      "server-response-time": {
+        "value": 353,
+        "unit": "millisecond"
+      }
+    },
+    "resource_summary": [
+      {
+        "resourceType": "total",
+        "label": "Total",
+        "requestCount": 67,
+        "transferSize": 1124509
+      },
+      {
+        "resourceType": "script",
+        "label": "Script",
+        "requestCount": 19,
+        "transferSize": 603662
+      },
+      {
+        "resourceType": "image",
+        "label": "Image",
+        "requestCount": 14,
+        "transferSize": 234938
+      },
+      {
+        "resourceType": "font",
+        "label": "Font",
+        "requestCount": 6,
+        "transferSize": 158348
+      },
+      {
+        "resourceType": "document",
+        "label": "Document",
+        "requestCount": 1,
+        "transferSize": 57254
+      },
+      {
+        "resourceType": "stylesheet",
+        "label": "Stylesheet",
+        "requestCount": 3,
+        "transferSize": 39739
+      },
+      {
+        "resourceType": "other",
+        "label": "Other",
+        "requestCount": 24,
+        "transferSize": 30568
+      },
+      {
+        "resourceType": "media",
+        "label": "Media",
+        "requestCount": 0,
+        "transferSize": 0
+      },
+      {
+        "resourceType": "third-party",
+        "label": "Third-party",
+        "requestCount": 6,
+        "transferSize": 400255
+      }
+    ],
+    "failed_binary_audits": [
+      {
+        "id": "errors-in-console",
+        "title": "Browser errors were logged to the console"
+      },
+      {
+        "id": "third-party-cookies",
+        "title": "Uses third-party cookies"
+      },
+      {
+        "id": "color-contrast",
+        "title": "Background and foreground colors do not have a sufficient contrast ratio."
+      },
+      {
+        "id": "definition-list",
+        "title": "`<dl>`'s do not contain only properly-ordered `<dt>` and `<dd>` groups, `<script>`, `<template>` or `<div>` elements."
+      },
+      {
+        "id": "dlitem",
+        "title": "Definition list items are not wrapped in `<dl>` elements"
+      },
+      {
+        "id": "label-content-name-mismatch",
+        "title": "Elements with visible text labels do not have matching accessible names."
+      },
+      {
+        "id": "target-size",
+        "title": "Touch targets do not have sufficient size or spacing."
+      },
+      {
+        "id": "inspector-issues",
+        "title": "Issues were logged in the `Issues` panel in Chrome Devtools"
+      },
+      {
+        "id": "link-text",
+        "title": "Links do not have descriptive text"
+      },
+      {
+        "id": "bf-cache",
+        "title": "Page prevented back/forward cache restoration"
+      }
+    ]
+  },
+  {
+    "report": "lighthouse-local-complete-desktop.json",
+    "lighthouse_version": "13.5.0",
+    "fetch_time": "2026-10-14T00:04:31.511Z",
+    "url": "http://localhost:3012/",
+    "environment": {
+      "networkUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
+      "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "benchmarkIndex": 2509,
+      "credits": {
+        "axe-core": "4.14.0"
+      }
+    },
+    "form_factor": "desktop",
+    "throttling_method": "simulate",
+    "throttling": {
+      "rttMs": 40,
+      "throughputKbps": 10240,
+      "requestLatencyMs": 0,
+      "downloadThroughputKbps": 0,
+      "uploadThroughputKbps": 0,
+      "cpuSlowdownMultiplier": 1
+    },
+    "scores": {
+      "performance": 97,
+      "accessibility": 96,
+      "best-practices": 73,
+      "seo": 100
+    },
+    "metrics": {
+      "first-contentful-paint": {
+        "value": 847.8219999999999,
+        "unit": "millisecond"
+      },
+      "largest-contentful-paint": {
+        "value": 1036.817,
+        "unit": "millisecond"
+      },
+      "total-blocking-time": {
+        "value": 6.5,
+        "unit": "millisecond"
+      },
+      "cumulative-layout-shift": {
+        "value": 0,
+        "unit": "unitless"
+      },
+      "speed-index": {
+        "value": 1132.8423571150404,
+        "unit": "millisecond"
+      },
+      "total-byte-weight": {
+        "value": 1020001,
+        "unit": "byte"
+      },
+      "redirects": {
+        "value": 0,
+        "unit": "millisecond"
+      },
+      "server-response-time": {
+        "value": 525,
+        "unit": "millisecond"
+      }
+    },
+    "resource_summary": [
+      {
+        "resourceType": "total",
+        "label": "Total",
+        "requestCount": 56,
+        "transferSize": 1020001
+      },
+      {
+        "resourceType": "script",
+        "label": "Script",
+        "requestCount": 19,
+        "transferSize": 603918
+      },
+      {
+        "resourceType": "image",
+        "label": "Image",
+        "requestCount": 10,
+        "transferSize": 183160
+      },
+      {
+        "resourceType": "font",
+        "label": "Font",
+        "requestCount": 5,
+        "transferSize": 114928
+      },
+      {
+        "resourceType": "document",
+        "label": "Document",
+        "requestCount": 1,
+        "transferSize": 57745
+      },
+      {
+        "resourceType": "stylesheet",
+        "label": "Stylesheet",
+        "requestCount": 3,
+        "transferSize": 39886
+      },
+      {
+        "resourceType": "other",
+        "label": "Other",
+        "requestCount": 18,
+        "transferSize": 20364
+      },
+      {
+        "resourceType": "media",
+        "label": "Media",
+        "requestCount": 0,
+        "transferSize": 0
+      },
+      {
+        "resourceType": "third-party",
+        "label": "Third-party",
+        "requestCount": 5,
+        "transferSize": 398478
+      }
+    ],
+    "failed_binary_audits": [
+      {
+        "id": "errors-in-console",
+        "title": "Browser errors were logged to the console"
+      },
+      {
+        "id": "third-party-cookies",
+        "title": "Uses third-party cookies"
+      },
+      {
+        "id": "color-contrast",
+        "title": "Background and foreground colors do not have a sufficient contrast ratio."
+      },
+      {
+        "id": "inspector-issues",
+        "title": "Issues were logged in the `Issues` panel in Chrome Devtools"
+      },
+      {
+        "id": "bf-cache",
+        "title": "Page prevented back/forward cache restoration"
+      }
+    ]
+  },
+  {
+    "report": "lighthouse-local-complete-mobile.json",
+    "lighthouse_version": "13.5.0",
+    "fetch_time": "2026-10-14T00:04:10.058Z",
+    "url": "http://localhost:3012/",
+    "environment": {
+      "networkUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Mobile Safari/537.36",
+      "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "benchmarkIndex": 2536.5,
+      "credits": {
+        "axe-core": "4.14.0"
+      }
+    },
+    "form_factor": "mobile",
+    "throttling_method": "simulate",
+    "throttling": {
+      "rttMs": 150,
+      "throughputKbps": 1638.4,
+      "requestLatencyMs": 562.5,
+      "downloadThroughputKbps": 1474.5600000000002,
+      "uploadThroughputKbps": 675,
+      "cpuSlowdownMultiplier": 4
+    },
+    "scores": {
+      "performance": 60,
+      "accessibility": 100,
+      "best-practices": 73,
+      "seo": 100
+    },
+    "metrics": {
+      "first-contentful-paint": {
+        "value": 3180.8115,
+        "unit": "millisecond"
+      },
+      "largest-contentful-paint": {
+        "value": 7575.300499999998,
+        "unit": "millisecond"
+      },
+      "total-blocking-time": {
+        "value": 359.0827500000005,
+        "unit": "millisecond"
+      },
+      "cumulative-layout-shift": {
+        "value": 0,
+        "unit": "unitless"
+      },
+      "speed-index": {
+        "value": 3987.7193837423765,
+        "unit": "millisecond"
+      },
+      "total-byte-weight": {
+        "value": 988024,
+        "unit": "byte"
+      },
+      "redirects": {
+        "value": 0,
+        "unit": "millisecond"
+      },
+      "server-response-time": {
+        "value": 351,
+        "unit": "millisecond"
+      }
+    },
+    "resource_summary": [
+      {
+        "resourceType": "total",
+        "label": "Total",
+        "requestCount": 57,
+        "transferSize": 988024
+      },
+      {
+        "resourceType": "script",
+        "label": "Script",
+        "requestCount": 19,
+        "transferSize": 603952
+      },
+      {
+        "resourceType": "image",
+        "label": "Image",
+        "requestCount": 9,
+        "transferSize": 148232
+      },
+      {
+        "resourceType": "font",
+        "label": "Font",
+        "requestCount": 5,
+        "transferSize": 114928
+      },
+      {
+        "resourceType": "document",
+        "label": "Document",
+        "requestCount": 1,
+        "transferSize": 57745
+      },
+      {
+        "resourceType": "stylesheet",
+        "label": "Stylesheet",
+        "requestCount": 3,
+        "transferSize": 39886
+      },
+      {
+        "resourceType": "other",
+        "label": "Other",
+        "requestCount": 20,
+        "transferSize": 23281
+      },
+      {
+        "resourceType": "media",
+        "label": "Media",
+        "requestCount": 0,
+        "transferSize": 0
+      },
+      {
+        "resourceType": "third-party",
+        "label": "Third-party",
+        "requestCount": 5,
+        "transferSize": 398512
+      }
+    ],
+    "failed_binary_audits": [
+      {
+        "id": "errors-in-console",
+        "title": "Browser errors were logged to the console"
+      },
+      {
+        "id": "third-party-cookies",
+        "title": "Uses third-party cookies"
+      },
+      {
+        "id": "inspector-issues",
+        "title": "Issues were logged in the `Issues` panel in Chrome Devtools"
+      },
+      {
+        "id": "bf-cache",
+        "title": "Page prevented back/forward cache restoration"
+      }
+    ]
+  },
+  {
+    "report": "lighthouse-local-final-mobile.json",
+    "lighthouse_version": "13.5.0",
+    "fetch_time": "2026-10-13T23:41:28.853Z",
+    "url": "http://localhost:3012/",
+    "environment": {
+      "networkUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Mobile Safari/537.36",
+      "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "benchmarkIndex": 2402,
+      "credits": {
+        "axe-core": "4.14.0"
+      }
+    },
+    "form_factor": "mobile",
+    "throttling_method": "simulate",
+    "throttling": {
+      "rttMs": 150,
+      "throughputKbps": 1638.4,
+      "requestLatencyMs": 562.5,
+      "downloadThroughputKbps": 1474.5600000000002,
+      "uploadThroughputKbps": 675,
+      "cpuSlowdownMultiplier": 4
+    },
+    "scores": {
+      "performance": 55,
+      "accessibility": 100,
+      "best-practices": 73,
+      "seo": 100
+    },
+    "metrics": {
+      "first-contentful-paint": {
+        "value": 3272.2005,
+        "unit": "millisecond"
+      },
+      "largest-contentful-paint": {
+        "value": 7680.989499999998,
+        "unit": "millisecond"
+      },
+      "total-blocking-time": {
+        "value": 418.5,
+        "unit": "millisecond"
+      },
+      "cumulative-layout-shift": {
+        "value": 0,
+        "unit": "unitless"
+      },
+      "speed-index": {
+        "value": 5283.030158127213,
+        "unit": "millisecond"
+      },
+      "total-byte-weight": {
+        "value": 1035152,
+        "unit": "byte"
+      },
+      "redirects": {
+        "value": 0,
+        "unit": "millisecond"
+      },
+      "server-response-time": {
+        "value": 363,
+        "unit": "millisecond"
+      }
+    },
+    "resource_summary": [
+      {
+        "resourceType": "total",
+        "label": "Total",
+        "requestCount": 61,
+        "transferSize": 1035152
+      },
+      {
+        "resourceType": "script",
+        "label": "Script",
+        "requestCount": 19,
+        "transferSize": 603581
+      },
+      {
+        "resourceType": "image",
+        "label": "Image",
+        "requestCount": 13,
+        "transferSize": 194623
+      },
+      {
+        "resourceType": "font",
+        "label": "Font",
+        "requestCount": 5,
+        "transferSize": 114928
+      },
+      {
+        "resourceType": "document",
+        "label": "Document",
+        "requestCount": 1,
+        "transferSize": 58232
+      },
+      {
+        "resourceType": "stylesheet",
+        "label": "Stylesheet",
+        "requestCount": 3,
+        "transferSize": 39886
+      },
+      {
+        "resourceType": "other",
+        "label": "Other",
+        "requestCount": 20,
+        "transferSize": 23902
+      },
+      {
+        "resourceType": "media",
+        "label": "Media",
+        "requestCount": 0,
+        "transferSize": 0
+      },
+      {
+        "resourceType": "third-party",
+        "label": "Third-party",
+        "requestCount": 5,
+        "transferSize": 398225
+      }
+    ],
+    "failed_binary_audits": [
+      {
+        "id": "errors-in-console",
+        "title": "Browser errors were logged to the console"
+      },
+      {
+        "id": "third-party-cookies",
+        "title": "Uses third-party cookies"
+      },
+      {
+        "id": "inspector-issues",
+        "title": "Issues were logged in the `Issues` panel in Chrome Devtools"
+      },
+      {
+        "id": "bf-cache",
+        "title": "Page prevented back/forward cache restoration"
+      }
+    ]
+  },
+  {
+    "report": "lighthouse-local-verified-mobile.json",
+    "lighthouse_version": "13.5.0",
+    "fetch_time": "2026-10-13T23:58:14.522Z",
+    "url": "http://localhost:3012/",
+    "environment": {
+      "networkUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Mobile Safari/537.36",
+      "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "benchmarkIndex": 2494,
+      "credits": {
+        "axe-core": "4.14.0"
+      }
+    },
+    "form_factor": "mobile",
+    "throttling_method": "simulate",
+    "throttling": {
+      "rttMs": 150,
+      "throughputKbps": 1638.4,
+      "requestLatencyMs": 562.5,
+      "downloadThroughputKbps": 1474.5600000000002,
+      "uploadThroughputKbps": 675,
+      "cpuSlowdownMultiplier": 4
+    },
+    "scores": {
+      "performance": 67,
+      "accessibility": 100,
+      "best-practices": 73,
+      "seo": 100
+    },
+    "metrics": {
+      "first-contentful-paint": {
+        "value": 3278.2505,
+        "unit": "millisecond"
+      },
+      "largest-contentful-paint": {
+        "value": 5215.720499999999,
+        "unit": "millisecond"
+      },
+      "total-blocking-time": {
+        "value": 323,
+        "unit": "millisecond"
+      },
+      "cumulative-layout-shift": {
+        "value": 0,
+        "unit": "unitless"
+      },
+      "speed-index": {
+        "value": 3278.2505,
+        "unit": "millisecond"
+      },
+      "total-byte-weight": {
+        "value": 990803,
+        "unit": "byte"
+      },
+      "redirects": {
+        "value": 0,
+        "unit": "millisecond"
+      },
+      "server-response-time": {
+        "value": 460,
+        "unit": "millisecond"
+      }
+    },
+    "resource_summary": [
+      {
+        "resourceType": "total",
+        "label": "Total",
+        "requestCount": 57,
+        "transferSize": 990803
+      },
+      {
+        "resourceType": "script",
+        "label": "Script",
+        "requestCount": 19,
+        "transferSize": 603857
+      },
+      {
+        "resourceType": "image",
+        "label": "Image",
+        "requestCount": 9,
+        "transferSize": 152517
+      },
+      {
+        "resourceType": "font",
+        "label": "Font",
+        "requestCount": 5,
+        "transferSize": 114928
+      },
+      {
+        "resourceType": "document",
+        "label": "Document",
+        "requestCount": 1,
+        "transferSize": 57635
+      },
+      {
+        "resourceType": "stylesheet",
+        "label": "Stylesheet",
+        "requestCount": 3,
+        "transferSize": 39886
+      },
+      {
+        "resourceType": "other",
+        "label": "Other",
+        "requestCount": 20,
+        "transferSize": 21980
+      },
+      {
+        "resourceType": "media",
+        "label": "Media",
+        "requestCount": 0,
+        "transferSize": 0
+      },
+      {
+        "resourceType": "third-party",
+        "label": "Third-party",
+        "requestCount": 5,
+        "transferSize": 398484
+      }
+    ],
+    "failed_binary_audits": [
+      {
+        "id": "errors-in-console",
+        "title": "Browser errors were logged to the console"
+      },
+      {
+        "id": "third-party-cookies",
+        "title": "Uses third-party cookies"
+      },
+      {
+        "id": "inspector-issues",
+        "title": "Issues were logged in the `Issues` panel in Chrome Devtools"
+      },
+      {
+        "id": "bf-cache",
+        "title": "Page prevented back/forward cache restoration"
+      }
+    ]
+  },
+  {
+    "report": "lighthouse-production-desktop.json",
+    "lighthouse_version": "13.5.0",
+    "fetch_time": "2026-10-13T23:27:49.714Z",
+    "url": "https://ibpassociations.org/",
+    "environment": {
+      "networkUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
+      "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "benchmarkIndex": 2436,
+      "credits": {
+        "axe-core": "4.14.0"
+      }
+    },
+    "form_factor": "desktop",
+    "throttling_method": "simulate",
+    "throttling": {
+      "rttMs": 40,
+      "throughputKbps": 10240,
+      "requestLatencyMs": 0,
+      "downloadThroughputKbps": 0,
+      "uploadThroughputKbps": 0,
+      "cpuSlowdownMultiplier": 1
+    },
+    "scores": {
+      "performance": 97,
+      "accessibility": 86,
+      "best-practices": 73,
+      "seo": 92
+    },
+    "metrics": {
+      "first-contentful-paint": {
+        "value": 775.7439999999999,
+        "unit": "millisecond"
+      },
+      "largest-contentful-paint": {
+        "value": 1004.2339999999999,
+        "unit": "millisecond"
+      },
+      "total-blocking-time": {
+        "value": 2,
+        "unit": "millisecond"
+      },
+      "cumulative-layout-shift": {
+        "value": 0,
+        "unit": "unitless"
+      },
+      "speed-index": {
+        "value": 1458.6706415502495,
+        "unit": "millisecond"
+      },
+      "total-byte-weight": {
+        "value": 1041357,
+        "unit": "byte"
+      },
+      "redirects": {
+        "value": 0,
+        "unit": "millisecond"
+      },
+      "server-response-time": {
+        "value": 23,
+        "unit": "millisecond"
+      }
+    },
+    "resource_summary": [
+      {
+        "resourceType": "total",
+        "label": "Total",
+        "requestCount": 63,
+        "transferSize": 1041357
+      },
+      {
+        "resourceType": "script",
+        "label": "Script",
+        "requestCount": 19,
+        "transferSize": 613924
+      },
+      {
+        "resourceType": "image",
+        "label": "Image",
+        "requestCount": 15,
+        "transferSize": 183159
+      },
+      {
+        "resourceType": "font",
+        "label": "Font",
+        "requestCount": 6,
+        "transferSize": 157907
+      },
+      {
+        "resourceType": "stylesheet",
+        "label": "Stylesheet",
+        "requestCount": 3,
+        "transferSize": 37845
+      },
+      {
+        "resourceType": "document",
+        "label": "Document",
+        "requestCount": 1,
+        "transferSize": 30803
+      },
+      {
+        "resourceType": "other",
+        "label": "Other",
+        "requestCount": 19,
+        "transferSize": 17719
+      },
+      {
+        "resourceType": "media",
+        "label": "Media",
+        "requestCount": 0,
+        "transferSize": 0
+      },
+      {
+        "resourceType": "third-party",
+        "label": "Third-party",
+        "requestCount": 5,
+        "transferSize": 397863
+      }
+    ],
+    "failed_binary_audits": [
+      {
+        "id": "errors-in-console",
+        "title": "Browser errors were logged to the console"
+      },
+      {
+        "id": "third-party-cookies",
+        "title": "Uses third-party cookies"
+      },
+      {
+        "id": "color-contrast",
+        "title": "Background and foreground colors do not have a sufficient contrast ratio."
+      },
+      {
+        "id": "definition-list",
+        "title": "`<dl>`'s do not contain only properly-ordered `<dt>` and `<dd>` groups, `<script>`, `<template>` or `<div>` elements."
+      },
+      {
+        "id": "dlitem",
+        "title": "Definition list items are not wrapped in `<dl>` elements"
+      },
+      {
+        "id": "label-content-name-mismatch",
+        "title": "Elements with visible text labels do not have matching accessible names."
+      },
+      {
+        "id": "target-size",
+        "title": "Touch targets do not have sufficient size or spacing."
+      },
+      {
+        "id": "inspector-issues",
+        "title": "Issues were logged in the `Issues` panel in Chrome Devtools"
+      },
+      {
+        "id": "link-text",
+        "title": "Links do not have descriptive text"
+      },
+      {
+        "id": "bf-cache",
+        "title": "Page prevented back/forward cache restoration"
+      }
+    ]
+  },
+  {
+    "report": "lighthouse-production-mobile.json",
+    "lighthouse_version": "13.5.0",
+    "fetch_time": "2026-10-13T23:26:17.567Z",
+    "url": "https://ibpassociations.org/",
+    "environment": {
+      "networkUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Mobile Safari/537.36",
+      "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "benchmarkIndex": 2271.5,
+      "credits": {
+        "axe-core": "4.14.0"
+      }
+    },
+    "form_factor": "mobile",
+    "throttling_method": "simulate",
+    "throttling": {
+      "rttMs": 150,
+      "throughputKbps": 1638.4,
+      "requestLatencyMs": 562.5,
+      "downloadThroughputKbps": 1474.5600000000002,
+      "uploadThroughputKbps": 675,
+      "cpuSlowdownMultiplier": 4
+    },
+    "scores": {
+      "performance": 80,
+      "accessibility": 86,
+      "best-practices": 73,
+      "seo": 92
+    },
+    "metrics": {
+      "first-contentful-paint": {
+        "value": 1349.186,
+        "unit": "millisecond"
+      },
+      "largest-contentful-paint": {
+        "value": 3698.0509999999986,
+        "unit": "millisecond"
+      },
+      "total-blocking-time": {
+        "value": 375.13799999999947,
+        "unit": "millisecond"
+      },
+      "cumulative-layout-shift": {
+        "value": 0,
+        "unit": "unitless"
+      },
+      "speed-index": {
+        "value": 2415.1122299570056,
+        "unit": "millisecond"
+      },
+      "total-byte-weight": {
+        "value": 1043736,
+        "unit": "byte"
+      },
+      "redirects": {
+        "value": 0,
+        "unit": "millisecond"
+      },
+      "server-response-time": {
+        "value": 40,
+        "unit": "millisecond"
+      }
+    },
+    "resource_summary": [
+      {
+        "resourceType": "total",
+        "label": "Total",
+        "requestCount": 64,
+        "transferSize": 1043736
+      },
+      {
+        "resourceType": "script",
+        "label": "Script",
+        "requestCount": 19,
+        "transferSize": 613868
+      },
+      {
+        "resourceType": "image",
+        "label": "Image",
+        "requestCount": 14,
+        "transferSize": 183944
+      },
+      {
+        "resourceType": "font",
+        "label": "Font",
+        "requestCount": 6,
+        "transferSize": 158008
+      },
+      {
+        "resourceType": "stylesheet",
+        "label": "Stylesheet",
+        "requestCount": 3,
+        "transferSize": 37803
+      },
+      {
+        "resourceType": "document",
+        "label": "Document",
+        "requestCount": 1,
+        "transferSize": 30909
+      },
+      {
+        "resourceType": "other",
+        "label": "Other",
+        "requestCount": 21,
+        "transferSize": 19204
+      },
+      {
+        "resourceType": "media",
+        "label": "Media",
+        "requestCount": 0,
+        "transferSize": 0
+      },
+      {
+        "resourceType": "third-party",
+        "label": "Third-party",
+        "requestCount": 5,
+        "transferSize": 397874
+      }
+    ],
+    "failed_binary_audits": [
+      {
+        "id": "errors-in-console",
+        "title": "Browser errors were logged to the console"
+      },
+      {
+        "id": "third-party-cookies",
+        "title": "Uses third-party cookies"
+      },
+      {
+        "id": "color-contrast",
+        "title": "Background and foreground colors do not have a sufficient contrast ratio."
+      },
+      {
+        "id": "definition-list",
+        "title": "`<dl>`'s do not contain only properly-ordered `<dt>` and `<dd>` groups, `<script>`, `<template>` or `<div>` elements."
+      },
+      {
+        "id": "dlitem",
+        "title": "Definition list items are not wrapped in `<dl>` elements"
+      },
+      {
+        "id": "label-content-name-mismatch",
+        "title": "Elements with visible text labels do not have matching accessible names."
+      },
+      {
+        "id": "target-size",
+        "title": "Touch targets do not have sufficient size or spacing."
+      },
+      {
+        "id": "inspector-issues",
+        "title": "Issues were logged in the `Issues` panel in Chrome Devtools"
+      },
+      {
+        "id": "link-text",
+        "title": "Links do not have descriptive text"
+      },
+      {
+        "id": "bf-cache",
+        "title": "Page prevented back/forward cache restoration"
+      }
+    ]
+  }
+]

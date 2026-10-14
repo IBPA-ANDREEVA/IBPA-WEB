@@ -169,7 +169,7 @@ export const BenefitsSection = ({ locale }: BenefitsSectionProps) => {
           </div>
 
           <div className="hidden max-w-3xl space-y-6 px-0 py-4 md:block">
-            <p className={`text-sm uppercase tracking-[0.4em] text-[#708090] ${uiClassName}`}>{copy.eyebrow}</p>
+            <p className={`text-sm uppercase tracking-[0.4em] text-[#55708D] ${uiClassName}`}>{copy.eyebrow}</p>
             <h2 className={`max-w-4xl text-[2.75rem] uppercase leading-[0.94] !text-slate-900 md:text-[4.85rem] ${headlineClassName}`}>
               {copy.title}
             </h2>

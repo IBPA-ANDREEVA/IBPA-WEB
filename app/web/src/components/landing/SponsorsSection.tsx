@@ -1,8 +1,8 @@
 import { ImageWithFallback } from "@/components/figma/ImageWithFallback";
 import { cyrillicDisplay } from "@/lib/cyrillic-fonts";
-import { getBackendUrl } from "@/lib/public-urls";
+import { fetchPublicContentServer } from "@/lib/public-content-server";
 import { homeTemplateDisplay } from "@/lib/home-template-fonts";
-import { getDefaultPartnerCards, mergePartnerCards, type Locale, type PartnerContentItem } from "@/lib/partners";
+import { getDefaultPartnerCards, mergePartnerCards, type Locale } from "@/lib/partners";
 
 type SponsorsSectionProps = {
   locale: Locale;
@@ -12,16 +12,7 @@ async function fetchPartners(locale: Locale) {
   const fallback = getDefaultPartnerCards(locale);
 
   try {
-    const response = await fetch(getBackendUrl("/api/content/public?type=partners&target=site"), {
-      next: { revalidate: 300, tags: ["public-content"] },
-    });
-
-    if (!response.ok) {
-      return fallback;
-    }
-
-    const data = await response.json().catch(() => ({}));
-    const items = Array.isArray(data.items) ? (data.items as PartnerContentItem[]) : [];
+    const items = await fetchPublicContentServer("partners") ?? [];
     return mergePartnerCards(locale, items);
   } catch {
     return fallback;

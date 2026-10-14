@@ -6,7 +6,8 @@ import { EventCard } from "@/components/content/EventCard";
 import { cyrillicDisplay } from "@/lib/cyrillic-fonts";
 import { homeTemplateDisplay } from "@/lib/home-template-fonts";
 import { useI18n } from "@/lib/i18n";
-import { fetchPublicContent, formatPublicContentDate, type PublicContentItem } from "@/lib/public-content";
+import { fetchPublicContent, type PublicContentItem } from "@/lib/public-content";
+import { contentPath } from "@/lib/seo/content";
 
 type EventsPageClientProps = {
   /** Items fetched during server rendering, or `null` when that fetch failed. */
@@ -56,9 +57,11 @@ export function EventsPageClient({ initialItems }: EventsPageClientProps) {
     () =>
       items.length
         ? items.map((item) => ({
-            date: formatPublicContentDate(item.createdAt),
+            detailHref: contentPath(item),
+            // Publish a separate date only after the schedule data is verified.
+            date: "",
             title: item.title,
-            location: isRu ? "Опубликовано для сайта IBPA" : isUk ? "Опубліковано для сайту IBPA" : "Published for the IBPA website",
+            location: item.eventAddress || (isRu ? "Опубликовано для сайта IBPA" : isUk ? "Опубліковано для сайту IBPA" : "Published for the IBPA website"),
             description: item.body,
             extra: "",
             href: item.ctaUrl || "/contact",
@@ -69,6 +72,7 @@ export function EventsPageClient({ initialItems }: EventsPageClientProps) {
             isPinned: Boolean(item.isPinned),
           }))
         : [{
+            detailHref: undefined,
             ...localizedEvent,
             ctaLabel: isRu ? "Перейти к регистрации" : isUk ? "Перейти до реєстрації" : "Open Registration",
             image: "/events/teora-event.webp",
@@ -101,6 +105,7 @@ export function EventsPageClient({ initialItems }: EventsPageClientProps) {
         <div className="space-y-8">
           {renderedEvents.map((renderedEvent, index) => (
             <EventCard
+              titleHref={renderedEvent.detailHref}
               key={`${renderedEvent.title}-${index}`}
               event={{
                 title: renderedEvent.title,
@@ -115,7 +120,7 @@ export function EventsPageClient({ initialItems }: EventsPageClientProps) {
               imagePriority={index === 0}
               imageSizes="(min-width: 1024px) 520px, 100vw"
               meta={[
-                { kind: "date", label: isRu ? "Дата" : isUk ? "Дата" : "Date", value: renderedEvent.date },
+                ...(renderedEvent.date ? [{ kind: "date" as const, label: isRu ? "Дата" : isUk ? "Дата" : "Date", value: renderedEvent.date }] : []),
                 { kind: "location", label: isRu ? "Место" : isUk ? "Місце" : "Location", value: renderedEvent.location },
               ]}
               actions={
