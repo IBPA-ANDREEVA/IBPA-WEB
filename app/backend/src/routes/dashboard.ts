@@ -623,6 +623,8 @@ dashboardRouter.post("/membership-change", clerkMiddleware(clerkOptions), async 
       paymentLink: `/payment-link/${paymentToken}`,
       applicationData: {
         ...submitted,
+        // Admin edit requests (and their one-time links) belong to the old application.
+        additionalReview: undefined,
         membershipCategory: requestedCategory,
         applicantType: MEMBERSHIP_APPLICANT_TYPES[requestedCategory],
         accountType: "member",

@@ -25,6 +25,7 @@ import type {
   MemberApplicationDetail,
   PartnerApplicationDetail,
 } from "../types/application-admin.types";
+import { getApplicationEditRequest } from "../server/application-admin.service";
 
 type ApplicationReviewActionsProps = {
   record: AdminApplicationRecord;
@@ -53,8 +54,10 @@ export function ApplicationReviewActions({
   const [requestedChanges, setRequestedChanges] = useState("");
   const isBusy = Boolean(busyAction);
   const memberStatus = memberApplication?.status;
-  const canReview = record.kind === "member" && (memberStatus === "pending" || memberStatus === "review");
-  const isAlreadyInReview = memberStatus === "review";
+  const isPaidMember = memberStatus === "paid";
+  const canReview = record.kind === "member" && (memberStatus === "pending" || memberStatus === "review" || isPaidMember);
+  const editRequest = memberApplication ? getApplicationEditRequest(memberApplication) : record.editRequest;
+  const isAlreadyInReview = memberStatus === "review" || (isPaidMember && editRequest?.state === "requested");
   const canApprove =
     record.kind === "partner" || memberStatus === "pending" || memberStatus === "review";
   const canResend = record.kind === "member" && memberStatus === "approved";
@@ -105,7 +108,11 @@ export function ApplicationReviewActions({
                 variant="outline"
               >
                 <ShieldAlert data-icon="inline-start" />
-                {isAlreadyInReview ? "Send updated edit request" : "Send to additional review"}
+                {isAlreadyInReview
+                  ? "Send updated edit request"
+                  : isPaidMember
+                    ? "Request application changes"
+                    : "Send to additional review"}
               </Button>
 
               <Dialog
@@ -120,7 +127,9 @@ export function ApplicationReviewActions({
                     Request application changes
                   </DialogTitle>
                   <DialogDescription className="text-sm leading-6 text-[#6C7F95]">
-                    Tell the applicant exactly what needs to be updated. They will receive these notes and a secure link to edit their complete application.
+                    {isPaidMember
+                      ? "Tell the member exactly what to add or update. They will receive these notes by email with a secure link to their application, prefilled with everything they entered before. Their membership, payment and certificate stay as they are."
+                      : "Tell the applicant exactly what needs to be updated. They will receive these notes and a secure link to edit their complete application."}
                   </DialogDescription>
                   <Textarea
                     className="min-h-36 rounded-2xl border-[#D7E5F4] p-3"

@@ -7,6 +7,7 @@ import type {
   PartnerPaymentStatus,
 } from "../../shared/types/admin.types";
 import type { AdminStatusTone } from "../../shared/types/admin.types";
+import type { ApplicationEditRequestState } from "@/lib/admin-types";
 
 export type AdminApplicationKind = "member" | "partner";
 
@@ -39,7 +40,16 @@ export type AdminApplicationRecord = {
   submittedAt: string;
   isMembershipChange?: boolean;
   membershipChange?: MembershipChangeSummary | null;
+  editRequest?: ApplicationEditRequest | null;
   raw: AdminOrder | AdminPartnerApplication;
+};
+
+/** An admin's request for the member to add or change answers on the application. */
+export type ApplicationEditRequest = {
+  state: ApplicationEditRequestState;
+  requestedChanges: string;
+  requestedAt: string | null;
+  resubmittedAt: string | null;
 };
 
 export type MembershipChangeSummary = {
@@ -55,7 +65,7 @@ export type MembershipChangeSummary = {
 };
 
 export type MemberApplicationDetail = AdminOrder;
-export type { RelatedApplication } from "@/lib/admin-types";
+export type { ApplicationEditRequestState, RelatedApplication } from "@/lib/admin-types";
 export type PartnerApplicationDetail = AdminPartnerApplication;
 
 export type ApplicationFieldChange = "new" | "changed";

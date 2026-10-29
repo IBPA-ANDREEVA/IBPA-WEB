@@ -21,9 +21,13 @@ export type AdminOrder = {
   promoCode?: ApplicationPromoCode | null;
   /** The previous application and the open update built on it, when the member has both. */
   relatedApplications?: RelatedApplication[];
-  /** Answers on the application a membership change was based on. */
+  /** Answers before a membership change, or before the member's last requested edit. */
   previousApplicationPayload?: ApplicationPayload | null;
+  /** Set on list rows: an admin edit request is waiting for the member, or they answered it. */
+  editRequest?: ApplicationEditRequestState | null;
 };
+
+export type ApplicationEditRequestState = "requested" | "resubmitted";
 
 export type RelatedApplication = {
   id: string;

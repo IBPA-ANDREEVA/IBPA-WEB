@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, Repeat2, UploadCloud } from "lucide-react";
+import { ArrowRight, PencilLine, Repeat2, UploadCloud } from "lucide-react";
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { applicationSectionTitles } from "@/lib/application-fields";
@@ -9,10 +9,15 @@ import { AdminEmptyState } from "../../shared/components/AdminEmptyState";
 import { AdminSectionCard } from "../../shared/components/AdminSectionCard";
 import { AdminStatusBadge } from "../../shared/components/AdminStatusBadge";
 import { formatAdminDateTime } from "../../shared/utils/admin-formatters";
-import { buildMemberApplicationSections, summarizeApplicationChanges } from "../server/application-admin.service";
+import {
+  buildMemberApplicationSections,
+  getApplicationEditRequest,
+  summarizeApplicationChanges,
+} from "../server/application-admin.service";
 import type {
   AdminApplicationRecord,
   ApplicationAdditionalFile,
+  ApplicationEditRequest,
   ApplicationFieldSection,
   MemberApplicationDetail,
   PartnerApplicationDetail,
@@ -208,6 +213,49 @@ function MembershipChangeCard({
   );
 }
 
+function EditRequestCard({
+  editRequest,
+  changes,
+  showComparison,
+}: {
+  editRequest: ApplicationEditRequest;
+  changes: { added: number; edited: number } | null;
+  showComparison: boolean;
+}) {
+  const isWaiting = editRequest.state === "requested";
+
+  return (
+    <section
+      className={`rounded-[24px] border p-5 ${
+        isWaiting ? "border-[#F1D9A6] bg-[#FFFAF0]" : "border-[#9BC4DD] bg-[#F2F9FE]"
+      }`}
+    >
+      <div className="flex flex-wrap items-center gap-2 text-[10px] font-bold uppercase tracking-[0.22em] text-[#55708D]">
+        <PencilLine className="size-4" />
+        {isWaiting ? "Changes requested · waiting for the member" : "Updated by the member"}
+      </div>
+      <p className="mt-2 text-xs text-[#6C7F95]">
+        {editRequest.requestedAt ? `Requested ${formatAdminDateTime(editRequest.requestedAt)}` : null}
+        {!isWaiting && editRequest.resubmittedAt
+          ? `${editRequest.requestedAt ? " · " : ""}Submitted ${formatAdminDateTime(editRequest.resubmittedAt)}`
+          : null}
+      </p>
+      {editRequest.requestedChanges ? (
+        <p className="mt-3 whitespace-pre-wrap rounded-[16px] border border-white bg-white/70 px-4 py-3 text-sm leading-6 text-[#10203B]">
+          {editRequest.requestedChanges}
+        </p>
+      ) : null}
+      {!isWaiting && showComparison ? (
+        <p className="mt-3 text-sm leading-6 text-[#315F84]">
+          {changes
+            ? `${changes.added} new ${changes.added === 1 ? "answer" : "answers"} and ${changes.edited} edited ${changes.edited === 1 ? "answer" : "answers"}. Marked in the fields below.`
+            : "The answers from before this edit are not available for comparison."}
+        </p>
+      ) : null}
+    </section>
+  );
+}
+
 export function ApplicationDetailsPanel({
   isLoading,
   layout = "card",
@@ -247,6 +295,11 @@ export function ApplicationDetailsPanel({
   const updateChanges = record.isMembershipChange && hasPrevious
     ? summarizeApplicationChanges(memberSections)
     : null;
+  const editRequest = memberApplication ? getApplicationEditRequest(memberApplication) : null;
+  // A membership change already compares with the application it replaces.
+  const editChanges = editRequest?.state === "resubmitted" && hasPrevious && !record.isMembershipChange
+    ? summarizeApplicationChanges(memberSections)
+    : null;
 
   const membershipSections = memberSections.filter(
     (section) => section.title === applicationSectionTitles.summary,
@@ -279,6 +332,13 @@ export function ApplicationDetailsPanel({
     record.kind === "member" && memberApplication ? (
       <div className="space-y-5">
         {record.isMembershipChange ? <MembershipChangeCard changes={updateChanges} hasPrevious={hasPrevious} record={record} /> : null}
+        {editRequest ? (
+          <EditRequestCard
+            changes={editChanges}
+            editRequest={editRequest}
+            showComparison={!record.isMembershipChange}
+          />
+        ) : null}
         {showMembershipSummary && membershipSections.length ? (
           <div className={showMembershipSummary === "mobile" ? "xl:hidden" : undefined}>
             <PanelCard title="Membership">

@@ -437,6 +437,8 @@ export function ApplyForm({ change }: { change?: MembershipChangeContext }) {
   const [isReviewLoading, setIsReviewLoading] = React.useState(false);
   const [reviewLoadError, setReviewLoadError] = React.useState("");
   const [requestedChanges, setRequestedChanges] = React.useState("");
+  // A paid member edits their answers but keeps the membership they paid for.
+  const [isPaidMemberEdit, setIsPaidMemberEdit] = React.useState(false);
   const isFinalStep = currentStep === STEPS.length - 1;
   const draftKey = change
     ? `${CHANGE_DRAFT_PREFIX}:${change.fromCategory}:${change.toCategory}`
@@ -561,7 +563,9 @@ export function ApplyForm({ change }: { change?: MembershipChangeContext }) {
         }
 
         const savedApplication = payload.application as Partial<FormData>;
-        const savedCategory = getMembershipCategory(savedApplication.membershipCategory);
+        const isPaidMember = payload.isPaidMember === true;
+        const savedCategory = (isPaidMember ? getMembershipCategory(payload.membershipCategory) : null)
+          ?? getMembershipCategory(savedApplication.membershipCategory);
         reset(
           {
             applicantType: membershipConfigById.Specialist.applicantType,
@@ -580,6 +584,7 @@ export function ApplyForm({ change }: { change?: MembershipChangeContext }) {
         );
         restoredCategoryRef.current = savedCategory || "Specialist";
         setRequestedChanges(typeof payload.requestedChanges === "string" ? payload.requestedChanges : "");
+        setIsPaidMemberEdit(isPaidMember);
         setIsReviewEdit(true);
       })
       .catch((error) => {
@@ -946,6 +951,12 @@ export function ApplyForm({ change }: { change?: MembershipChangeContext }) {
         selectedConfigTitle={selectedConfig.title}
         localizedApplicantType={localizedApplicantType}
         selectedPrice={selectedConfig.price}
+        {...(isPaidMemberEdit
+          ? {
+            eyebrow: "Changes submitted",
+            message: "Thank you. Your application has been updated and the IBPA team has been notified. Your membership stays active.",
+          }
+          : {})}
       />
     );
   }
@@ -1003,7 +1014,11 @@ export function ApplyForm({ change }: { change?: MembershipChangeContext }) {
           <div className="mb-6 rounded-[28px] border border-[#B9D9EB] bg-[#F0F8FF] p-6 text-slate-800 shadow-sm">
             <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#1F5D8F]">Requested changes</p>
             <p className="mt-3 whitespace-pre-wrap text-sm leading-6">{requestedChanges}</p>
-            <p className="mt-3 text-sm text-slate-600">Update any part of your application, including files, then submit it for another review.</p>
+            <p className="mt-3 text-sm text-slate-600">
+              {isPaidMemberEdit
+                ? "Your previous answers are filled in. Update or add what is requested, including files, then submit your changes. Your membership stays active."
+                : "Update any part of your application, including files, then submit it for another review."}
+            </p>
           </div>
         ) : null}
         <div className="bg-white/90 backdrop-blur-xl border border-slate-100 rounded-[40px] shadow-2xl p-4 md:p-8 flex justify-between gap-3 overflow-x-auto no-scrollbar">
@@ -1113,8 +1128,17 @@ export function ApplyForm({ change }: { change?: MembershipChangeContext }) {
                   </p>
                 </div>
 
+                {isPaidMemberEdit ? (
+                  <p className="rounded-[20px] border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600">
+                    This is your active, paid membership, so the category stays the same. Continue to update your details.
+                  </p>
+                ) : null}
+
                 <div className="grid gap-3">
-                  {membershipConfigs.map((config) => (
+                  {(isPaidMemberEdit
+                    ? membershipConfigs.filter((config) => config.id === selectedCategory)
+                    : membershipConfigs
+                  ).map((config) => (
                     <label
                       key={config.id}
                       className={`block rounded-[26px] border-2 p-4 md:p-5 cursor-pointer transition-all ${
@@ -1148,7 +1172,9 @@ export function ApplyForm({ change }: { change?: MembershipChangeContext }) {
                 <div className="rounded-[32px] bg-white p-6 border border-slate-100">
                   <p className="text-[10px] uppercase tracking-widest font-bold text-[#708090]">{isRu ? "Что происходит после отправки" : isUk ? "Що відбувається після надсилання" : "What happens after submission"}</p>
                   <p className="mt-3 text-slate-600 leading-relaxed">
-                    {isRu
+                    {isPaidMemberEdit
+                      ? "Your updates are saved to your application and the IBPA team is notified. Your membership, certificate and payment stay exactly as they are."
+                      : isRu
                       ? "Вашу заявку рассматривает комиссия по отбору. Если она будет одобрена, мы отправим вам инструкции по оплате и активации на электронную почту. В этом процессе нет лишних промежуточных шагов."
                       : isUk
                         ? "Вашу заявку розглядає комісія з відбору. Якщо її буде схвалено, ми надішлемо вам інструкції щодо оплати та активації електронною поштою. У цьому процесі немає зайвих проміжних кроків."
@@ -1603,7 +1629,7 @@ export function ApplyForm({ change }: { change?: MembershipChangeContext }) {
                 }}
                 className="ml-auto px-12 py-6 bg-[#B9D9EB] text-black rounded-full text-xs font-bold uppercase tracking-widest flex items-center gap-4 hover:scale-105 transition-all shadow-2xl disabled:opacity-60"
               >
-                {isSubmitting ? (isRu ? "Отправка..." : isUk ? "Надсилання..." : "Submitting...") : (change ? "Send for review" : isReviewEdit ? "Resubmit Application" : isRu ? "Отправить заявку" : isUk ? "Надіслати заявку" : "Submit Application")} <Send size={18} />
+                {isSubmitting ? (isRu ? "Отправка..." : isUk ? "Надсилання..." : "Submitting...") : (change ? "Send for review" : isPaidMemberEdit ? "Submit Changes" : isReviewEdit ? "Resubmit Application" : isRu ? "Отправить заявку" : isUk ? "Надіслати заявку" : "Submit Application")} <Send size={18} />
               </button>
             )}
           </div>

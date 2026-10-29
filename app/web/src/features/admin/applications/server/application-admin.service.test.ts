@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import {
+  getApplicationEditRequest,
   getMembershipChangeSummary,
   isTeamApplication,
   sortApplicationQueue,
@@ -53,6 +54,47 @@ test("does not infer a membership change from an ordinary application", () => {
   const application = { ...changeApplication(), applicationKind: null, applicationPayload: {} };
   assert.equal(getMembershipChangeSummary(application), null);
   assert.equal(toMemberApplicationRecord(application).isMembershipChange, false);
+});
+
+test("reads an open edit request on a paid application", () => {
+  const application: MemberApplicationDetail = {
+    ...changeApplication(),
+    applicationKind: null,
+    status: "paid",
+    applicationPayload: {
+      additionalReview: {
+        requestedChanges: "Please add your license number.",
+        editToken: "token-1",
+        requestedAt: "2026-10-01T10:00:00.000Z",
+      },
+    },
+  };
+
+  assert.deepEqual(getApplicationEditRequest(application), {
+    state: "requested",
+    requestedChanges: "Please add your license number.",
+    requestedAt: "2026-10-01T10:00:00.000Z",
+    resubmittedAt: null,
+  });
+});
+
+test("marks an answered edit request as resubmitted, and falls back to list rows", () => {
+  const answered: MemberApplicationDetail = {
+    ...changeApplication(),
+    applicationPayload: {
+      additionalReview: {
+        requestedChanges: "Add dates.",
+        editToken: null,
+        requestedAt: "2026-10-01T10:00:00.000Z",
+        resubmittedAt: "2026-10-02T10:00:00.000Z",
+      },
+    },
+  };
+  assert.equal(getApplicationEditRequest(answered)?.state, "resubmitted");
+
+  const listRow: MemberApplicationDetail = { ...changeApplication(), applicationPayload: undefined, editRequest: "requested" };
+  assert.equal(toMemberApplicationRecord(listRow).editRequest?.state, "requested");
+  assert.equal(getApplicationEditRequest({ ...listRow, editRequest: null }), null);
 });
 
 test("pins membership changes ahead of newer ordinary applications", () => {
