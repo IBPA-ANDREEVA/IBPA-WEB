@@ -12,6 +12,8 @@ type SubmittedStateProps = {
   selectedConfigTitle: string;
   localizedApplicantType: string;
   selectedPrice: string;
+  eyebrow?: string;
+  message?: string;
 };
 
 export function SubmittedState({
@@ -23,6 +25,8 @@ export function SubmittedState({
   selectedConfigTitle,
   localizedApplicantType,
   selectedPrice,
+  eyebrow = "Application submitted",
+  message = "We have received your application. The IBPA team will contact you after review.",
 }: SubmittedStateProps) {
   return (
     <div className="min-h-screen bg-white flex items-center justify-center px-6 py-16">
@@ -31,13 +35,13 @@ export function SubmittedState({
           <CheckCircle2 size={28} />
         </div>
         <p className="text-center text-[10px] uppercase tracking-[0.35em] text-[#708090]">
-          Application submitted
+          {eyebrow}
         </p>
         <h1 className={`mt-4 text-center text-4xl md:text-6xl uppercase leading-none text-slate-900 ${headlineClassName}`}>
           Thank You
         </h1>
         <p className={`mt-4 text-center text-slate-600 ${editorialClassName}`}>
-          We have received your application. The IBPA team will contact you after review.
+          {message}
         </p>
 
         <div className="mt-8 grid gap-4 rounded-3xl border border-slate-200 bg-white p-5 md:grid-cols-2">

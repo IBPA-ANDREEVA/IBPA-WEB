@@ -12,6 +12,7 @@ import type {
   ApplicationFieldItem,
   ApplicationFieldSection,
   ApplicationFileGroup,
+  ApplicationEditRequest,
   ApplicationQueueResponse,
   MemberApplicationDetail,
   MembershipChangeSummary,
@@ -91,6 +92,31 @@ export function getMembershipChangeSummary(application: MemberApplicationDetail)
   };
 }
 
+/**
+ * The admin's latest edit request on an application. Detail responses carry the
+ * full payload; list rows only carry the `editRequest` state.
+ */
+export function getApplicationEditRequest(application: MemberApplicationDetail): ApplicationEditRequest | null {
+  const value = payloadOf(application).additionalReview;
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    return application.editRequest
+      ? { state: application.editRequest, requestedChanges: "", requestedAt: null, resubmittedAt: null }
+      : null;
+  }
+
+  const review = value as Record<string, unknown>;
+  const text = (key: string) => (typeof review[key] === "string" ? (review[key] as string) : "");
+  const state = text("editToken") ? "requested" : text("resubmittedAt") ? "resubmitted" : null;
+  if (!state) return null;
+
+  return {
+    state,
+    requestedChanges: text("requestedChanges"),
+    requestedAt: text("requestedAt") || null,
+    resubmittedAt: text("resubmittedAt") || null,
+  };
+}
+
 export function getMemberPaymentStatus(application: MemberApplicationDetail): {
   status: AdminApplicationPaymentStatus;
   label: string;
@@ -142,6 +168,7 @@ export function toMemberApplicationRecord(application: MemberApplicationDetail):
     kind: "member",
     isMembershipChange,
     membershipChange,
+    editRequest: getApplicationEditRequest(application),
     membershipPackage: application.membershipCategory || "Not selected",
     paymentStatus: payment.status,
     paymentStatusLabel: payment.label,

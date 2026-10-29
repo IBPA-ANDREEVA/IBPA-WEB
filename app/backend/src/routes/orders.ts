@@ -488,25 +488,52 @@ async function sendAdminPaymentLinkSentEmail(params: { email: string; name: stri
   });
 }
 
-async function sendReviewEmail(params: { email: string; name: string; requestedChanges: string; editToken: string; }) {
+async function sendReviewEmail(params: { email: string; name: string; requestedChanges: string; editToken: string; isPaidMember?: boolean; }) {
   const frontendUrl = getFrontendBaseUrl();
   if (!frontendUrl) {
     throw new Error("FRONTEND_URL is not configured");
   }
   const editUrl = `${frontendUrl}/application/edit?token=${encodeURIComponent(params.editToken)}`;
+  // A paid member keeps their active membership while they update the application.
+  const intro = params.isPaidMember
+    ? "Our team needs a few additions or updates to your IBPA membership application. Your membership stays active while you make them."
+    : "Our review team needs a few updates to your IBPA application before we can continue.";
+  const outro = params.isPaidMember
+    ? "Please use the button below to open your application. Everything you entered before is already filled in, so you only need to update or add what is requested, then submit it."
+    : "Please use the button below to edit your full application and upload any updated files. When you submit it, your application will return to the review queue.";
 
   return sendEmailOrThrow({
     from: APPLICATIONS_SENDER,
     to: params.email,
     replyTo: APPLICATIONS_REPLY_TO,
-    subject: "Your IBPA application requires additional review",
+    subject: params.isPaidMember
+      ? "Please update your IBPA membership application"
+      : "Your IBPA application requires additional review",
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 640px; margin: 0 auto; padding: 24px; border: 1px solid #e5e7eb; border-radius: 20px; color: #0f172a;">
         <p>Hello ${escapeHtml(params.name || "there")},</p>
-        <p>Our review team needs a few updates to your IBPA application before we can continue.</p>
+        <p>${intro}</p>
         <p style="white-space: pre-wrap; padding: 16px; background: #f8fafc; border-radius: 12px;"><strong>Requested changes:</strong><br>${escapeHtml(params.requestedChanges)}</p>
-        <p>Please use the button below to edit your full application and upload any updated files. When you submit it, your application will return to the review queue.</p>
+        <p>${outro}</p>
         <p style="margin: 28px 0;"><a href="${escapeHtml(editUrl)}" style="display: inline-block; background: #1F5D8F; color: #fff; padding: 14px 22px; border-radius: 10px; text-decoration: none; font-weight: bold;">Edit application</a></p>
+      </div>
+    `,
+  });
+}
+
+async function sendAdminApplicationUpdatedEmail(params: { email: string; name: string; orderId: string; membershipCategory?: string | null; isPaidMember: boolean; }) {
+  return sendEmailOrThrow({
+    from: APPLICATIONS_SENDER,
+    to: adminNotificationEmail,
+    replyTo: APPLICATIONS_REPLY_TO,
+    subject: `IBPA application updated: ${params.name || params.email}`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 640px; margin: 0 auto; padding: 24px; border: 1px solid #e5e7eb; border-radius: 20px; color: #0f172a;">
+        <p>${escapeHtml(params.name || params.email)} submitted the changes you requested on their application.</p>
+        <p><strong>Email:</strong> ${escapeHtml(params.email)}</p>
+        <p><strong>Membership:</strong> ${escapeHtml(params.membershipCategory || "N/A")}</p>
+        <p><strong>Status:</strong> ${params.isPaidMember ? "Paid member (membership unchanged)" : "Back in the review queue"}</p>
+        <p><strong>Order ID:</strong> ${escapeHtml(params.orderId)}</p>
       </div>
     `,
   });
@@ -840,6 +867,8 @@ async function buildAdminOrderRows(db: ReturnType<typeof requireDb>) {
       status: coreApplications.status,
       createdAt: coreApplications.createdAt,
       applicationKind: sql<string | null>`${coreApplications.applicationData} ->> 'applicationKind'`,
+      editRequestPending: sql<boolean>`coalesce(${coreApplications.applicationData} -> 'additionalReview' ->> 'editToken', '') <> ''`,
+      editResubmittedAt: sql<string | null>`${coreApplications.applicationData} -> 'additionalReview' ->> 'resubmittedAt'`,
       stripeSessionId: corePayments.stripeSessionId,
       certificateNumber: coreCertificates.certificateNumber,
     })
@@ -861,6 +890,7 @@ async function buildAdminOrderRows(db: ReturnType<typeof requireDb>) {
     createdAt: row.createdAt,
     certificateNumber: row.certificateNumber ?? null,
     applicationKind: row.applicationKind ?? null,
+    editRequest: row.editRequestPending ? "requested" : row.editResubmittedAt ? "resubmitted" : null,
   })).sort((left: any, right: any) => {
     const leftPriority = left.applicationKind === "MEMBERSHIP_CHANGE" ? 1 : 0;
     const rightPriority = right.applicationKind === "MEMBERSHIP_CHANGE" ? 1 : 0;
@@ -956,16 +986,46 @@ function getAdditionalReviewDetails(application: typeof coreApplications.$inferS
   return {
     editToken: textValue(review.editToken),
     requestedChanges: textValue(review.requestedChanges),
+    previousApplicationData: review.previousApplicationData && typeof review.previousApplicationData === "object"
+      ? review.previousApplicationData as Record<string, unknown>
+      : null,
   };
 }
 
+// Unpaid applications wait for edits in UNDER_REVIEW; paid ones stay PAID so the
+// membership, payment and certificate are untouched while the member edits.
+const REVIEW_EDIT_STATUSES = ["UNDER_REVIEW", "PAID"] as const;
+
+// Values the server owns on a paid application. The member's edit never changes them.
+const PAID_APPLICATION_SERVER_FIELDS = [
+  "certificateNumber",
+  "promoCode",
+  "promoCodeApplied",
+  "stripePaymentIntentId",
+  "stripeInvoiceId",
+  "stripeSubscriptionId",
+  "applicationKind",
+  "isMembershipChange",
+  "membershipChange",
+] as const;
+
+function withoutAdditionalReview(applicationData: unknown) {
+  const { additionalReview: _additionalReview, ...rest } = asRecord(applicationData);
+  return rest;
+}
+
 async function findApplicationForReviewEditToken(db: ReturnType<typeof requireDb>, token: string) {
-  const applications = await db
+  const [application] = await db
     .select()
     .from(coreApplications)
-    .where(and(eq(coreApplications.type, "MEMBER"), eq(coreApplications.status, "UNDER_REVIEW")));
+    .where(and(
+      eq(coreApplications.type, "MEMBER"),
+      inArray(coreApplications.status, [...REVIEW_EDIT_STATUSES]),
+      sql`${coreApplications.applicationData} -> 'additionalReview' ->> 'editToken' = ${token}`,
+    ))
+    .limit(1);
 
-  return applications.find((application: typeof coreApplications.$inferSelect) => getAdditionalReviewDetails(application).editToken === token) ?? null;
+  return application ?? null;
 }
 
 ordersRouter.get("/review-edit", async (req, res) => {
@@ -982,8 +1042,11 @@ ordersRouter.get("/review-edit", async (req, res) => {
 
     const review = getAdditionalReviewDetails(application);
     return res.json({
-      application: application.applicationData,
+      application: withoutAdditionalReview(application.applicationData),
       requestedChanges: review.requestedChanges,
+      // A paid member edits their answers but keeps the membership they paid for.
+      isPaidMember: application.status === "PAID",
+      membershipCategory: application.packageName,
     });
   } catch (error) {
     console.error("Failed to load application for additional review edit", error);
@@ -1029,59 +1092,129 @@ ordersRouter.patch("/review-edit", async (req, res) => {
       return res.status(404).json({ error: "This application edit link is invalid or has already been used." });
     }
 
-    const userResult = await ensureCanonicalUser(db, {
-      email: safeEmail,
-      clerkId: null,
-      role: "MEMBER",
-      status: "ACTIVE",
-    });
+    const isPaidMember = existing.status === "PAID";
+    if (isPaidMember && (normalizeMembershipPackage(existing.packageName) ?? membershipPackage) !== membershipPackage) {
+      return res.status(400).json({ error: "Your paid membership category cannot be changed from this form." });
+    }
 
     const existingPayload = asRecord(existing.applicationData);
     const isChangeRequest = isMembershipChangeApplicationData(existingPayload);
-    const normalizedApplication = {
-      ...(applicationData as Record<string, unknown>),
-      membershipCategory: membershipPackage,
-      accountType: "member",
-      applicantType: MEMBERSHIP_APPLICANT_TYPES[membershipPackage],
-      promoCode: isChangeRequest
-        ? null
-        : await normalizeSubmittedPromoCode(
-          db,
-          (applicationData as Record<string, unknown>).promoCode ?? existingPayload.promoCode,
-        ),
-      // A membership change stays a change after the member edits it.
-      ...(isChangeRequest
-        ? {
-          applicationKind: existingPayload.applicationKind,
-          isMembershipChange: true,
-          membershipChange: existingPayload.membershipChange,
-        }
-        : {}),
-      additionalReview: {
-        ...asRecord(existingPayload.additionalReview),
-        editToken: null,
-        resubmittedAt: new Date().toISOString(),
-      },
+    const resubmittedAt = new Date().toISOString();
+    const additionalReview = {
+      ...asRecord(existingPayload.additionalReview),
+      editToken: null,
+      resubmittedAt,
+      // Lets the admin view mark what the member added or edited.
+      previousApplicationData: withoutAdditionalReview(existingPayload),
     };
+
+    let normalizedApplication: Record<string, unknown>;
+    if (isPaidMember) {
+      const serverFieldSet = new Set<string>(PAID_APPLICATION_SERVER_FIELDS);
+      const memberAnswers = Object.fromEntries(
+        Object.entries(withoutAdditionalReview(applicationData)).filter(([key]) => !serverFieldSet.has(key)),
+      );
+      const serverFields = Object.fromEntries(
+        PAID_APPLICATION_SERVER_FIELDS
+          .filter((key) => key in existingPayload)
+          .map((key) => [key, existingPayload[key]]),
+      );
+      normalizedApplication = {
+        ...memberAnswers,
+        membershipCategory: membershipPackage,
+        accountType: "member",
+        applicantType: MEMBERSHIP_APPLICANT_TYPES[membershipPackage],
+        ...serverFields,
+        additionalReview,
+      };
+    } else {
+      normalizedApplication = {
+        ...withoutAdditionalReview(applicationData),
+        membershipCategory: membershipPackage,
+        accountType: "member",
+        applicantType: MEMBERSHIP_APPLICANT_TYPES[membershipPackage],
+        promoCode: isChangeRequest
+          ? null
+          : await normalizeSubmittedPromoCode(
+            db,
+            (applicationData as Record<string, unknown>).promoCode ?? existingPayload.promoCode,
+          ),
+        // A membership change stays a change after the member edits it.
+        ...(isChangeRequest
+          ? {
+            applicationKind: existingPayload.applicationKind,
+            isMembershipChange: true,
+            membershipChange: existingPayload.membershipChange,
+          }
+          : {}),
+        additionalReview,
+      };
+    }
     const applicantPhone = textValue(
       (applicationData as Record<string, unknown>).phone
       ?? (applicationData as Record<string, unknown>).brandContactPhone,
     ).slice(0, 50) || null;
 
-    await db
-      .update(coreApplications)
-      .set({
-        fullName: safeName,
-        email: safeEmail,
-        userId: userResult.record.id,
-        packageName: membershipPackage,
-        phone: applicantPhone,
-        applicationData: normalizedApplication,
-        status: "SUBMITTED",
-      })
-      .where(eq(coreApplications.id, existing.id));
+    if (isPaidMember) {
+      // The account email and owner stay as they are: the membership, payment and
+      // certificate belong to that user, and the status stays PAID.
+      await db
+        .update(coreApplications)
+        .set({
+          fullName: safeName,
+          phone: applicantPhone,
+          applicationData: normalizedApplication,
+        })
+        .where(eq(coreApplications.id, existing.id));
 
-    return res.json({ success: true, status: "pending" });
+      if (existing.userId) {
+        await syncProfileFromApplication(db, {
+          userId: existing.userId,
+          application: {
+            id: existing.id,
+            type: existing.type,
+            fullName: safeName,
+            phone: applicantPhone,
+            packageName: existing.packageName,
+            applicationData: normalizedApplication,
+          },
+        });
+      }
+    } else {
+      const userResult = await ensureCanonicalUser(db, {
+        email: safeEmail,
+        clerkId: null,
+        role: "MEMBER",
+        status: "ACTIVE",
+      });
+
+      await db
+        .update(coreApplications)
+        .set({
+          fullName: safeName,
+          email: safeEmail,
+          userId: userResult.record.id,
+          packageName: membershipPackage,
+          phone: applicantPhone,
+          applicationData: normalizedApplication,
+          status: "SUBMITTED",
+        })
+        .where(eq(coreApplications.id, existing.id));
+    }
+
+    try {
+      await sendAdminApplicationUpdatedEmail({
+        email: isPaidMember ? existing.email : safeEmail,
+        name: safeName,
+        orderId: existing.id,
+        membershipCategory: membershipPackage,
+        isPaidMember,
+      });
+    } catch (emailError) {
+      console.error("Admin application updated email failed", emailError);
+    }
+
+    return res.json({ success: true, status: isPaidMember ? "paid" : "pending" });
   } catch (error) {
     console.error("Failed to save additional review application update", error);
     return res.status(500).json({ error: "Could not save your application changes." });
@@ -1170,7 +1303,10 @@ ordersRouter.get("/:id", adminClerkMiddleware, requireAdminAccess, async (req, r
       membershipCategory: application.packageName,
       applicantType: MEMBERSHIP_APPLICANT_TYPES[(application.packageName || "Professional") as keyof typeof MEMBERSHIP_PRICE_KEYS] || "Individual",
       applicationPayload: application.applicationData,
-      previousApplicationPayload: previous?.applicationData ?? null,
+      // A membership change compares with the application it replaces; an
+      // application the member edited after a request compares with its earlier answers.
+      previousApplicationPayload: previous?.applicationData
+        ?? getAdditionalReviewDetails(application).previousApplicationData,
       relatedApplications: related,
       applicationKind: asRecord(application.applicationData).applicationKind ?? null,
       status: mapCanonicalStatusToLegacy(application.status),
@@ -1691,6 +1827,13 @@ ordersRouter.post("/admin/review", adminClerkMiddleware, requireAdminAccess, asy
       return res.status(400).json({ error: "Additional review is only available for member applications." });
     }
 
+    // A paid application keeps its PAID status (and so its membership and
+    // certificate); only the edit link is opened for the member.
+    const isPaidMember = application.status === "PAID";
+    if (!isPaidMember && !["SUBMITTED", "UNDER_REVIEW"].includes(application.status)) {
+      return res.status(400).json({ error: "Edits can only be requested for pending, in-review or paid applications." });
+    }
+
     const editToken = crypto.randomUUID();
     const nextApplicationData = {
       ...asRecord(application.applicationData),
@@ -1698,12 +1841,13 @@ ordersRouter.post("/admin/review", adminClerkMiddleware, requireAdminAccess, asy
         requestedChanges,
         editToken,
         requestedAt: new Date().toISOString(),
+        isPaidMember,
       },
     };
     await db
       .update(coreApplications)
       .set({
-        status: "UNDER_REVIEW",
+        status: isPaidMember ? "PAID" : "UNDER_REVIEW",
         applicationData: nextApplicationData,
       })
       .where(eq(coreApplications.id, orderId));
@@ -1713,6 +1857,7 @@ ordersRouter.post("/admin/review", adminClerkMiddleware, requireAdminAccess, asy
         name: application.fullName,
         requestedChanges,
         editToken,
+        isPaidMember,
       });
     } catch (emailError) {
       console.error("Additional review email failed", emailError);
@@ -1723,7 +1868,7 @@ ordersRouter.post("/admin/review", adminClerkMiddleware, requireAdminAccess, asy
       return res.status(502).json({ error: "The edit request email could not be sent. The application was left unchanged." });
     }
 
-    return res.json({ success: true, status: "review" });
+    return res.json({ success: true, status: isPaidMember ? "paid" : "review" });
   } catch (error) {
     console.error("Failed to move order into additional review", error);
     return res.status(500).json({ error: "Failed to move order into additional review" });

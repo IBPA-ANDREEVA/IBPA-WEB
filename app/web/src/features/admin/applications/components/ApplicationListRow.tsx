@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, ChevronDown, Mail, Repeat2, Users } from "lucide-react";
+import { ArrowRight, ChevronDown, Mail, PencilLine, Repeat2, Users } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -76,6 +76,17 @@ export function ApplicationListRow({
                 {record.kind === "member" ? record.applicantType : "Partner"}
               </span>
             )}
+
+            {/* Unpaid requests already show as "Additional review" in the status. */}
+            {record.editRequest?.state === "requested" && record.status === "paid" ? (
+              <span className="pointer-events-none inline-flex shrink-0 items-center gap-1 rounded-full border border-[#F1D9A6] bg-[#FFF6E5] px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em] text-[#8A5A00]">
+                <PencilLine className="size-3" /> Edits requested
+              </span>
+            ) : record.editRequest?.state === "resubmitted" ? (
+              <span className="pointer-events-none inline-flex shrink-0 items-center gap-1 rounded-full border border-[#8CB8D4] bg-[#E4F2FB] px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em] text-[#1F5D8F]">
+                <PencilLine className="size-3" /> Edited
+              </span>
+            ) : null}
 
             {hasTeam ? (
               <button
