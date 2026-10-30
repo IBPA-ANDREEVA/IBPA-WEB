@@ -12,7 +12,16 @@ export async function upsertCanonicalCertificate(db: DbClient, input: {
   issuedAt?: Date;
   expiresAt?: Date | null;
 }) {
-  const [existing] = await db.select().from(coreCertificates).where(eq(coreCertificates.id, input.id)).limit(1);
+  // A membership has at most one certificate (ibpa_certificates_membership_uidx),
+  // but its id need not match the caller's id: membership changes carry the
+  // previous certificate row over to the new membership. Match on membership first.
+  const [byMembership] = await db
+    .select()
+    .from(coreCertificates)
+    .where(eq(coreCertificates.membershipId, input.membershipId))
+    .limit(1);
+  const existing = byMembership
+    ?? (await db.select().from(coreCertificates).where(eq(coreCertificates.id, input.id)).limit(1))[0];
 
   if (existing) {
     const [updated] = await db
