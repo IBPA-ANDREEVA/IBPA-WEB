@@ -147,7 +147,7 @@ export function MotivationStep({
                 {renderFieldError("professionalCommunityYesNo")}
               </div>
               <div className="space-y-2">
-                <label className="field-label">{t("Are you a member of other professional organizations?", "Являетесь ли вы членом других профессиональных организаций?", "Чи є ви членом інших професійних організацій?")} *</label>
+                <label className="field-label">{t("Are you a member of other professional organizations?", "Являетесь ли вы участником других профессиональных организаций?", "Чи є ви членом інших професійних організацій?")} *</label>
                 {yesNoSelect("otherOrganizationsYesNo")}
                 {renderFieldError("otherOrganizationsYesNo")}
               </div>
@@ -165,23 +165,23 @@ export function MotivationStep({
                     {renderFieldError("otherOrganizationName")}
                   </div>
                   <div className="space-y-2">
-                    <label className="field-label">{t("Membership status", "Статус членства", "Статус членства")} *</label>
+                    <label className="field-label">{t("Membership status", "Статус участия", "Статус членства")} *</label>
                     <input
                       {...register("otherOrganizationStatus", {
                         validate: (value) =>
-                          otherOrganizationsYesNo !== "Yes" || !!value?.trim() || t("Enter the membership status.", "Укажите статус членства.", "Укажіть статус членства."),
+                          otherOrganizationsYesNo !== "Yes" || !!value?.trim() || t("Enter the membership status.", "Укажите статус участия.", "Укажіть статус членства."),
                       })}
                       className="form-input"
-                      placeholder={t("Member, fellow, board member...", "Участник, член, советник...", "Учасник, член, радник...")}
+                      placeholder={t("Member, fellow, board member...", "Участник, представитель совета, советник...", "Учасник, член, радник...")}
                     />
                     {renderFieldError("otherOrganizationStatus")}
                   </div>
                   <div className="space-y-2 md:col-span-2">
-                    <label className="field-label">{t("Membership years", "Годы членства", "Роки членства")} *</label>
+                    <label className="field-label">{t("Membership years", "Годы участия", "Роки членства")} *</label>
                     <input
                       {...register("otherOrganizationYears", {
                         validate: (value) =>
-                          otherOrganizationsYesNo !== "Yes" || !!value?.trim() || t("Enter the membership years.", "Укажите годы членства.", "Укажіть роки членства."),
+                          otherOrganizationsYesNo !== "Yes" || !!value?.trim() || t("Enter the membership years.", "Укажите годы участия.", "Укажіть роки членства."),
                       })}
                       className="form-input"
                       placeholder={t("2021–2024", "2021–2024", "2021–2024")}

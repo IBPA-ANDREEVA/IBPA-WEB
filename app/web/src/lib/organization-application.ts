@@ -38,7 +38,7 @@ export const organizationApplicationLabels: Record<string, LocalizedApplicationL
   businessPublications: { en: "Publications", ru: "Публикации", uk: "Публікації" },
   businessSpeakingExperience: { en: "Speaking experience", ru: "Опыт выступлений", uk: "Досвід виступів" },
   businessJudgingExperience: { en: "Judging experience", ru: "Опыт судейства", uk: "Досвід суддівства" },
-  businessProfessionalMemberships: { en: "Professional memberships", ru: "Членство в профессиональных ассоциациях", uk: "Членство у професійних асоціаціях" },
+  businessProfessionalMemberships: { en: "Professional memberships", ru: "Участие в профессиональных ассоциациях", uk: "Членство у професійних асоціаціях" },
   businessClientTestimonialFiles: { en: "Client testimonials", ru: "Отзывы клиентов", uk: "Відгуки клієнтів" },
   brandRegistrationCountry: { en: "Country of registration", ru: "Страна регистрации", uk: "Країна реєстрації" },
   brandTypeOther: { en: "Other company type", ru: "Другой тип компании", uk: "Інший тип компанії" },

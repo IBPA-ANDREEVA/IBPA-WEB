@@ -142,7 +142,7 @@ export function EventsPageClient({ initialItems }: EventsPageClientProps) {
 
         <div className="flex flex-col gap-4 sm:flex-row">
           <Link href="/membership#packages" className={`inline-flex justify-center rounded-full border border-slate-300 bg-white px-8 py-4 text-sm uppercase text-slate-900 ${uiClassName}`}>
-            {isRu ? "Изучить членство в beauty-ассоциации" : isUk ? "Ознайомитися з членством у beauty-асоціації" : "Explore Beauty Association Membership"}
+            {isRu ? "Узнать об участии в beauty-ассоциации" : isUk ? "Ознайомитися з членством у beauty-асоціації" : "Explore Beauty Association Membership"}
           </Link>
         </div>
       </div>

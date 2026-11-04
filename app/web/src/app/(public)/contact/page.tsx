@@ -62,7 +62,7 @@ export default function Contact() {
     formEyebrow: isRu ? "Форма обратной связи" : isUk ? "Форма зворотного зв’язку" : "Feedback Form",
     formTitle: isRu ? "Оставьте сообщение" : isUk ? "Залиште повідомлення" : "Send a Message",
     formBody: isRu
-      ? "Если вы хотите обсудить членство, партнерство, участие в событиях или корпоративный запрос, заполните форму и мы свяжемся с вами по email."
+      ? "Если вы хотите обсудить участие, партнерство, участие в событиях или корпоративный запрос, заполните форму и мы свяжемся с вами по email."
       : isUk
         ? "Якщо ви хочете обговорити членство, партнерство, участь у подіях або корпоративний запит, заповніть форму і ми зв’яжемося з вами електронною поштою."
         : "If you want to discuss membership, partnership, event participation, or a corporate request, send us a short message and our team will reply by email.",

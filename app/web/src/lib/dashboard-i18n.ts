@@ -1067,7 +1067,7 @@ export const dashboardDictionaries = {
       certificate: "Сертификат",
       events: "События",
       teamMembers: "Команда",
-      membershipOverview: "Обзор членства",
+      membershipOverview: "Обзор участия",
       status: "Статус",
       memberSince: "С нами с",
       membershipType: "Тип",
@@ -1094,22 +1094,22 @@ export const dashboardDictionaries = {
     statusDescriptions: {
       teamMemberActive: "Доступ участника партнёрской команды активен.",
       partnerVerified: "Партнёрский аккаунт активен и подтверждён.",
-      membershipVerified: "Членство и сертификат подтверждены.",
-      membershipActive: "Членство активно.",
+      membershipVerified: "Участие и сертификат подтверждены.",
+      membershipActive: "Ваше участие активно.",
       membershipPending: "Профиль ожидает проверки или активации.",
       accessBlocked: "Доступ заблокирован",
       accessBlockedDescription:
-        "Этот кабинет доступен только после завершения и активации оплаты членства IBPA.",
+        "Этот кабинет доступен только после подтверждения оплаты и активации участия в IBPA.",
     },
     membershipCategories: {
-      student: "Студенческое членство",
-      specialist: "Членство специалиста",
-      professional: "Профессиональное членство",
-      trainer: "Мастер-членство",
-      business: "Бизнес-членство",
-      brand: "Партнёрское членство",
-      partner: "Партнёрское членство",
-      review: "Проверка членства",
+      student: "Студенческое участие",
+      specialist: "Участие специалиста",
+      professional: "Профессиональное участие",
+      trainer: "Участие преподавателя",
+      business: "Участие бизнеса",
+      brand: "Партнёрское участие",
+      partner: "Партнёрское участие",
+      review: "Проверка участия",
       partnerTeamAccess: "Доступ партнёрской команды",
       businessTeamAccess: "Доступ команды владельца бизнеса",
     },
@@ -1123,7 +1123,7 @@ export const dashboardDictionaries = {
         description: "Отслеживайте проверку и загрузки.",
       },
       viewMembership: {
-        label: "Посмотреть членство",
+        label: "Моё участие",
         description: "Проверьте план, срок действия и платежи.",
       },
       memberDirectory: {
@@ -1142,10 +1142,10 @@ export const dashboardDictionaries = {
     summaryCards: {
       memberStatus: "Статус участника",
       memberSince: "С нами с",
-      membershipType: "Тип членства",
+      membershipType: "Тип участия",
       expiryDate: "Дата окончания",
       activationDateHelper: "Первая дата активации",
-      linkedMembershipHelper: "Текущая связанная запись о членстве",
+      linkedMembershipHelper: "Текущая связанная запись об участии",
       latestCertificateHelper: "Последний сертификат или продление",
     },
     checklist: {
@@ -1178,7 +1178,7 @@ export const dashboardDictionaries = {
       education: "Образование",
       communityIdentity: "Профессиональная идентичность",
       memberId: "ID участника",
-      membership: "Членство",
+      membership: "Участие",
       industry: "Индустрия",
       workGallery: "Галерея работ",
       galleryImageAlt: (name, index) => `${name}: изображение галереи ${index}`,
@@ -1281,19 +1281,19 @@ export const dashboardDictionaries = {
       removeAria: (title) => `Удалить ${title}`,
     },
     billing: {
-      title: "Оплата и членство",
+      title: "Оплата и участие",
       renew: "Продлить",
       support: "Поддержка",
       plan: "План",
       expires: "Действует до",
       status: "Статус",
       paymentHistory: "История платежей",
-      partnerPaymentTitle: "Оплата партнёрского членства",
-      membershipPaymentTitle: "Оплата членства",
+      partnerPaymentTitle: "Оплата партнёрского участия",
+      membershipPaymentTitle: "Оплата участия",
       noPayments: "Платежей пока нет.",
       supportTitle: "Поддержка по оплате",
       supportDescription:
-        "Нужна помощь с оплатой, продлением или доступом к членству?",
+        "Нужна помощь с оплатой, продлением или доступом к участию?",
       contactSupport: "Связаться с поддержкой",
       account: "Аккаунт",
     },
@@ -1320,14 +1320,14 @@ export const dashboardDictionaries = {
       membersRate: "Тариф для участников",
       memberPromo: "Доступен бонус для участников",
       memberPerk: (membership) =>
-        `Преимущество для ${membership.replace(" членство", "").toLowerCase()}`,
+        `Преимущество категории «${membership}»`,
     },
     webinars: {
       navLabel: "Вебинары",
       eyebrow: "Вебинары и мастер-классы",
       title: "Записи эфиров",
       description:
-        "Смотрите вебинары и мастер-классы IBPA, доступные по вашему членству, с субтитрами там, где они есть.",
+        "Смотрите вебинары и мастер-классы IBPA, доступные в рамках вашей категории участия, с субтитрами там, где они есть.",
       watch: "Смотреть",
       duration: "Длительность",
       subtitles: "Субтитры",
@@ -1335,7 +1335,7 @@ export const dashboardDictionaries = {
       languageNames: { ru: "Русский", en: "Английский" },
       emptyTitle: "Пока нет доступных вебинаров",
       emptyDescription:
-        "Записи вебинаров, доступные по вашему членству, появятся здесь сразу после публикации.",
+        "Записи вебинаров, доступные в рамках вашей категории участия, появятся здесь сразу после публикации.",
       loadError: "Не удалось загрузить вебинары.",
       retry: "Повторить",
       backToWebinars: "К вебинарам",
@@ -1345,7 +1345,7 @@ export const dashboardDictionaries = {
       notFoundTitle: "Вебинар недоступен",
       notFoundDescription:
         "Возможно, вебинар снят с публикации или ссылка указана неверно.",
-      accessDeniedTitle: "Не входит в ваше членство",
+      accessDeniedTitle: "Недоступно для вашей категории участия",
       accessDeniedDescription:
         "Этот вебинар доступен другой группе участников. Если вы считаете, что доступ должен быть, свяжитесь с поддержкой IBPA.",
       videoUnavailableTitle: "Видео недоступно",
@@ -1370,7 +1370,7 @@ export const dashboardDictionaries = {
       title: "Помощь и запросы",
       question: "Задать вопрос",
       questionDescription:
-        "Получите помощь по членству, оплате или доступу к кабинету.",
+        "Получите помощь по участию, оплате или доступу к кабинету.",
       idea: "Предложить идею",
       ideaDescription:
         "Поделитесь улучшениями, которые сделают опыт участников лучше.",
@@ -1410,9 +1410,9 @@ export const dashboardDictionaries = {
             "IBPA может отправлять напоминания, обновления и приглашения через существующий email-процесс, когда эти автоматизации включены.",
         },
         {
-          question: "Можно ли изменить план членства онлайн?",
+          question: "Можно ли изменить план участия онлайн?",
           answer:
-            "Изменение плана и продление отображаются здесь, а финальная оплата по-прежнему идёт по существующему процессу членства.",
+            "Изменение плана и продление отображаются здесь, а финальная оплата по-прежнему идёт по существующему процессу участия.",
         },
       ],
     },
@@ -1434,12 +1434,12 @@ export const dashboardDictionaries = {
         "Если после входа доступ все еще не откроется, свяжитесь с поддержкой IBPA, и мы вручную проверим оплату.",
       backToLanding: "Вернуться на сайт",
       memberLogin: "Вход участника",
-      activationEyebrow: "Активация членства",
+      activationEyebrow: "Активация участия",
       paymentSuccessPrefix: "Платеж",
       paymentSuccessHighlight: "успешен!",
       memberFallback: "участник",
       thankYou: (name) =>
-        `Спасибо, ${name}. Ваш платеж подтвержден. Создайте доступ к кабинету, чтобы открыть зону членства, сертификаты, уведомления и будущие обновления.`,
+        `Спасибо, ${name}. Ваш платеж подтвержден. Создайте доступ к кабинету, чтобы открыть раздел участника, сертификаты, уведомления и будущие обновления.`,
       firstTimeAccessTitle: "Первый вход",
       firstTimeAccessDescription:
         "Если это ваш первый визит после одобрения и оплаты, создайте аккаунт с тем же email, который был указан в заявке.",
@@ -1551,7 +1551,7 @@ export const dashboardDictionaries = {
       pageEyebrow: "Редактор заявки",
       pageTitle: "Обновите отправленную информацию",
       pageDescription:
-        "Вы можете обновить контактные данные, профессиональную информацию и поля заявки по категории. Юридическое имя, email, тип членства и данные идентификации остаются заблокированными для целостности проверки.",
+        "Вы можете обновить контактные данные, профессиональную информацию и поля заявки по категории. Юридическое имя, email, тип участия и данные идентификации остаются заблокированными для целостности проверки.",
       lockedInformation: "Заблокированная информация",
       profilePhoto: "Фото профиля",
       uploadNewPhoto: "Загрузить новое фото",
@@ -1559,7 +1559,7 @@ export const dashboardDictionaries = {
       removePhoto: "Удалить фото",
       photoHelper:
         "Это фото будет использоваться в профиле кабинета и публичном каталоге участников.",
-      accessBlockedTitle: "Требуется активация членства",
+      accessBlockedTitle: "Требуется активация участия",
       accessBlockedDescription:
         "Редактирование профиля доступно только для оплаченных участников IBPA. Если оплата уже завершена, войдите с тем же email, который использовался в заявке и оплате.",
       accessBlockedGeneric:
@@ -1582,7 +1582,7 @@ export const dashboardDictionaries = {
       lockedFields: {
         fullName: "Полное имя",
         email: "Email",
-        membership: "Членство",
+        membership: "Участие",
         applicantType: "Тип заявителя",
       },
       fieldLabels: {

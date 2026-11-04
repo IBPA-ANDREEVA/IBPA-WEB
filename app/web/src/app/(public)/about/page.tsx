@@ -285,7 +285,7 @@ export default function About() {
             </div>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/membership#packages" className={`rounded-full bg-black px-8 py-4 text-center text-sm uppercase text-white ${uiClassName}`}>
-                {isRu ? "Изучить членство в beauty-ассоциации" : isUk ? "Ознайомитися з членством у beauty-асоціації" : "Explore Beauty Association Membership"}
+                {isRu ? "Узнать об участии в beauty-ассоциации" : isUk ? "Ознайомитися з членством у beauty-асоціації" : "Explore Beauty Association Membership"}
               </Link>
               <Link href="/criteria" className={`rounded-full border border-slate-300 bg-white px-8 py-4 text-center text-sm uppercase text-slate-900 ${uiClassName}`}>
                 {isRu ? "Изучить критерии" : isUk ? "Переглянути критерії" : "Review Criteria"}
