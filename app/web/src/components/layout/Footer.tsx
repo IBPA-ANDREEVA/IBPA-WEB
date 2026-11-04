@@ -137,7 +137,7 @@ export const Footer = () => {
                 {copy.email}
               </a>
               <a
-                href="tel:+12792302804"
+                href="tel:+12795297117"
                 className={`inline-flex items-center gap-2 rounded-full border border-slate-600 px-4 py-2 text-xs uppercase text-slate-200 transition-colors hover:border-[#72A0C1] hover:text-white ${uiClassName}`}
               >
                 <Phone size={14} />
@@ -180,7 +180,7 @@ export const Footer = () => {
               </li>
               <li className="flex gap-4">
                 <Phone size={18} className="flex-shrink-0 text-[#72A0C1]" />
-                <span className={`text-sm text-slate-300 ${bodyClassName}`}>+1 (279) 230-2804</span>
+                <span className={`text-sm text-slate-300 ${bodyClassName}`}>+1 (279) 529-7117</span>
               </li>
               <li className="flex gap-4">
                 <Mail size={18} className="flex-shrink-0 text-[#72A0C1]" />

@@ -37,9 +37,9 @@ export default function Contact() {
   const contactInfo = [
     { 
       label: isRu ? "Позвоните нам" : isUk ? "Зателефонуйте нам" : "Call Us", 
-      value: "+1 (279) 230-2804", 
+      value: "+1 (279) 529-7117", 
       icon: <Phone size={24} strokeWidth={1.8} />, 
-      link: "tel:+12792302804", 
+      link: "tel:+12795297117", 
       color: "#B9D9EB" 
     },
     { 

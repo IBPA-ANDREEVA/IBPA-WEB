@@ -12,7 +12,7 @@ export const ORGANIZATION = {
   description:
     "IBPA is an international professional beauty association and California-registered nonprofit for beauty specialists, educators, salon owners, and brands, focused on professional standards, education, and recognition.",
   email: "support@ibpassociations.org",
-  telephone: "+1-279-230-2804",
+  telephone: "+1-279-529-7117",
   address: {
     streetAddress: "1220 Melody Ln, Suite 110",
     addressLocality: "Roseville",
