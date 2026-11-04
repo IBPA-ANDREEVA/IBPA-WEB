@@ -16,7 +16,7 @@ function getCopy(locale: MembersLocale) {
   if (locale === "ru") {
     return {
       eyebrow: "Сообщество IBPA",
-      title: "Знакомьтесь с членами",
+      title: "Знакомьтесь с участниками",
       description:
         "Оплаченные участники IBPA с активным профилем — специалисты, преподаватели и бренды beauty-индустрии со всего мира.",
       cta: "Смотреть всех участников",

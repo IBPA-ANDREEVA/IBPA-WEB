@@ -117,7 +117,7 @@ export function ConfirmStep({
               {selectedCategory === "Business"
                 ? t(
                     "I understand that membership approval is subject to review by the Membership Committee.",
-                    "Я понимаю, что одобрение членства зависит от решения Комитета по членству.",
+                    "Я понимаю, что одобрение участия зависит от решения Комитета по участию.",
                     "Я розумію, що схвалення членства залежить від рішення Комітету з членства.",
                   )
                 : t(

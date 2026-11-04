@@ -54,7 +54,7 @@ const documents: DocumentEntry[] = [
     slug: "membership-policy.pdf",
     title: {
       en: "Membership Policy",
-      ru: "Политика членства",
+      ru: "Политика участия",
       uk: "Політика членства",
     },
     description: {
@@ -67,7 +67,7 @@ const documents: DocumentEntry[] = [
     slug: "membership-agreement.pdf",
     title: {
       en: "Membership Agreement",
-      ru: "Соглашение о членстве",
+      ru: "Соглашение об участии",
       uk: "Угода про членство",
     },
     description: {
@@ -236,13 +236,13 @@ export default function Standards() {
     eyebrow: isRu ? "Библиотека документов" : isUk ? "Бібліотека документів" : "Document Library",
     title: isRu ? "Профессиональные стандарты" : isUk ? "Професійні стандарти" : "Professional Standards",
     subtitle: isRu
-      ? "Профессиональные стандарты, этический кодекс, правила членства, документы управления и публичные политики IBPA в одной библиотеке. Каждый файл открывается в новой вкладке."
+      ? "Профессиональные стандарты, этический кодекс, правила участия, документы управления и публичные политики IBPA в одной библиотеке. Каждый файл открывается в новой вкладке."
       : isUk
         ? "Професійні стандарти, етичний кодекс, правила членства, документи управління та публічні політики IBPA в одній бібліотеці. Кожен файл відкривається в новій вкладці."
         : "IBPA professional standards, ethics, membership rules, governance documents, and public policies in one library. Each file opens in a new tab.",
     introTitle: isRu ? "Стандарты и политики beauty-индустрии" : isUk ? "Стандарти та політики beauty-індустрії" : "Beauty Industry Professional Standards & Policies",
     introBody: isRu
-      ? "Библиотека объединяет профессиональные стандарты IBPA, этический кодекс, правила членства, документы управления и политики организации. Откройте PDF, чтобы ознакомиться с полным текстом, областью применения и указанной датой вступления в силу."
+      ? "Библиотека объединяет профессиональные стандарты IBPA, этический кодекс, правила участия, документы управления и политики организации. Откройте PDF, чтобы ознакомиться с полным текстом, областью применения и указанной датой вступления в силу."
       : isUk
         ? "Бібліотека об’єднує професійні стандарти IBPA, етичний кодекс, правила членства, документи управління та політики організації. Відкрийте PDF, щоб ознайомитися з повним текстом, сферою застосування та вказаною датою набрання чинності."
         : "This library brings together IBPA professional standards, its code of ethics, membership rules, governance documents, and organizational policies. Open each PDF to review its full scope and stated effective date.",

@@ -112,6 +112,10 @@ Motion explains selection, overlay entry, and active playback state. Routine tra
 
 Copy uses direct verbs such as “Sync Zoom,” “Import recording,” and “Save subtitles.” Dates, durations, file sizes, and cue times remain explicit and scan-friendly.
 
+Russian public and participant-facing copy uses «участник» for people and «участие» for participation, with grammatically appropriate cases. This applies to navigation, forms, dashboard labels, and SEO text. English and Ukrainian terminology retain their own locale conventions.
+
+The homepage partner showcase uses the public site's Cormorant display typography, pale blue logo stage, navy text, and compact rounded split panel. Selectable logo tabs reveal each partner's existing description and website; the panel height remains stable when switching. On phones, the logo stacks above the text and the logo strip scrolls horizontally. Runtime ownership is `app/web/src/components/landing/PartnersShowcase.module.css` and `PartnersShowcase.tsx`.
+
 ## Do's and Don'ts
 
 - **Do:** Reuse `AdminShell`, shared controls, status language, spacing, and error patterns.

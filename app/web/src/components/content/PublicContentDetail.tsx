@@ -16,7 +16,7 @@ export async function PublicContentDetail({ type, id }: { type: "news" | "events
   if (item.canonicalPath) redirect(item.canonicalPath);
   const locale = resolveLocale((await cookies()).get("ibpa-locale")?.value);
   const copy = locale === "ru"
-    ? { home: "Главная", news: "Новости", events: "События", more: "Подробнее", date: "Дата события", membership: "Членство в IBPA" }
+    ? { home: "Главная", news: "Новости", events: "События", more: "Подробнее", date: "Дата события", membership: "Участие в IBPA" }
     : locale === "uk"
       ? { home: "Головна", news: "Новини", events: "Події", more: "Докладніше", date: "Дата події", membership: "Членство в IBPA" }
       : { home: "Home", news: "News", events: "Events", more: "Learn more", date: "Event date", membership: "IBPA membership" };

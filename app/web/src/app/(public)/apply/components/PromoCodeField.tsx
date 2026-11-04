@@ -170,7 +170,7 @@ export function PromoCodeField({
       <p className={`mt-2 text-sm text-slate-500 ${editorialClassName}`}>
         {t(
           "Have a promo code? Add it now and it will be applied to your membership invoice once IBPA approves your application.",
-          "Есть промокод? Добавьте его сейчас — он будет применён к счёту за членство после одобрения вашей заявки IBPA.",
+          "Есть промокод? Добавьте его сейчас — он будет применён к счёту за участие после одобрения вашей заявки IBPA.",
           "Маєте промокод? Додайте його зараз — його буде застосовано до рахунку за членство після схвалення вашої заявки IBPA.",
         )}
       </p>
@@ -189,7 +189,7 @@ export function PromoCodeField({
                 {applied.description
                   || t(
                     "Applied to your membership invoice after approval.",
-                    "Будет применён к счёту за членство после одобрения.",
+                    "Будет применён к счёту за участие после одобрения.",
                     "Буде застосовано до рахунку за членство після схвалення.",
                   )}
               </p>

@@ -106,7 +106,7 @@ export default function Membership() {
           : "For beauty brands, manufacturers, distributors, and suppliers who want to be recognized as part of the professional beauty community.",
       features: [
         isRu ? "официальный статус Brand Member of IBPA, подтвержденный Membership Review Board" : isUk ? "офіційний статус Brand Member of IBPA, підтверджений Membership Review Board" : "Official Brand Member of IBPA status verified and approved by the Membership Review Board",
-        isRu ? "цифровой сертификат членства IBPA для официального использования" : isUk ? "цифровий сертифікат членства IBPA для офіційного використання" : "Digital certificate of IBPA membership for official use",
+        isRu ? "цифровой сертификат участника IBPA для официального использования" : isUk ? "цифровий сертифікат членства IBPA для офіційного використання" : "Digital certificate of IBPA membership for official use",
         isRu ? "профиль бренда в каталоге участников IBPA: описание компании, логотип и ссылка на сайт" : isUk ? "профіль бренду в каталозі учасників IBPA: опис компанії, логотип і посилання на сайт" : "Brand profile in the IBPA Member Directory with company description, logo, and website link",
         isRu ? "упоминание логотипа в разделе Partners на сайте IBPA" : isUk ? "розміщення логотипа в розділі Partners на сайті IBPA" : "Logo acknowledgment in the Partners section of the IBPA website",
         isRu ? "доступ к профессиональной сети специалистов, преподавателей и владельцев бизнеса" : isUk ? "доступ до професійної мережі фахівців, викладачів і власників бізнесу" : "Access to IBPA's professional network of beauty specialists, educators, and business owners",
@@ -172,10 +172,10 @@ export default function Membership() {
         <div className="max-w-3xl space-y-8">
           <motion.div {...fadeInUp} className="space-y-4">
             <h2 className={`text-5xl uppercase leading-[0.94] text-slate-900 ${headlineClassName}`}>
-              {isRu ? "Членство в beauty-ассоциации для каждого этапа карьеры" : isUk ? "Членство в beauty-асоціації для кожного етапу кар’єри" : "Beauty Association Membership for Every Career Stage"}
+              {isRu ? "Участие в beauty-ассоциации для каждого этапа карьеры" : isUk ? "Членство в beauty-асоціації для кожного етапу кар’єри" : "Beauty Association Membership for Every Career Stage"}
             </h2>
             <p className={`text-xl leading-relaxed text-slate-600 ${bodyClassName}`}>
-              {isRu ? "IBPA предлагает категории членства для начинающих и практикующих специалистов, преподавателей, владельцев beauty-бизнеса и брендов. Сравните преимущества и выберите вариант, соответствующий вашей роли и целям." : isUk ? "IBPA пропонує категорії членства для початківців і практикуючих фахівців, викладачів, власників beauty-бізнесу та брендів. Порівняйте переваги й оберіть варіант, що відповідає вашій ролі та цілям." : "IBPA offers beauty association membership for emerging and practicing professionals, educators, beauty business owners, and brands. Compare the benefits and choose the option that fits your role and goals."}
+              {isRu ? "IBPA предлагает категории участия для начинающих и практикующих специалистов, преподавателей, владельцев beauty-бизнеса и брендов. Сравните преимущества и выберите вариант, соответствующий вашей роли и целям." : isUk ? "IBPA пропонує категорії членства для початківців і практикуючих фахівців, викладачів, власників beauty-бізнесу та брендів. Порівняйте переваги й оберіть варіант, що відповідає вашій ролі та цілям." : "IBPA offers beauty association membership for emerging and practicing professionals, educators, beauty business owners, and brands. Compare the benefits and choose the option that fits your role and goals."}
             </p>
           </motion.div>
           <motion.div {...fadeInUp} transition={{ delay: 0.2 }} className="flex gap-4 rounded-[40px] bg-[#F1F3F5] p-8 shadow-[0_18px_55px_rgba(39,54,72,0.08)]">

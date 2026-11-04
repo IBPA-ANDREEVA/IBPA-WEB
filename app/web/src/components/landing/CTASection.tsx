@@ -17,7 +17,7 @@ export const CTASection = ({ locale }: CTASectionProps) => {
           description:
             "Присоединяйтесь к профессиональной ассоциации, которая развивает отраслевые стандарты, образование и сотрудничество между beauty-специалистами по всему миру.",
           primaryCta: "Подать заявку",
-          secondaryCta: "Смотреть варианты членства",
+          secondaryCta: "Смотреть варианты участия",
           studioAlt: "Финальная сцена IBPA",
         }
       : locale === "uk"

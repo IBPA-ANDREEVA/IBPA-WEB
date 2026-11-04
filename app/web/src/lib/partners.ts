@@ -51,7 +51,7 @@ const defaultPartnerCards: Record<Locale, PartnerCard[]> = {
       name: "Alismia",
       logo: "/sponsors/alismia.webp",
       link: "https://www.alismia.com/",
-      description: "Alismia",
+      description: "Alismia — международная компания, которая помогает специалистам индустрии красоты развиваться и оказывает им профессиональную поддержку.",
     },
     {
       id: "teora-beauty",
@@ -59,7 +59,7 @@ const defaultPartnerCards: Record<Locale, PartnerCard[]> = {
       logo: "/sponsors/teora-beauty-new.webp",
       link: "https://www.instagram.com/teora_beauty?igsh=NTc4MTIwNjQ2YQ==",
       description:
-        "TEORA beauty is a product created by masters for masters. The brand sets new beauty-industry standards by making professionals' work easier and more comfortable, while helping results become safer and better.",
+        "TEORA beauty — бренд, созданный мастерами для мастеров. Компания задаёт новые стандарты в индустрии красоты: делает работу специалистов проще и комфортнее, а результаты — безопаснее и качественнее.",
     },
     {
       id: "nepop-radio",
@@ -67,7 +67,7 @@ const defaultPartnerCards: Record<Locale, PartnerCard[]> = {
       logo: "/sponsors/nepop-radio.webp",
       link: "https://nepopradio.com",
       description:
-        "NePOP Radio is not background noise. It is the sound of our reality. The music we grew up with. The music we live to. Unfiltered conversations about life, adaptation, and immigration in the United States: honest, sometimes tough, always real.",
+        "NePOP Radio — не фоновый шум, а звук нашей реальности. Музыка, на которой мы выросли и с которой живём. Откровенные разговоры о жизни, адаптации и иммиграции в США: честно, иногда жёстко, всегда по-настоящему.",
     },
   ],
   uk: [
@@ -76,7 +76,7 @@ const defaultPartnerCards: Record<Locale, PartnerCard[]> = {
       name: "Alismia",
       logo: "/sponsors/alismia.webp",
       link: "https://www.alismia.com/",
-      description: "Alismia",
+      description: "Alismia — міжнародна компанія, яка допомагає фахівцям індустрії краси розвиватися та надає їм професійну підтримку.",
     },
     {
       id: "teora-beauty",
@@ -84,7 +84,7 @@ const defaultPartnerCards: Record<Locale, PartnerCard[]> = {
       logo: "/sponsors/teora-beauty-new.webp",
       link: "https://www.instagram.com/teora_beauty?igsh=NTc4MTIwNjQ2YQ==",
       description:
-        "TEORA beauty is a product created by masters for masters. The brand sets new beauty-industry standards by making professionals' work easier and more comfortable, while helping results become safer and better.",
+        "TEORA beauty — бренд, створений майстрами для майстрів. Компанія задає нові стандарти в індустрії краси: робить роботу фахівців простішою й комфортнішою, а результати — безпечнішими та якіснішими.",
     },
     {
       id: "nepop-radio",
@@ -92,7 +92,7 @@ const defaultPartnerCards: Record<Locale, PartnerCard[]> = {
       logo: "/sponsors/nepop-radio.webp",
       link: "https://nepopradio.com",
       description:
-        "NePOP Radio is not background noise. It is the sound of our reality. The music we grew up with. The music we live to. Unfiltered conversations about life, adaptation, and immigration in the United States: honest, sometimes tough, always real.",
+        "NePOP Radio — не фоновий шум, а звук нашої реальності. Музика, на якій ми виросли і з якою живемо. Відверті розмови про життя, адаптацію та імміграцію в США: чесно, іноді жорстко, завжди по-справжньому.",
     },
   ],
 };
