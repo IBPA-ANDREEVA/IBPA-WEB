@@ -146,11 +146,7 @@ export const AudienceSection: React.FC = () => {
                         <p className={`text-slate-600 text-sm md:text-base leading-relaxed ${bodyClassName}`}>
                           {item.desc}
                         </p>
-                        <div className="pt-6 flex items-end justify-between border-t border-slate-100">
-                          <div className="space-y-1">
-                             <span className={`text-[10px] uppercase text-slate-400 block tracking-[0.14em] ${uiClassName}`}>{t.home.audience.annualFee}</span>
-                             <span className={`text-3xl md:text-4xl font-bold text-[#708090] ${headlineClassName}`}>{item.price}</span>
-                          </div>
+                        <div className="pt-6 flex items-end justify-end border-t border-slate-100">
                           <Link
                             href={buildApplyHref(getMembershipCategory(item.title))}
                             aria-label={
