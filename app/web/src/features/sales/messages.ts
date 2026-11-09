@@ -1,6 +1,32 @@
 "use client";
 import { useI18n } from "@/lib/i18n";
 const en = {
+  refreshing: "Updating…",
+  salesIntro: "Programs, services and offers for IBPA members.",
+  adminSalesIntro: "Manage dashboard offers and track member purchases.",
+  notificationsIntro: "Updates, opportunities and news from IBPA.",
+  adminNotificationsIntro:
+    "Send an update to members and review delivery history.",
+  noResults: "No matching results",
+  resetFilters: "Clear filters",
+  emptySalesHelp: "New offers will appear here when they become available.",
+  emptyPurchasesHelp:
+    "Explore the available items to find your next program or service.",
+  basicInfo: "Item details",
+  pricing: "Pricing",
+  display: "Dashboard display",
+  allCategories: "All categories",
+  allStatuses: "All statuses",
+  pagination: "Pages",
+  moreActions: "More actions",
+  compose: "Create notification",
+  message: "Message",
+  selectRecipients: "Choose individual recipients",
+  unlimitedHelp: "Leave blank for no purchase limit.",
+  pricingHelp: "Enter the final price in USD. An original price is optional.",
+  displayHelp:
+    "The cover and button label appear across Sales, notifications and events.",
+  translationsHelp: "Blank translations use the default item content.",
   sales: "Sales",
   catalog: "Available items",
   purchases: "My purchases",
@@ -135,6 +161,33 @@ const en = {
 };
 export type CommerceMessages = typeof en;
 const ru: CommerceMessages = {
+  refreshing: "Обновление…",
+  salesIntro: "Программы, услуги и предложения для участников IBPA.",
+  adminSalesIntro:
+    "Управляйте предложениями в кабинете и отслеживайте покупки участников.",
+  notificationsIntro: "Обновления, возможности и новости IBPA.",
+  adminNotificationsIntro:
+    "Отправляйте обновления участникам и проверяйте историю доставки.",
+  noResults: "Ничего не найдено",
+  resetFilters: "Сбросить фильтры",
+  emptySalesHelp: "Новые предложения появятся здесь, когда станут доступны.",
+  emptyPurchasesHelp: "Посмотрите доступные программы и услуги.",
+  basicInfo: "Информация о предложении",
+  pricing: "Стоимость",
+  display: "Отображение в кабинете",
+  allCategories: "Все категории",
+  allStatuses: "Все статусы",
+  pagination: "Страницы",
+  moreActions: "Другие действия",
+  compose: "Создать уведомление",
+  message: "Сообщение",
+  selectRecipients: "Выбрать отдельных получателей",
+  unlimitedHelp: "Оставьте пустым, чтобы не ограничивать число покупок.",
+  pricingHelp:
+    "Укажите окончательную цену в USD. Первоначальная цена необязательна.",
+  displayHelp:
+    "Обложка и текст кнопки используются в предложениях, уведомлениях и событиях.",
+  translationsHelp: "Если перевод не заполнен, используется основной текст.",
   sales: "Предложения",
   catalog: "Доступные предложения",
   purchases: "Мои покупки",
@@ -267,6 +320,33 @@ const ru: CommerceMessages = {
   accessDenied: "У вашего аккаунта нет доступа к этому разделу.",
 };
 const uk: CommerceMessages = {
+  refreshing: "Оновлення…",
+  salesIntro: "Програми, послуги та пропозиції для учасників IBPA.",
+  adminSalesIntro:
+    "Керуйте пропозиціями в кабінеті та відстежуйте покупки учасників.",
+  notificationsIntro: "Оновлення, можливості та новини IBPA.",
+  adminNotificationsIntro:
+    "Надсилайте оновлення учасникам і перевіряйте історію доставки.",
+  noResults: "Нічого не знайдено",
+  resetFilters: "Скинути фільтри",
+  emptySalesHelp: "Нові пропозиції з’являться тут, коли стануть доступними.",
+  emptyPurchasesHelp: "Перегляньте доступні програми та послуги.",
+  basicInfo: "Інформація про пропозицію",
+  pricing: "Вартість",
+  display: "Відображення в кабінеті",
+  allCategories: "Усі категорії",
+  allStatuses: "Усі статуси",
+  pagination: "Сторінки",
+  moreActions: "Інші дії",
+  compose: "Створити сповіщення",
+  message: "Повідомлення",
+  selectRecipients: "Вибрати окремих одержувачів",
+  unlimitedHelp: "Залиште порожнім, щоб не обмежувати кількість покупок.",
+  pricingHelp: "Укажіть остаточну ціну в USD. Початкова ціна необов’язкова.",
+  displayHelp:
+    "Обкладинка й текст кнопки використовуються в пропозиціях, сповіщеннях і подіях.",
+  translationsHelp:
+    "Якщо переклад не заповнено, використовується основний текст.",
   sales: "Пропозиції",
   catalog: "Доступні пропозиції",
   purchases: "Мої покупки",
