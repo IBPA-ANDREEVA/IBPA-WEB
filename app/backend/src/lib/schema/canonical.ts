@@ -150,7 +150,51 @@ export const coreAdminCertificates = ibpa.table("admin_certificates", {
   index("ibpa_admin_certificates_clerk_user_id_idx").on(table.clerkUserId),
 ]);
 
+export type SaleTranslations = Partial<Record<"en" | "ru" | "uk", { title?: string; shortDescription?: string; description?: string; ctaLabel?: string }>>;
+export const coreSales = ibpa.table("sales", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  title: varchar("title", { length: 255 }).notNull(),
+  shortDescription: text("short_description").notNull().default(""),
+  description: text("description").notNull().default(""),
+  translations: jsonb("translations").$type<SaleTranslations>().notNull().default(sql`'{}'::jsonb`),
+  imagePresentation: jsonb("image_presentation").$type<ContentImageMetadata | null>(),
+  category: varchar("category", { length: 80 }).notNull().default("service"),
+  price: integer("price").notNull(),
+  currency: varchar("currency", { length: 3 }).notNull().default("usd"),
+  compareAtPrice: integer("compare_at_price"),
+  status: varchar("status", { length: 20 }).notNull().default("DRAFT"),
+  startsAt: timestamp("starts_at", { withTimezone: true }),
+  expiresAt: timestamp("expires_at", { withTimezone: true }),
+  quantityLimit: integer("quantity_limit"),
+  onePerAccount: boolean("one_per_account").notNull().default(false),
+  ctaLabel: varchar("cta_label", { length: 80 }),
+  version: integer("version").notNull().default(1),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
+export const coreSaleOrders = ibpa.table("sale_orders", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  saleId: uuid("sale_id").references(() => coreSales.id, { onDelete: "restrict" }).notNull(),
+  userId: uuid("user_id").references(() => coreUsers.id, { onDelete: "restrict" }).notNull(),
+  buyerEmail: varchar("buyer_email", { length: 255 }).notNull(),
+  itemTitle: varchar("item_title", { length: 255 }).notNull(),
+  amount: integer("amount").notNull(), currency: varchar("currency", { length: 3 }).notNull(),
+  status: varchar("status", { length: 20 }).notNull().default("PENDING"),
+  requestKey: uuid("request_key").notNull(),
+  stripeSessionId: text("stripe_session_id"), stripePaymentIntentId: text("stripe_payment_intent_id"),
+  checkoutUrl: text("checkout_url"), returnPath: text("return_path").notNull(),
+  locale: varchar("locale", { length: 2 }).notNull().default("en"),
+  refundedAmount: integer("refunded_amount").notNull().default(0), failureCode: text("failure_code"),
+  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  paidAt: timestamp("paid_at", { withTimezone: true }),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
+export type Sale = typeof coreSales.$inferSelect;
+export type SaleOrder = typeof coreSaleOrders.$inferSelect;
+
 export const coreEvents = ibpa.table("events", {
+  linkedSaleId: uuid("linked_sale_id").references(() => coreSales.id, { onDelete: "restrict" }),
   id: uuid("id").primaryKey().defaultRandom(),
   title: varchar("title", { length: 255 }).notNull(),
   description: text("description").notNull(),
@@ -256,6 +300,11 @@ export const corePartners = ibpa.table("partners", {
 ]);
 
 export const coreNotifications = ibpa.table("notifications", {
+  actionType: varchar("action_type", { length: 20 }).notNull().default("NONE"),
+  linkedSaleId: uuid("linked_sale_id").references(() => coreSales.id, { onDelete: "restrict" }),
+  linkedEventId: uuid("linked_event_id").references(() => coreEvents.id, { onDelete: "set null" }),
+  category: varchar("category", { length: 30 }).notNull().default("admin"),
+  translations: jsonb("translations").$type<SaleTranslations>().notNull().default(sql`'{}'::jsonb`),
   id: uuid("id").primaryKey().defaultRandom(),
   title: varchar("title", { length: 255 }).notNull(),
   message: text("message").notNull(),
@@ -353,3 +402,10 @@ export type CoreTeamMember = typeof coreTeamMembers.$inferSelect;
 export type CoreFile = typeof coreFiles.$inferSelect;
 export type CoreStripeWebhookEvent = typeof coreStripeWebhookEvents.$inferSelect;
 export type CoreSiteSetting = typeof coreSiteSettings.$inferSelect;
+
+export const coreNotificationReceipts = ibpa.table("notification_receipts", {
+  notificationId: uuid("notification_id").references(() => coreNotifications.id, { onDelete: "cascade" }).notNull(),
+  clerkUserId: varchar("clerk_user_id", { length: 255 }).notNull(),
+  readAt: timestamp("read_at", { withTimezone: true }),
+  toastedAt: timestamp("toasted_at", { withTimezone: true }),
+}, table => [uniqueIndex("notification_receipts_owner_idx").on(table.notificationId, table.clerkUserId)]);
