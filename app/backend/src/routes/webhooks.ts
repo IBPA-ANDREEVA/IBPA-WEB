@@ -1,3 +1,4 @@
+import { handleSaleStripeEvent } from "../features/sales/server/sale-checkout.service";
 import { Router } from "express";
 import bodyParser from "body-parser";
 import Stripe from "stripe";
@@ -443,6 +444,11 @@ webhooksRouter.post("/stripe", bodyParser.raw({ type: "*/*" }), async (req, res)
   try {
     if (await hasProcessedStripeEvent(db, event.id)) {
       return res.status(200).json({ received: true, duplicate: true });
+    }
+
+    if (await handleSaleStripeEvent(db, event)) {
+      await markStripeEventProcessed(db, event);
+      return res.status(200).json({ received: true });
     }
 
     switch (event.type) {

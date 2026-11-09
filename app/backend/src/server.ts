@@ -1,3 +1,4 @@
+import { adminSalesRouter, dashboardSalesRouter } from "./routes/sales";
 import express from "express";
 import cors from "cors";
 import { webhooksRouter } from "./routes/webhooks";
@@ -68,6 +69,8 @@ app.use(express.json());
 
 // Main Domain Routes
 app.use("/api/orders", ordersRouter);
+app.use("/api/dashboard/sales", dashboardSalesRouter);
+app.use("/api/admin/sales", adminSalesRouter);
 app.use("/api/dashboard", dashboardRouter);
 app.use("/api/cards", cardsRouter);
 app.use("/api/mailing", mailingRouter);

@@ -676,7 +676,7 @@ async function resolveMembershipChangeContext(clerkUserId: string, sessionClaims
   return { access, currentCategory };
 }
 
-async function requireDashboardAccess(clerkUserId: string, sessionClaims?: unknown): Promise<DashboardAccessContext | null> {
+export async function requireDashboardAccess(clerkUserId: string, sessionClaims?: unknown): Promise<DashboardAccessContext | null> {
   const session = await ensureSessionUser(clerkUserId, sessionClaims);
   const { db, canonicalUser, candidateEmails, primaryEmail, clerkUser } = session;
 
