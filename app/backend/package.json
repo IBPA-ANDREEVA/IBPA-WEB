@@ -22,7 +22,7 @@
     "backfill:team-credentials": "tsx scripts/backfill-team-member-credentials.ts",
     "migrate:webinar-subtitles": "tsx scripts/migrate-webinar-subtitle-versions.ts",
     "test:profile-sync": "tsx scripts/test-application-profile-sync.ts",
-    "db:migrate:sales": "tsx scripts/run-sql-migration.ts 0021_sales_and_notification_actions"
+    "db:migrate:sales": "tsx scripts/run-sql-migration.ts 0021_sales_and_notification_actions && tsx scripts/run-sql-migration.ts 0022_sale_inventory_guards"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1131.0",
@@ -48,6 +48,7 @@
     "svix": "^1.88.0"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.5.16",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
