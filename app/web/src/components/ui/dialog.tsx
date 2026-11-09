@@ -37,11 +37,13 @@ export function DialogContent({
   className,
   children,
   closeLabel = "Close",
+  closeDisabled = false,
   closeClassName,
   overlayClassName,
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Content> & {
   closeLabel?: string;
+  closeDisabled?: boolean;
   closeClassName?: string;
   overlayClassName?: string;
 }) {
@@ -58,8 +60,9 @@ export function DialogContent({
       >
         {children}
         <DialogPrimitive.Close
+          disabled={closeDisabled}
           className={cn(
-            "absolute right-4 top-4 rounded-md border border-slate-200 bg-white p-2 text-slate-500 transition hover:text-slate-900",
+            "absolute right-4 top-4 rounded-md border border-slate-200 bg-white p-2 text-slate-500 transition hover:text-slate-900 disabled:cursor-not-allowed disabled:opacity-50",
             closeClassName,
           )}
         >

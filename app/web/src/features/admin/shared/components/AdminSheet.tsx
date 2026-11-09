@@ -20,6 +20,7 @@ type AdminSheetProps = {
   banner?: ReactNode;
   footer?: ReactNode;
   closeLabel?: string;
+  closeDisabled?: boolean;
   onOpenAutoFocus?: React.ComponentProps<typeof DialogPrimitive.Content>["onOpenAutoFocus"];
   onCloseAutoFocus?: React.ComponentProps<typeof DialogPrimitive.Content>["onCloseAutoFocus"];
   children: ReactNode;
@@ -46,6 +47,7 @@ export function AdminSheet({
   banner,
   footer,
   closeLabel = "Close",
+  closeDisabled = false,
   onOpenAutoFocus,
   onCloseAutoFocus,
   children,
@@ -121,7 +123,8 @@ export function AdminSheet({
 
               <DialogPrimitive.Close
                 aria-label={closeLabel}
-                className="flex size-10 items-center justify-center rounded-full border border-[#D9E4F2] bg-white text-[#6B7C93] shadow-sm transition-all hover:border-[#BDD0E8] hover:text-[#10203B]"
+                disabled={closeDisabled}
+                className="flex size-10 items-center justify-center rounded-full border border-[#D9E4F2] bg-white text-[#6B7C93] shadow-sm transition-all hover:border-[#BDD0E8] hover:text-[#10203B] disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <X className="size-4" />
               </DialogPrimitive.Close>

@@ -1,7 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import {
+  CommerceButton as Button,
+  CommerceLoading,
+  commerceDialogClassName,
+} from "./CommerceUi";
 import {
   Dialog,
   DialogContent,
@@ -11,6 +15,7 @@ import {
 import { ContentImage } from "@/components/content/ContentImage";
 import type { DashboardContentItem } from "@/components/dashboard/dashboard-types";
 import { commerceApi } from "./api";
+import { useSaleCheckout } from "./SalePurchaseProvider";
 import { useCommerce } from "./messages";
 import {
   LinkedSale,
@@ -26,6 +31,7 @@ function EventDialog({ id }: { id: string }) {
     router = useRouter(),
     pathname = usePathname();
   const { c, locale } = useCommerce();
+  const { isSaleOpen } = useSaleCheckout();
   const [event, setEvent] = useState<DashboardContentItem | null>(null),
     [error, setError] = useState(false),
     [retry, setRetry] = useState(0);
@@ -47,7 +53,7 @@ function EventDialog({ id }: { id: string }) {
   }, [id, retry]);
   return (
     <Dialog
-      open
+      open={!isSaleOpen}
       onOpenChange={(open) => {
         if (!open) {
           const next = new URLSearchParams(params.toString());
@@ -61,6 +67,7 @@ function EventDialog({ id }: { id: string }) {
       <DialogContent
         onCloseAutoFocus={(e) => {
           e.preventDefault();
+          if (isSaleOpen) return;
           document
             .querySelector<HTMLAnchorElement>(
               `a[href="/dashboard?tab=events&event=${CSS.escape(id)}"]`,
@@ -68,7 +75,7 @@ function EventDialog({ id }: { id: string }) {
             ?.focus();
         }}
         closeLabel={c.close}
-        className="max-h-[90dvh] max-w-xl overflow-y-auto"
+        className={commerceDialogClassName}
       >
         <DialogTitle className="pr-10 text-xl font-semibold">
           {event?.title || c.eventDetails}
@@ -107,9 +114,15 @@ function EventDialog({ id }: { id: string }) {
             )}
           </>
         ) : !error ? (
-          <p role="status">{c.loading}</p>
+          <CommerceLoading />
         ) : (
-          <Button variant="outline" onClick={() => setRetry((v) => v + 1)}>
+          <Button
+            variant="outline"
+            onClick={() => {
+              setError(false);
+              setRetry((v) => v + 1);
+            }}
+          >
             {c.retry}
           </Button>
         )}

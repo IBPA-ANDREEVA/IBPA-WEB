@@ -1,7 +1,12 @@
 "use client";
 /* eslint-disable react-hooks/set-state-in-effect -- Existing fetch-in-effect architecture: pending state is reset when the authenticated request key changes. */
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
+import {
+  CommerceButton as Button,
+  CommerceLoading,
+  CommerceRefresh,
+  CommerceError,
+} from "@/features/sales/CommerceUi";
 import { useCommerce } from "@/features/sales/messages";
 import { commerceApi } from "@/features/sales/api";
 import { type SaleItem, money } from "@/features/sales/types";
@@ -21,10 +26,12 @@ export function SaleSelector({
     ),
     [selected, setSelected] = useState<SaleItem | null>(null),
     [error, setError] = useState(false),
-    [revision, setRevision] = useState(0);
+    [revision, setRevision] = useState(0),
+    [loading, setLoading] = useState(true);
   useEffect(() => {
     const abort = new AbortController();
     setError(false);
+    setLoading(true);
     commerceApi<{ items: SaleItem[]; total: number }>(
       `/api/admin/sales?status=PUBLISHED&q=${encodeURIComponent(q)}&page=${page}`,
       { signal: abort.signal },
@@ -32,6 +39,9 @@ export function SaleSelector({
       .then(setData)
       .catch(() => {
         if (!abort.signal.aborted) setError(true);
+      })
+      .finally(() => {
+        if (!abort.signal.aborted) setLoading(false);
       });
     return () => abort.abort();
   }, [q, page, revision]);
@@ -51,7 +61,7 @@ export function SaleSelector({
     return () => abort.abort();
   }, [value]);
   return (
-    <fieldset className="space-y-3 rounded-xl border p-4">
+    <fieldset className="space-y-3 rounded-2xl border border-[#D4E0F0] bg-[#F8FBFF] p-4">
       <legend className="px-1 text-sm font-medium">{c.linkedSale}</legend>
       <CommerceSearch
         value={q}
@@ -68,15 +78,14 @@ export function SaleSelector({
           </Button>
         </p>
       )}
+      <CommerceRefresh active={loading && Boolean(data)} />
       {error ? (
-        <p role="alert">
-          {c.error}
-          <Button variant="outline" onClick={() => setRevision((n) => n + 1)}>
-            {c.retry}
-          </Button>
-        </p>
+        <CommerceError
+          message={c.error}
+          onRetry={() => setRevision((n) => n + 1)}
+        />
       ) : !data ? (
-        <p role="status">{c.loading}</p>
+        <CommerceLoading compact />
       ) : (
         <div
           role="radiogroup"
@@ -86,9 +95,10 @@ export function SaleSelector({
           {data.items.map((item) => (
             <label
               key={item.id}
-              className="flex cursor-pointer items-center gap-3 rounded-lg border p-3 text-sm"
+              className={`flex min-h-14 cursor-pointer items-center gap-3 rounded-xl border p-3 text-sm transition-colors ${value === item.id ? "border-[#21466D] bg-[#EEF6FF]" : "border-[#D4E0F0] bg-white hover:border-[#8AA2BD]"}`}
             >
               <input
+                className="size-4 shrink-0 accent-[#21466D]"
                 type="radio"
                 name="linked-sale"
                 value={item.id}
@@ -110,7 +120,12 @@ export function SaleSelector({
         </div>
       )}
       {data && data.total > 20 && (
-        <CommercePagination page={page} total={data.total} onChange={setPage} />
+        <CommercePagination
+          loading={loading}
+          page={page}
+          total={data.total}
+          onChange={setPage}
+        />
       )}
     </fieldset>
   );

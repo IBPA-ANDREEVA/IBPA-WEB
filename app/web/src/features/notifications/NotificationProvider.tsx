@@ -13,9 +13,14 @@ import { useUser } from "@clerk/nextjs";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { toast } from "sonner";
-import { Bell } from "lucide-react";
+import { Bell, Check, ChevronRight } from "lucide-react";
 import { Popover } from "radix-ui";
-import { Button } from "@/components/ui/button";
+import {
+  CommerceButton as Button,
+  CommerceLoading,
+  CommerceError,
+  commerceDialogClassName,
+} from "@/features/sales/CommerceUi";
 import {
   Dialog,
   DialogContent,
@@ -84,6 +89,7 @@ export function safeNotificationLink(
 }
 export function NotificationProvider({ children }: { children: ReactNode }) {
   const { isSignedIn, user } = useUser();
+  const { isSaleOpen } = useSaleCheckout();
   const { c, locale } = useCommerce();
   const params = useSearchParams();
   const router = useRouter(),
@@ -94,6 +100,8 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
     [error, setError] = useState(false),
     [selected, setSelected] = useState<Notification | null>(null),
     [detailError, setDetailError] = useState(false),
+    [detailLoading, setDetailLoading] = useState(false),
+    [detailRetry, setDetailRetry] = useState(0),
     [revision, setRevision] = useState(0);
   const focus = useRef<HTMLElement | null>(null);
   const mounted = useRef(true);
@@ -229,6 +237,9 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
     if (params.has("order") || openedParam.current === id || !isSignedIn)
       return;
     openedParam.current = id;
+    setSelected(null);
+    setDetailError(false);
+    setDetailLoading(true);
     const abort = new AbortController();
     commerceApi<Feed>(
       `/api/dashboard/notifications?id=${encodeURIComponent(id)}`,
@@ -240,9 +251,12 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
       })
       .catch(() => {
         if (!abort.signal.aborted) setDetailError(true);
+      })
+      .finally(() => {
+        if (!abort.signal.aborted) setDetailLoading(false);
       });
     return () => abort.abort();
-  }, [params, isSignedIn]);
+  }, [params, isSignedIn, detailRetry]);
   const display = selected ? localizedSale(selected, locale) : null;
   return (
     <Context.Provider
@@ -259,11 +273,14 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
     >
       {children}
       <Dialog
-        open={Boolean(selected) || detailError}
+        open={
+          !isSaleOpen && (Boolean(selected) || detailError || detailLoading)
+        }
         onOpenChange={(value) => {
           if (!value) {
             setSelected(null);
             setDetailError(false);
+            setDetailLoading(false);
             if (params.has("notification")) {
               const next = new URLSearchParams(params.toString());
               next.delete("notification");
@@ -277,10 +294,10 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
       >
         <DialogContent
           closeLabel={c.close}
-          className="max-h-[90dvh] max-w-xl overflow-y-auto rounded-2xl"
+          className={commerceDialogClassName}
           onCloseAutoFocus={(e) => {
             e.preventDefault();
-            focus.current?.focus();
+            if (!isSaleOpen) focus.current?.focus();
           }}
         >
           <DialogTitle className="pr-10 text-xl font-semibold">
@@ -289,10 +306,18 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
           <DialogDescription>
             {display
               ? new Date(display.timestamp).toLocaleString(locale)
-              : detailError
-                ? c.error
-                : ""}
+              : c.notificationsIntro}
           </DialogDescription>
+          {detailLoading && <CommerceLoading />}
+          {detailError && (
+            <CommerceError
+              message={c.error}
+              onRetry={() => {
+                openedParam.current = null;
+                setDetailRetry((n) => n + 1);
+              }}
+            />
+          )}
           {display && (
             <>
               <p className="whitespace-pre-wrap break-words text-sm leading-7">
@@ -317,6 +342,8 @@ export function LinkedSale({ id }: { id: string }) {
   const [retry, setRetry] = useState(0);
   useEffect(() => {
     const abort = new AbortController();
+    setItem(null);
+    setError(false);
     commerceApi<{ item: SaleItem }>(`/api/dashboard/sales/${id}`, {
       signal: abort.signal,
     })
@@ -330,14 +357,15 @@ export function LinkedSale({ id }: { id: string }) {
     return () => abort.abort();
   }, [id, retry]);
   return (
-    <div className="space-y-3 border-t pt-4">
+    <div className="space-y-4 rounded-[22px] border border-[#D4E0F0] bg-[#F8FBFF] p-5">
       {error ? (
-        <p role="alert">
-          {c.error}{" "}
-          <Button variant="outline" onClick={() => setRetry((v) => v + 1)}>
-            {c.retry}
-          </Button>
-        </p>
+        <CommerceError
+          message={c.error}
+          onRetry={() => {
+            setError(false);
+            setRetry((v) => v + 1);
+          }}
+        />
       ) : item ? (
         <>
           <h3 className="font-semibold">{localizedSale(item, locale).title}</h3>
@@ -355,7 +383,7 @@ export function LinkedSale({ id }: { id: string }) {
           </div>
         </>
       ) : (
-        <p role="status">{c.loading}</p>
+        <CommerceLoading compact />
       )}
     </div>
   );
@@ -409,8 +437,8 @@ export function NotificationBell() {
       <Popover.Trigger asChild>
         <button
           type="button"
-          aria-label={`${c.notifications}: ${unreadCount}`}
-          className="relative inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-600"
+          aria-label={`${c.notifications}, ${c.unread}: ${unreadCount}`}
+          className="relative inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-600 transition-colors hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7D9D]"
         >
           <Bell className="h-5 w-5" />
           {unreadCount > 0 && (
@@ -425,9 +453,9 @@ export function NotificationBell() {
           align="end"
           sideOffset={10}
           collisionPadding={12}
-          className="z-50 w-[min(92vw,400px)] rounded-2xl border border-[#D4E0F0] bg-white p-4 shadow-lg"
+          className="z-50 w-[min(92vw,420px)] overflow-hidden rounded-[24px] border border-[#D4E0F0] bg-white text-[#10203B] shadow-[0_18px_55px_rgba(16,32,59,0.16)] outline-none"
         >
-          <div className="mb-3 flex items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 px-4 py-3">
             <h2 className="font-semibold">{c.notifications}</h2>
             <Button
               variant="ghost"
@@ -439,19 +467,19 @@ export function NotificationBell() {
             </Button>
           </div>
           {loading ? (
-            <p role="status">{c.loading}</p>
+            <CommerceLoading compact />
           ) : error ? (
-            <p role="alert">
-              {c.error}
-              <Button onClick={() => void refresh()}>{c.retry}</Button>
-            </p>
+            <div className="p-4">
+              <CommerceError message={c.error} onRetry={() => void refresh()} />
+            </div>
           ) : (
-            <div className="max-h-[55dvh] space-y-2 overflow-y-auto">
+            <div className="max-h-[55dvh] divide-y divide-slate-100 overflow-y-auto px-4">
               {items.length ? (
                 items.slice(0, 6).map((n) => (
                   <NotificationRow
                     key={n.id}
                     item={n}
+                    compact
                     onOpen={() => {
                       setExpanded(false);
                       open(n);
@@ -465,7 +493,11 @@ export function NotificationBell() {
               )}
             </div>
           )}
-          <Button asChild variant="outline" className="mt-3 w-full">
+          <Button
+            asChild
+            variant="outline"
+            className="m-3 w-[calc(100%-1.5rem)]"
+          >
             <Link
               href="/dashboard/notifications"
               onClick={() => setExpanded(false)}
@@ -481,50 +513,100 @@ export function NotificationBell() {
 export function NotificationRow({
   item,
   onOpen,
+  compact = false,
 }: {
   item: Notification;
   onOpen?: () => void;
+  compact?: boolean;
 }) {
   const { c, locale } = useCommerce();
+  const [marking, setMarking] = useState(false);
   const { open, markRead } = useNotifications();
   const n = localizedSale(item, locale);
+  const show = onOpen || (() => open(n));
   return (
-    <article className="rounded-xl border border-slate-200 p-4">
-      <button
-        className="w-full text-left focus-visible:outline-2 focus-visible:outline-[#21466D]"
-        onClick={onOpen || (() => open(n))}
-      >
-        <div className="flex items-start gap-2">
-          <h3 className="flex-1 break-words text-sm font-semibold">
-            {n.title}
-          </h3>
-          {n.unread && (
-            <span className="text-xs font-semibold text-[#21466D]">
-              {c.unread}
-            </span>
+    <article className={`relative py-4 ${compact ? "" : "sm:py-5"}`}>
+      <div className="flex gap-3">
+        {!compact && (
+          <span
+            aria-hidden
+            className={`mt-0.5 hidden size-10 shrink-0 items-center justify-center rounded-2xl sm:flex ${n.unread ? "bg-[#EEF6FF] text-[#21466D]" : "bg-slate-50 text-slate-400"}`}
+          >
+            <Bell className="size-4" />
+          </span>
+        )}
+        <div className="min-w-0 flex-1">
+          <button
+            type="button"
+            className="group block w-full rounded-lg text-left outline-none focus-visible:ring-2 focus-visible:ring-[#4C7D9D] focus-visible:ring-offset-4"
+            onClick={show}
+          >
+            <div className="flex items-start gap-2">
+              <h3
+                className={`min-w-0 flex-1 break-words text-sm leading-6 text-[#10203B] ${n.unread ? "font-semibold" : "font-medium"}`}
+              >
+                {n.title}
+              </h3>
+              {n.unread && (
+                <span className="mt-2 size-2 shrink-0 rounded-full bg-[#21466D]">
+                  <span className="sr-only">{c.unread}</span>
+                </span>
+              )}
+              <ChevronRight
+                aria-hidden
+                className="mt-1 size-4 shrink-0 text-slate-400 transition-colors group-hover:text-[#21466D]"
+              />
+            </div>
+            <p className="mt-1 line-clamp-2 text-sm leading-6 text-slate-500">
+              {n.description}
+            </p>
+            <p className="mt-2 text-xs leading-5 text-[#6C7F95]">
+              {c[(n.category || "admin") as keyof typeof c] || n.category}
+              {" · "}
+              <time dateTime={n.timestamp}>
+                {new Date(n.timestamp).toLocaleString(locale, {
+                  month: "short",
+                  day: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </time>
+            </p>
+          </button>
+          {(!compact || n.unread) && (
+            <div className="mt-2 flex flex-wrap gap-1">
+              {!compact && (
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="-ml-3 text-[#21466D]"
+                  onClick={show}
+                >
+                  {c.viewDetails}
+                </Button>
+              )}
+              {n.unread && (
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className={compact ? "-ml-3" : ""}
+                  busy={marking}
+                  onClick={async () => {
+                    setMarking(true);
+                    try {
+                      await markRead([n.id]);
+                    } finally {
+                      setMarking(false);
+                    }
+                  }}
+                >
+                  <Check aria-hidden className="size-3.5" />
+                  {c.markRead}
+                </Button>
+              )}
+            </div>
           )}
         </div>
-        <p className="mt-2 line-clamp-2 text-sm text-slate-600">
-          {n.description}
-        </p>
-        <p className="mt-2 text-xs text-slate-500">
-          {c[(n.category || "admin") as keyof typeof c] || n.category} ·{" "}
-          {new Date(n.timestamp).toLocaleString(locale)}
-        </p>
-      </button>
-      <div className="mt-3 flex flex-wrap gap-2">
-        <Button size="sm" variant="outline" onClick={onOpen || (() => open(n))}>
-          {c.viewDetails}
-        </Button>
-        {n.unread && (
-          <Button
-            size="sm"
-            variant="ghost"
-            onClick={() => void markRead([n.id])}
-          >
-            {c.markRead}
-          </Button>
-        )}
       </div>
     </article>
   );

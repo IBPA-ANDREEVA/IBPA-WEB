@@ -7,7 +7,15 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+import { Eye, Save } from "lucide-react";
+import { AdminSheet } from "@/features/admin/shared/components/AdminSheet";
+import { AdminSectionCard } from "@/features/admin/shared/components/AdminSectionCard";
+import {
+  CommerceButton as Button,
+  commerceInputClassName,
+  commerceTextareaClassName,
+  commerceDialogClassName,
+} from "@/features/sales/CommerceUi";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ContentImageEditor } from "@/components/content/ContentImageEditor";
@@ -81,6 +89,11 @@ export function SaleEditor({
     [discard, setDiscard] = useState(false),
     [preview, setPreview] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
+  const [returnFocus] = useState(() =>
+    typeof document !== "undefined"
+      ? (document.activeElement as HTMLElement)
+      : null,
+  );
   const patch = (values: Partial<SaleItem>) => {
     setForm((f) => ({ ...f, ...values }));
     setDirty(true);
@@ -165,6 +178,16 @@ export function SaleEditor({
       setBusy(false);
     }
   }
+  const fieldError = (name: string) =>
+    field === name && error ? (
+      <p
+        id={`sale-error-${name}`}
+        role="alert"
+        className="text-sm font-normal leading-5 text-red-700"
+      >
+        {commerceError(error, c)}
+      </p>
+    ) : null;
   const input = (
     key: "title" | "shortDescription" | "description" | "ctaLabel",
     multiline = false,
@@ -175,55 +198,119 @@ export function SaleEditor({
         <Textarea
           name={key}
           rows={key === "description" ? 8 : 3}
-          className="resize-none border-border bg-input-background"
+          className={commerceTextareaClassName}
           aria-invalid={field === key}
-          aria-describedby={field === key ? "sale-error" : undefined}
+          aria-describedby={field === key ? `sale-error-${key}` : undefined}
           value={form[key] || ""}
           onChange={(e) => patch({ [key]: e.target.value })}
         />
       ) : (
         <Input
-          className="border-border bg-input-background"
+          className={commerceInputClassName}
           name={key}
           aria-invalid={field === key}
-          aria-describedby={field === key ? "sale-error" : undefined}
+          aria-describedby={field === key ? `sale-error-${key}` : undefined}
           value={form[key] || ""}
           onChange={(e) => patch({ [key]: e.target.value })}
         />
       )}
+      {fieldError(key)}
     </label>
   );
   return (
     <>
-      <Dialog
+      <AdminSheet
         open
+        size="md"
+        closeLabel={c.close}
+        closeDisabled={busy}
+        onOpenAutoFocus={(event) => {
+          event.preventDefault();
+          formRef.current
+            ?.querySelector<HTMLInputElement>('input[name="title"]')
+            ?.focus();
+        }}
+        onCloseAutoFocus={(event) => {
+          event.preventDefault();
+          returnFocus?.focus();
+        }}
+        className="admin-theme motion-reduce:animate-none"
         onOpenChange={(open) => {
           if (!open) close();
         }}
+        title={form.id ? `${c.edit}: ${initial.title}` : c.create}
+        description={c.sales}
+        footer={
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              disabled={busy}
+              onClick={() => setPreview(true)}
+            >
+              <Eye aria-hidden className="size-4" />
+              {c.preview}
+            </Button>
+            <div className="flex flex-wrap gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                disabled={busy}
+                onClick={close}
+              >
+                {c.cancel}
+              </Button>
+              <Button
+                type="submit"
+                form="sale-editor"
+                busy={busy}
+                disabled={imageDirty}
+              >
+                <Save aria-hidden className="size-4" />
+                {c.save}
+              </Button>
+            </div>
+          </div>
+        }
       >
-        <DialogContent
-          closeLabel={c.close}
-          className="max-h-[92dvh] max-w-3xl overflow-y-auto rounded-2xl"
+        <form
+          id="sale-editor"
+          ref={formRef}
+          noValidate
+          onSubmit={(e) => {
+            e.preventDefault();
+            void save();
+          }}
+          className="space-y-5"
         >
-          <DialogTitle className="pr-10 text-xl font-semibold">
-            {form.id ? c.edit : c.create}
-          </DialogTitle>
-          <DialogDescription>{c.sales}</DialogDescription>
-          <form
-            ref={formRef}
-            noValidate
-            onSubmit={(e) => {
-              e.preventDefault();
-              void save();
-            }}
-            className="space-y-5"
-          >
-            {input("title")}
-            {input("shortDescription", true)}
-            {input("description", true)}
-            <div className="grid gap-4 sm:grid-cols-2">
-              <label className="space-y-2">
-                <span>{c.category}</span>
+          {error &&
+            ![
+              "title",
+              "shortDescription",
+              "description",
+              "ctaLabel",
+              "price",
+              "compareAtPrice",
+              "quantityLimit",
+              "startsAt",
+              "expiresAt",
+              "imagePresentation",
+            ].includes(field) && (
+              <p
+                id="sale-error"
+                role="alert"
+                className="rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-700"
+              >
+                {commerceError(error, c)}
+              </p>
+            )}
+          <fieldset disabled={busy} className="space-y-5">
+            <AdminSectionCard title={c.basicInfo} contentClassName="space-y-5">
+              {input("title")}
+              {input("shortDescription", true)}
+              {input("description", true)}
+              <div className="space-y-2 text-sm">
+                <p className="font-medium">{c.category}</p>
                 <CommerceSelect
                   label={c.category}
                   value={form.category}
@@ -235,28 +322,13 @@ export function SaleEditor({
                     }),
                   )}
                 />
-              </label>
-              <label className="space-y-2">
-                <span>{c.status}</span>
-                <CommerceSelect
-                  label={c.status}
-                  value={form.status}
-                  onChange={(v) => patch({ status: v })}
-                  options={["DRAFT", "PUBLISHED", "ARCHIVED"].map((value) => ({
-                    value,
-                    label: c[value as keyof typeof c],
-                  }))}
-                />
-              </label>
-            </div>
-            <ContentImageEditor
-              alt={form.title || c.image}
-              value={form.imagePresentation}
-              onChange={(value) => patch({ imagePresentation: value })}
-              onDirtyChange={setImageDirty}
-              onError={(message) => toast.error(message)}
-            />
-            <div className="grid gap-4 sm:grid-cols-2">
+              </div>
+            </AdminSectionCard>
+            <AdminSectionCard
+              title={c.pricing}
+              description={c.pricingHelp}
+              contentClassName="grid gap-5 sm:grid-cols-2"
+            >
               {[
                 { name: "price", value: price, set: setPrice, label: c.price },
                 {
@@ -265,77 +337,145 @@ export function SaleEditor({
                   set: setCompare,
                   label: c.compareAtPrice,
                 },
-                {
-                  name: "quantityLimit",
-                  value: limit,
-                  set: setLimit,
-                  label: c.quantityLimit,
-                },
               ].map((f) => (
-                <label key={f.name} className="space-y-2">
-                  <span>{f.label}</span>
+                <label key={f.name} className="space-y-2 text-sm">
+                  <span className="font-medium">{f.label}</span>
                   <Input
-                    className="border-border bg-input-background"
+                    className={commerceInputClassName}
                     name={f.name}
-                    inputMode={
-                      f.name === "quantityLimit" ? "numeric" : "decimal"
-                    }
+                    inputMode="decimal"
                     value={f.value}
                     aria-invalid={field === f.name}
                     aria-describedby={
-                      field === f.name ? "sale-error" : undefined
+                      field === f.name ? `sale-error-${f.name}` : undefined
                     }
                     onChange={(e) => {
                       f.set(e.target.value);
                       setDirty(true);
                     }}
                   />
+                  {fieldError(f.name)}
                 </label>
               ))}
-              <label className="flex items-center gap-2">
+            </AdminSectionCard>
+            <AdminSectionCard
+              title={c.availability}
+              contentClassName="space-y-5"
+            >
+              <div className="grid gap-5 sm:grid-cols-2">
+                <div className="space-y-2 text-sm">
+                  <p className="font-medium">{c.status}</p>
+                  <CommerceSelect
+                    label={c.status}
+                    value={form.status}
+                    onChange={(v) => patch({ status: v })}
+                    options={["DRAFT", "PUBLISHED", "ARCHIVED"].map(
+                      (value) => ({
+                        value,
+                        label: c[value as keyof typeof c],
+                      }),
+                    )}
+                  />
+                </div>
+                <label className="space-y-2 text-sm">
+                  <span className="font-medium">{c.quantityLimit}</span>
+                  <Input
+                    className={commerceInputClassName}
+                    name="quantityLimit"
+                    inputMode="numeric"
+                    value={limit}
+                    aria-invalid={field === "quantityLimit"}
+                    aria-describedby={
+                      field === "quantityLimit"
+                        ? "sale-error-quantityLimit"
+                        : "quantity-help"
+                    }
+                    onChange={(e) => {
+                      setLimit(e.target.value);
+                      setDirty(true);
+                    }}
+                  />
+                  {fieldError("quantityLimit")}
+                  <p
+                    id="quantity-help"
+                    className="text-xs leading-5 text-[#6C7F95]"
+                  >
+                    {c.unlimitedHelp}
+                  </p>
+                </label>
+                {[
+                  {
+                    name: "startsAt",
+                    label: c.startsAt,
+                    value: start,
+                    set: setStart,
+                  },
+                  {
+                    name: "expiresAt",
+                    label: c.expiresAt,
+                    value: end,
+                    set: setEnd,
+                  },
+                ].map((f) => (
+                  <label key={f.name} className="space-y-2 text-sm">
+                    <span className="font-medium">{f.label}</span>
+                    <Input
+                      className={commerceInputClassName}
+                      name={f.name}
+                      type="datetime-local"
+                      value={f.value}
+                      aria-invalid={field === f.name}
+                      aria-describedby={
+                        field === f.name ? `sale-error-${f.name}` : undefined
+                      }
+                      onChange={(e) => {
+                        f.set(e.target.value);
+                        setDirty(true);
+                      }}
+                    />
+                    {fieldError(f.name)}
+                  </label>
+                ))}
+              </div>
+              <label className="flex min-h-11 cursor-pointer items-center gap-3 rounded-2xl border border-[#D4E0F0] bg-[#F8FBFF] p-4 text-sm">
                 <input
+                  className="size-4 accent-[#21466D]"
                   type="checkbox"
                   checked={form.onePerAccount}
                   onChange={(e) => patch({ onePerAccount: e.target.checked })}
                 />
                 {c.onePerAccount}
               </label>
-              <label className="space-y-2">
-                <span>{c.startsAt}</span>
-                <Input
-                  className="border-border bg-input-background"
-                  name="startsAt"
-                  type="datetime-local"
-                  value={start}
-                  onChange={(e) => {
-                    setStart(e.target.value);
-                    setDirty(true);
-                  }}
-                />
-              </label>
-              <label className="space-y-2">
-                <span>{c.expiresAt}</span>
-                <Input
-                  className="border-border bg-input-background"
-                  name="expiresAt"
-                  type="datetime-local"
-                  value={end}
-                  onChange={(e) => {
-                    setEnd(e.target.value);
-                    setDirty(true);
-                  }}
-                />
-              </label>
-            </div>
-            {input("ctaLabel")}
-            <details className="rounded-xl border p-4">
-              <summary className="cursor-pointer text-sm font-medium">
+            </AdminSectionCard>
+            <AdminSectionCard
+              title={c.display}
+              description={c.displayHelp}
+              contentClassName="space-y-5"
+            >
+              <ContentImageEditor
+                alt={form.title || c.image}
+                value={form.imagePresentation}
+                onChange={(value) => patch({ imagePresentation: value })}
+                onDirtyChange={setImageDirty}
+                onError={(message) => toast.error(message)}
+              />
+              {fieldError("imagePresentation")}
+              {input("ctaLabel")}
+            </AdminSectionCard>
+            <details className="rounded-[24px] border border-[#D4E0F0] bg-white p-5">
+              <summary className="cursor-pointer text-sm font-semibold text-[#10203B]">
                 {c.translations}
               </summary>
-              <div className="mt-4 space-y-5">
+              <p className="mt-3 text-sm leading-6 text-[#6C7F95]">
+                {c.translationsHelp}
+              </p>
+              <div className="mt-5 space-y-6">
                 {(["en", "ru", "uk"] as const).map((locale) => (
-                  <fieldset key={locale} className="space-y-3">
-                    <legend className="mb-2 font-medium">
+                  <fieldset
+                    key={locale}
+                    className="space-y-3 border-t border-[#E4EEF8] pt-4"
+                  >
+                    <legend className="pr-3 text-sm font-semibold">
                       {locale === "en"
                         ? "English"
                         : locale === "ru"
@@ -350,10 +490,10 @@ export function SaleEditor({
                         "ctaLabel",
                       ] as const
                     ).map((key) => (
-                      <label key={key} className="block space-y-1 text-sm">
+                      <label key={key} className="block space-y-2 text-sm">
                         <span>{c[key]}</span>
                         <Textarea
-                          className="resize-none border-border bg-input-background"
+                          className={commerceTextareaClassName}
                           rows={key === "description" ? 5 : 2}
                           value={form.translations[locale]?.[key] || ""}
                           onChange={(e) =>
@@ -374,36 +514,20 @@ export function SaleEditor({
                 ))}
               </div>
             </details>
-            {error && (
-              <p id="sale-error" role="alert" className="text-sm text-red-700">
-                {commerceError(error, c)}
-              </p>
-            )}
-            <div className="flex flex-wrap justify-end gap-3">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => setPreview(true)}
-              >
-                {c.preview}
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                disabled={busy}
-                onClick={close}
-              >
-                {c.cancel}
-              </Button>
-              <Button type="submit" disabled={busy || imageDirty}>
-                {busy ? c.loading : c.save}
-              </Button>
-            </div>
-          </form>
-        </DialogContent>
-      </Dialog>
+          </fieldset>
+        </form>
+      </AdminSheet>
       <Dialog open={discard} onOpenChange={setDiscard}>
-        <DialogContent closeLabel={c.close} className="max-w-md">
+        <DialogContent
+          closeLabel={c.close}
+          onCloseAutoFocus={(event) => {
+            event.preventDefault();
+            formRef.current
+              ?.querySelector<HTMLInputElement>('input[name="title"]')
+              ?.focus();
+          }}
+          className={`${commerceDialogClassName} admin-theme max-w-md`}
+        >
           <DialogTitle>{c.unsaved}</DialogTitle>
           <DialogDescription>{form.title}</DialogDescription>
           <div className="flex gap-3">
@@ -415,10 +539,7 @@ export function SaleEditor({
         </DialogContent>
       </Dialog>
       <Dialog open={preview} onOpenChange={setPreview}>
-        <DialogContent
-          closeLabel={c.close}
-          className="max-h-[90dvh] max-w-xl overflow-y-auto"
-        >
+        <DialogContent closeLabel={c.close} className={commerceDialogClassName}>
           <DialogTitle>{form.title || c.preview}</DialogTitle>
           <DialogDescription>{c.preview}</DialogDescription>
           <SaleSummary

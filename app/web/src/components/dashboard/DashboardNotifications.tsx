@@ -2,7 +2,15 @@
 /* eslint-disable react-hooks/set-state-in-effect -- Existing fetch-in-effect architecture: pending state is reset when the authenticated request key changes. */
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import { CheckCheck } from "lucide-react";
+import {
+  CommerceButton as Button,
+  CommerceLoading,
+  CommerceError,
+  CommerceEmpty,
+  CommerceRefresh,
+  CommerceViewSwitch,
+} from "@/features/sales/CommerceUi";
 import {
   SectionCard,
   SectionHeader,
@@ -28,7 +36,7 @@ export function DashboardNotifications() {
       total: number;
     } | null>(null),
     [error, setError] = useState(false),
-    [loading, setLoading] = useState(false),
+    [loading, setLoading] = useState(true),
     [retry, setRetry] = useState(0);
   const update = (key: string, value: string) => {
     const next = new URLSearchParams(params.toString());
@@ -56,30 +64,43 @@ export function DashboardNotifications() {
       });
     return () => abort.abort();
   }, [filter, category, page, revision, retry]);
+  const clearFilters = () => {
+    const next = new URLSearchParams(params.toString());
+    ["filter", "category", "page"].forEach((key) => next.delete(key));
+    router.replace("/dashboard/notifications?" + next.toString(), {
+      scroll: false,
+    });
+  };
   return (
-    <SectionCard>
+    <SectionCard className="space-y-5">
       <SectionHeader
         title={c.notifications}
+        description={c.notificationsIntro}
         action={
           <Button
             variant="outline"
             disabled={!unreadCount}
             onClick={() => void markRead()}
           >
+            <CheckCheck aria-hidden className="size-4" />
             {c.markAllRead}
           </Button>
         }
       />
-      <div className="my-5 flex flex-wrap gap-3">
-        <CommerceSelect
-          label={c.status}
-          value={filter}
-          onChange={(v) => update("filter", v)}
-          options={["", "unread", "read"].map((value) => ({
-            value,
-            label: value ? c[value as "unread" | "read"] : c.all,
-          }))}
-        />
+      <CommerceViewSwitch
+        label={c.status}
+        value={filter}
+        onChange={(v) => update("filter", v)}
+        options={[
+          { value: "", label: c.all },
+          {
+            value: "unread",
+            label: unreadCount ? `${c.unread} (${unreadCount})` : c.unread,
+          },
+          { value: "read", label: c.read },
+        ]}
+      />
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <CommerceSelect
           label={c.category}
           value={category}
@@ -95,36 +116,47 @@ export function DashboardNotifications() {
             "event",
           ].map((value) => ({
             value,
-            label: value ? c[value as keyof typeof c] : c.all,
+            label: value ? c[value as keyof typeof c] : c.allCategories,
           }))}
         />
+        <CommerceRefresh active={loading && Boolean(data)} />
       </div>
-      {loading && <p role="status">{c.loading}</p>}
       {error && (
-        <p role="alert">
-          {c.error}{" "}
-          <Button onClick={() => setRetry((n) => n + 1)}>{c.retry}</Button>
-        </p>
+        <CommerceError
+          message={c.error}
+          onRetry={() => setRetry((n) => n + 1)}
+        />
       )}
-      <div className="space-y-3">
-        {data?.notifications.map((n) => (
-          <NotificationRow key={n.id} item={n} />
-        ))}
-        {!loading && data?.total === 0 && (
-          <p className="py-12 text-center text-slate-500">
-            {c.noNotifications}
-          </p>
+      <div aria-busy={loading} className="min-h-64">
+        {!data && loading ? (
+          <CommerceLoading />
+        ) : data?.notifications.length === 0 ? (
+          <CommerceEmpty
+            title={filter || category ? c.noResults : c.noNotifications}
+            action={
+              filter || category ? (
+                <Button variant="outline" onClick={clearFilters}>
+                  {c.resetFilters}
+                </Button>
+              ) : undefined
+            }
+          />
+        ) : (
+          <div className="divide-y divide-slate-200">
+            {data?.notifications.map((n) => (
+              <NotificationRow key={n.id} item={n} />
+            ))}
+          </div>
         )}
       </div>
-      {data && (
-        <div className="mt-5">
-          <CommercePagination
-            page={page}
-            pageSize={50}
-            total={data.total}
-            onChange={(v) => update("page", String(v))}
-          />
-        </div>
+      {data && data.total > 50 && (
+        <CommercePagination
+          loading={loading}
+          page={page}
+          pageSize={50}
+          total={data.total}
+          onChange={(v) => update("page", String(v))}
+        />
       )}
     </SectionCard>
   );
