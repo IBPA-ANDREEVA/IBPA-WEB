@@ -1,3 +1,5 @@
+import { listDashboardNotifications, updateNotificationReceipts, type NotificationViewer } from "../features/notifications/server/dashboard-notifications";
+import { SaleError } from "../features/sales/server/sale-validation";
 import crypto from "crypto";
 import { Router } from "express";
 import { and, asc, desc, eq, ilike, inArray, or, sql } from "drizzle-orm";
@@ -35,7 +37,6 @@ import {
   saveOwnedProfileRecord,
   saveProfileServices,
 } from "../features/profiles/server/profile.service";
-import { markNotificationsRead } from "../features/notifications/server/notification.service";
 import { ensureCanonicalUser, resolveUserRole } from "../features/users/server/user.service";
 import { buildTeamEmailIndex } from "../features/teams/server/admin-team.service";
 import { extendCanonicalTeamSeats } from "../features/teams/server/team.service";
@@ -927,36 +928,6 @@ async function getTeamSnapshot(db: ReturnType<typeof requireDb>, team: typeof co
   };
 }
 
-function filterNotificationsForEmail(notifications: Array<typeof coreNotifications.$inferSelect>, email: string, role: string | null | undefined, userId: string | null) {
-  const normalizedEmail = normalizeEmail(email);
-  const normalizedRole = (role || "").toUpperCase();
-
-  return notifications.filter((notification) => {
-    const recipients = asRecord(notification.recipients) || {};
-    const emails = stringArray(recipients.emails);
-    const roles = stringArray(recipients.roles).map((item) => item.toUpperCase());
-    const userIds = stringArray(recipients.userIds);
-
-    if (notification.visibility === "PUBLIC" || notification.visibility === "ALL") {
-      return true;
-    }
-
-    if (userId && userIds.includes(userId)) {
-      return true;
-    }
-
-    if (emails.map((item) => normalizeEmail(item)).includes(normalizedEmail)) {
-      return true;
-    }
-
-    if (normalizedRole && roles.includes(normalizedRole)) {
-      return true;
-    }
-
-    return false;
-  });
-}
-
 dashboardRouter.get("/me", clerkMiddleware(clerkOptions), async (req, res) => {
   const auth = getAuth(req);
   const clerkUserId = auth.userId;
@@ -1464,80 +1435,24 @@ dashboardRouter.delete("/events/:id/register", clerkMiddleware(clerkOptions), as
   }
 });
 
-dashboardRouter.get("/notifications", clerkMiddleware(clerkOptions), async (req, res) => {
-  const auth = getAuth(req);
-  const clerkUserId = auth.userId;
-  if (!clerkUserId) return res.status(401).json({ error: "Unauthorized" });
-
-  try {
-    const access = await requireDashboardAccess(clerkUserId, auth.sessionClaims);
-    if (!access) {
-      return res.status(403).json(DASHBOARD_ACCESS_ERROR);
-    }
-
-    const notifications = await access.db
-      .select()
-      .from(coreNotifications)
-      .orderBy(desc(coreNotifications.createdAt));
-    const role = isTeamMemberAccess(access.accessType)
-      ? "TEAM_MEMBER"
-      : access.canonicalUser?.role ?? "MEMBER";
-    const email = access.primaryEmail || access.canonicalUser?.email || access.teamMember?.email || "";
-    const visible = filterNotificationsForEmail(notifications, email, role, access.canonicalUser?.id ?? null);
-
-    return res.json({
-      notifications: visible.map((item) => {
-        const metadata = asRecord(item.metadata) || {};
-        const readBy = stringArray(metadata.readBy).map((entry) => normalizeEmail(entry));
-
-        return {
-          id: item.id,
-          title: item.title,
-          description: item.message,
-          timestamp: item.createdAt,
-          unread: !readBy.includes(normalizeEmail(email)),
-          ctaLabel: firstText(metadata.ctaLabel) || null,
-          ctaUrl: firstText(metadata.ctaUrl) || null,
-        };
-      }),
-    });
-  } catch (error) {
-    console.error("[Dashboard /notifications GET] Error:", error);
-    return res.status(500).json({ error: "Failed to fetch notifications" });
-  }
+function notificationViewer(access: DashboardAccessContext, clerkId: string): NotificationViewer {
+ return {clerkId,userId:access.canonicalUser?.id??null,email:access.primaryEmail||access.canonicalUser?.email||access.teamMember?.email||'',role:isTeamMemberAccess(access.accessType)?'TEAM_MEMBER':access.canonicalUser?.role||'MEMBER'};
+}
+dashboardRouter.get('/notifications',clerkMiddleware(clerkOptions),async(req,res)=>{
+ const auth=getAuth(req);if(!auth.userId)return res.status(401).json({code:'UNAUTHORIZED'});
+ try {
+  const access=await requireDashboardAccess(auth.userId,auth.sessionClaims);
+  if(!access)return res.status(403).json(DASHBOARD_ACCESS_ERROR);
+  return res.set('Cache-Control','private, no-store').json(await listDashboardNotifications(access.db,notificationViewer(access,auth.userId),{page:Number(req.query.page)||1,id:typeof req.query.id==='string'?req.query.id:undefined,filter:String(req.query.filter||''),category:String(req.query.category||'')}));
+ }catch(error){console.error('[Notifications GET]',error);return res.status(error instanceof SaleError?error.status:500).json({code:error instanceof SaleError?error.code:'NOTIFICATIONS_ERROR'});}
 });
-
-dashboardRouter.patch("/notifications", clerkMiddleware(clerkOptions), async (req, res) => {
-  const auth = getAuth(req);
-  const clerkUserId = auth.userId;
-  if (!clerkUserId) return res.status(401).json({ error: "Unauthorized" });
-
-  try {
-    const access = await requireDashboardAccess(clerkUserId, auth.sessionClaims);
-    if (!access) {
-      return res.status(403).json(DASHBOARD_ACCESS_ERROR);
-    }
-
-    const ids = Array.isArray(req.body?.ids)
-      ? req.body.ids.filter((item: unknown): item is string => typeof item === "string" && item.length > 0)
-      : [];
-
-    const email = access.primaryEmail || access.canonicalUser?.email || access.teamMember?.email || "";
-    const notifications = await access.db
-      .select({ id: coreNotifications.id })
-      .from(coreNotifications)
-      .orderBy(desc(coreNotifications.createdAt));
-    const targetIds = ids.length > 0 ? ids : notifications.map((item: { id: string }) => item.id);
-    const updatedIds = await markNotificationsRead(access.db, {
-      notificationIds: targetIds,
-      email,
-    });
-
-    return res.json({ success: true, updatedIds });
-  } catch (error) {
-    console.error("[Dashboard /notifications PATCH] Error:", error);
-    return res.status(500).json({ error: "Failed to update notifications" });
-  }
+dashboardRouter.patch('/notifications',clerkMiddleware(clerkOptions),async(req,res)=>{
+ const auth=getAuth(req);if(!auth.userId)return res.status(401).json({code:'UNAUTHORIZED'});
+ try {
+  const access=await requireDashboardAccess(auth.userId,auth.sessionClaims);
+  if(!access)return res.status(403).json(DASHBOARD_ACCESS_ERROR);
+  return res.json(await updateNotificationReceipts(access.db,notificationViewer(access,auth.userId),req.body||{}));
+ }catch(error){console.error('[Notifications PATCH]',error);return res.status(error instanceof SaleError?error.status:500).json({code:error instanceof SaleError?error.code:'NOTIFICATIONS_ERROR'});}
 });
 
 dashboardRouter.get("/team-members", clerkMiddleware(clerkOptions), async (req, res) => {

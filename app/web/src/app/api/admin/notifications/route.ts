@@ -37,3 +37,9 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+
+export async function GET(req: NextRequest) {
+ const access=await requireAdminApi(req);if(!access.ok)return access.response;
+ try {const res=await fetch(`${access.backendUrl}/api/mailing/notifications`,{headers:access.authHeaders,cache:'no-store'});return NextResponse.json(await res.json(),{status:res.status});}
+ catch {return NextResponse.json({code:'NOTIFICATIONS_ERROR'},{status:502});}
+}

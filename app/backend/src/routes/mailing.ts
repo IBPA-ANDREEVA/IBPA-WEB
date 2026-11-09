@@ -1,7 +1,10 @@
+import { sendDashboardNotification } from "../features/notifications/server/dashboard-notifications";
+import { SaleError } from "../features/sales/server/sale-validation";
+import { listCanonicalNotifications } from "../features/notifications/server/notification.repository";
 import { Router } from "express";
 import { requireDb } from "../lib/db";
 import { adminClerkMiddleware, requireAdminAccess } from "../services/admin";
-import { createDashboardNotification, listEmailLogs, removeEmailLog, sendEmailCampaign } from "../features/notifications/server/notification.service";
+import { listEmailLogs, removeEmailLog, sendEmailCampaign } from "../features/notifications/server/notification.service";
 
 export const mailingRouter = Router();
 
@@ -67,30 +70,11 @@ mailingRouter.delete("/email-logs/:id", adminClerkMiddleware, requireAdminAccess
   }
 });
 
-mailingRouter.post("/notifications/send", adminClerkMiddleware, requireAdminAccess, async (req, res) => {
-  const { title, description, emails, ctaLabel, ctaUrl } = req.body;
-
-  if (!title || !description || !Array.isArray(emails) || emails.length === 0) {
-    return res.status(400).json({ error: "Missing required fields: title, description, emails (array)" });
-  }
-
-  try {
-    const db = requireDb();
-    const result = await createDashboardNotification(db, {
-      title,
-      description,
-      emails,
-      ctaLabel: ctaLabel || null,
-      ctaUrl: ctaUrl || null,
-    });
-
-    res.json({ success: true, count: result.count });
-  } catch (error) {
-    if (error instanceof Error && error.message.includes("DATABASE_URL")) {
-      return res.status(503).json({ error: error.message });
-    }
-
-    console.error("Dashboard notification API Error:", error);
-    res.status(500).json({ error: error instanceof Error ? error.message : "Failed to create dashboard notifications" });
-  }
+mailingRouter.get('/notifications',adminClerkMiddleware,requireAdminAccess,async(_req,res)=>{
+ try {res.json({items:await listCanonicalNotifications(requireDb(),{type:'DASHBOARD',limit:100})});}
+ catch {res.status(500).json({code:'NOTIFICATIONS_ERROR'});}
+});
+mailingRouter.post('/notifications/send',adminClerkMiddleware,requireAdminAccess,async(req,res)=>{
+ try {res.json(await sendDashboardNotification(requireDb(),req.body||{}));}
+ catch(error){console.error('[Notifications send]',error);res.status(error instanceof SaleError?error.status:500).json({code:error instanceof SaleError?error.code:'NOTIFICATIONS_ERROR',field:error instanceof SaleError?error.field:undefined});}
 });
