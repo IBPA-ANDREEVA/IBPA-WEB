@@ -2,6 +2,8 @@
 
 Implemented on `feat/sales` for the dashboard Sales/Notifications request. Existing Clerk permissions, canonical `ibpa` PostgreSQL schema, Express API, Next.js proxies, Stripe SDK/webhook, mailing audiences, event editor, image uploader/cropper, and EN/RU/UK locale provider remain the integration points.
 
+The subsequent [UI/UX review](./SALES-NOTIFICATIONS-UI-REVIEW.md) records the refined design, loading behavior, latest checks and test-fixture state.
+
 ## Delivered behavior
 
 - `/admin/sales`: statistics, search/status filters, pagination, create/edit/preview, publish/unpublish/archive/duplicate, image editing, optional translated content, integer USD pricing and compare-at price, availability windows, quantity and account limits, purchase ledger, and reconciliation.
