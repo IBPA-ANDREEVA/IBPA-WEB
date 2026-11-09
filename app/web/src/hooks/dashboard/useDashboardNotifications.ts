@@ -1,6 +1,7 @@
 "use client";
-/* eslint-disable react-hooks/set-state-in-effect */
+/* eslint-disable react-hooks/set-state-in-effect -- Restore existing browser preferences after hydration. */
 
+import {useNotifications} from "@/features/notifications/NotificationProvider";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   buildSystemNotifications,
@@ -78,97 +79,19 @@ type Params = {
   userCreatedAt?: string;
 };
 
-export function useDashboardNotifications({
-  customNotifications,
-  hasApprovedCert,
-  membershipCategoryLabel,
-  primaryCertificate,
-  userCreatedAt,
-}: Params) {
-  const [seenSystemNotifications, setSeenSystemNotifications] = useState<string[]>(
-    [],
-  );
-
-  const [notificationPreferences, setNotificationPreferences] =
-    useState<NotificationPreferences>(defaultNotificationPreferences);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    try {
-      const storedSeen = window.localStorage.getItem(
-        DASHBOARD_SYSTEM_NOTIFICATIONS_SEEN_KEY,
-      );
-      setSeenSystemNotifications(storedSeen ? JSON.parse(storedSeen) : []);
-    } catch {
-      setSeenSystemNotifications([]);
-    }
-
-    try {
-      const storedPrefs = window.localStorage.getItem(
-        DASHBOARD_NOTIFICATION_PREFS_KEY,
-      );
-      setNotificationPreferences(
-        storedPrefs
-          ? { ...defaultNotificationPreferences, ...JSON.parse(storedPrefs) }
-          : defaultNotificationPreferences,
-      );
-    } catch {
-      setNotificationPreferences(defaultNotificationPreferences);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    window.localStorage.setItem(
-      DASHBOARD_NOTIFICATION_PREFS_KEY,
-      JSON.stringify(notificationPreferences),
-    );
-  }, [notificationPreferences]);
-
-  const systemNotifications = useMemo(
-    () =>
-      buildSystemNotifications({
-        hasApprovedCert,
-        membershipCategoryLabel,
-        primaryCertificate,
-        userCreatedAt,
-      }),
-    [hasApprovedCert, membershipCategoryLabel, primaryCertificate, userCreatedAt],
-  );
-
-  const allNotifications = useMemo(() => {
-    const normalizedSystemNotifications = systemNotifications.map((item) => ({
-      ...item,
-      unread: !seenSystemNotifications.includes(getNotificationSignature(item)),
-    }));
-
-    return normalizeNotifications([
-      ...customNotifications,
-      ...normalizedSystemNotifications,
-    ]);
-  }, [customNotifications, seenSystemNotifications, systemNotifications]);
-
-  const alertCards = allNotifications.slice(0, 3);
-
-  const unreadNotificationsCount = allNotifications.filter(
-    (item) => item.unread,
-  ).length;
-
-  const togglePreference = useCallback((key: NotificationPreferenceKey) => {
-    setNotificationPreferences((prev) => ({
-      ...prev,
-      [key]: !prev[key],
-    }));
-  }, []);
-
-  return {
-    allNotifications,
-    alertCards,
-    unreadNotificationsCount,
-    notificationPreferences,
-    togglePreference,
-    getNotificationMeta,
-  };
+export function useDashboardNotifications(_params: Params) {
+ const {items,unreadCount}=useNotifications();
+ const [notificationPreferences,setNotificationPreferences]=useState<NotificationPreferences>(defaultNotificationPreferences);
+ useEffect(()=>{
+  try {
+   const stored=window.localStorage.getItem(DASHBOARD_NOTIFICATION_PREFS_KEY);
+   if(stored) setNotificationPreferences({...defaultNotificationPreferences,...JSON.parse(stored)});
+  } catch { /* Keep safe defaults when browser storage is unavailable. */ }
+ },[]);
+ const togglePreference=useCallback((key:NotificationPreferenceKey)=>setNotificationPreferences(prev=>{
+ const next={...prev,[key]:!prev[key]};
+ try {window.localStorage.setItem(DASHBOARD_NOTIFICATION_PREFS_KEY,JSON.stringify(next));} catch { /* Preferences still work for this session. */ }
+ return next;
+ }),[]);
+ return {allNotifications:items,alertCards:items.slice(0,3),unreadNotificationsCount:unreadCount,notificationPreferences,togglePreference,getNotificationMeta};
 }

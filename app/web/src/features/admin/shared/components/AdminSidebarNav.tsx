@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLayoutEffect, useRef, useState } from "react";
 
+import { useCommerce } from "@/features/sales/messages";
 import { cn } from "@/lib/utils";
 
 import {
@@ -55,6 +56,7 @@ function NavItem({
   onNavigate?: () => void;
   registerItemRef: (href: string, node: HTMLElement | null) => void;
 }) {
+  const {c}=useCommerce();
   const pathname = usePathname();
   const hasChildren = !!item.children?.length;
   const isChildActive =
@@ -89,7 +91,7 @@ function NavItem({
           <item.icon className="size-[15px]" />
         </span>
 
-        <span className="truncate">{item.label}</span>
+        <span className="truncate">{item.href === "/admin/sales" ? c.sales : item.href === "/admin/notifications" ? c.notifications : item.label}</span>
       </Link>
     );
   }
@@ -117,7 +119,7 @@ function NavItem({
           <item.icon className="size-[15px]" />
         </span>
 
-        <span className="flex-1 truncate text-left">{item.label}</span>
+        <span className="flex-1 truncate text-left">{item.href === "/admin/sales" ? c.sales : item.href === "/admin/notifications" ? c.notifications : item.label}</span>
 
         <ChevronRight
           className={cn(
@@ -169,6 +171,7 @@ export function AdminSidebarNav({
   className,
   onNavigate,
 }: AdminSidebarNavProps) {
+  const {c}=useCommerce();
   const pathname = usePathname();
   const navRef = useRef<HTMLElement | null>(null);
   const itemRefs = useRef(new Map<string, HTMLElement>());

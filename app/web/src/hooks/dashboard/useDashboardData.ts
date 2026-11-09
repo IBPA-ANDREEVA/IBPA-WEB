@@ -19,7 +19,7 @@ import {
   isDashboardAccessType,
   isTeamMemberDashboard,
 } from "@/lib/dashboard-access";
-import { normalizeNotifications, type DashboardNotification } from "@/lib/notifications";
+import { useNotifications } from "@/features/notifications/NotificationProvider";
 import type { PublicMember } from "@/lib/public-members";
 
 export function useDashboardData({
@@ -47,39 +47,12 @@ export function useDashboardData({
   const [accessBlocked, setAccessBlocked] = useState(false);
   const [accessErrorMessage, setAccessErrorMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [customNotifications, setCustomNotifications] = useState<
-    DashboardNotification[]
-  >([]);
+  const {items:customNotifications,markRead:markNotificationsAsRead}=useNotifications();
   const [dashboardNews, setDashboardNews] = useState<DashboardContentItem[]>([]);
   const [dashboardEvents, setDashboardEvents] = useState<DashboardContentItem[]>(
     [],
   );
   const [lastSyncedAt, setLastSyncedAt] = useState<string | null>(null);
-
-  const markNotificationsAsRead = useCallback(async (ids?: string[]) => {
-    const normalizedIds = Array.isArray(ids) ? ids.filter(Boolean) : [];
-
-    if (normalizedIds.length === 0) return;
-
-    try {
-      const res = await fetch("/api/dashboard/notifications", {
-        method: "PATCH",
-        cache: "no-store",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ids: normalizedIds }),
-      });
-
-      if (!res.ok) return;
-
-      setCustomNotifications((prev) =>
-        prev.map((item) =>
-          normalizedIds.includes(item.id) ? { ...item, unread: false } : item,
-        ),
-      );
-    } catch {
-      // keep current UI state
-    }
-  }, []);
 
   const registerDashboardEvent = useCallback(async (eventId: string) => {
     const response = await fetch(`/api/dashboard/events/${eventId}/register`, {
@@ -167,7 +140,6 @@ export function useDashboardData({
         setAdminCertificates([]);
         setBillingHistory([]);
         setDirectoryMembers([]);
-        setCustomNotifications([]);
         setDashboardNews([]);
         setDashboardEvents([]);
         setAccessBlocked(false);
@@ -185,14 +157,12 @@ export function useDashboardData({
         const [
           certRes,
           profRes,
-          notificationsRes,
           newsRes,
           eventsRes,
           communityRes,
         ] = await Promise.all([
           fetch("/api/dashboard/me", { cache: "no-store" }),
           fetch("/api/dashboard/profile", { cache: "no-store" }),
-          fetch("/api/dashboard/notifications", { cache: "no-store" }),
           fetch("/api/content?type=news&target=dashboard", { cache: "no-store" }),
           fetch("/api/dashboard/events", { cache: "no-store" }),
           fetch("/api/dashboard/community/members", { cache: "no-store" }),
@@ -208,7 +178,6 @@ export function useDashboardData({
           setDashboardMeta({});
           setDashboardAccessType("member");
           setTeamMemberAccess(null);
-          setCustomNotifications([]);
           setDashboardNews([]);
           setDashboardEvents([]);
           return;
@@ -228,7 +197,6 @@ export function useDashboardData({
           setDashboardMeta({});
           setDashboardAccessType("member");
           setTeamMemberAccess(null);
-          setCustomNotifications([]);
           setDashboardNews([]);
           setDashboardEvents([]);
           return;
@@ -237,14 +205,12 @@ export function useDashboardData({
         const [
           certData,
           profileJson,
-          notificationsJson,
           newsJson,
           eventsJson,
           communityJson,
         ] = await Promise.all([
           certRes.ok ? certRes.json() : Promise.resolve(null),
           profRes.ok ? profRes.json() : Promise.resolve(null),
-          notificationsRes.ok ? notificationsRes.json() : Promise.resolve(null),
           newsRes.ok ? newsRes.json() : Promise.resolve(null),
           eventsRes.ok ? eventsRes.json() : Promise.resolve(null),
           communityRes.ok ? communityRes.json() : Promise.resolve(null),
@@ -381,16 +347,6 @@ export function useDashboardData({
           }
         }
 
-        if (notificationsRes.ok && notificationsJson) {
-          setCustomNotifications(
-            normalizeNotifications(
-              Array.isArray(notificationsJson.notifications)
-                ? notificationsJson.notifications
-                : [],
-            ),
-          );
-        }
-
         if (newsRes.ok && newsJson) {
           setDashboardNews(Array.isArray(newsJson.items) ? newsJson.items : []);
         }
@@ -410,7 +366,6 @@ export function useDashboardData({
         if (!silent) {
           if (!certRes.ok) toast.error("Failed to load membership data.");
           if (!profRes.ok) toast.error("Failed to load profile data.");
-          if (!notificationsRes.ok) toast.error("Failed to load notifications.");
           if (!newsRes.ok) toast.error("Failed to load member news.");
           if (!eventsRes.ok) toast.error("Failed to load events.");
         }
@@ -473,7 +428,6 @@ export function useDashboardData({
     accessErrorMessage,
     loading,
     customNotifications,
-    setCustomNotifications,
     dashboardNews,
     dashboardEvents,
     lastSyncedAt,

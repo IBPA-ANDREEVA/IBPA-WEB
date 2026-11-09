@@ -130,10 +130,13 @@ export type TabType =
   | "directory"
   | "support"
   | "accountSettings"
+  | "sales"
   | "notifications"
   | "teamMembers";
 
 export type DashboardContentItem = {
+  linkedSaleId?: string | null;
+  linkedSale?: import("@/features/sales/types").SaleItem | null;
   id: string;
   type: "news" | "events";
   title: string;

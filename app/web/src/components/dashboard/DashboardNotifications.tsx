@@ -1,148 +1,131 @@
-import Link from "next/link";
-import { ExternalLink } from "lucide-react";
-
+"use client";
+/* eslint-disable react-hooks/set-state-in-effect -- Existing fetch-in-effect architecture: pending state is reset when the authenticated request key changes. */
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Button } from "@/components/ui/button";
 import {
-  dashboardSecondaryButtonClassName,
-  dashboardSubtlePanelClassName,
   SectionCard,
   SectionHeader,
 } from "@/shared/components/DashboardShared";
-import type {
-  NotificationPreferenceKey,
-  NotificationPreferences,
-} from "@/lib/dashboard-cabinet";
-import type { DashboardNotification } from "@/lib/notifications";
-
-type NotificationMeta = {
-  categoryLabel: string;
-  priorityLabel: string;
-  categoryClassName: string;
-  priorityClassName: string;
-};
-
-export function DashboardNotifications({
-  allNotifications,
-  getNotificationMeta,
-  notificationPreferences,
-  togglePreference,
-}: {
-  allNotifications: DashboardNotification[];
-  getNotificationMeta: (notification: DashboardNotification) => NotificationMeta;
-  notificationPreferences: NotificationPreferences;
-  togglePreference: (key: NotificationPreferenceKey) => void;
-}) {
+import {
+  NotificationRow,
+  useNotifications,
+  type Notification,
+} from "@/features/notifications/NotificationProvider";
+import { useCommerce } from "@/features/sales/messages";
+import { commerceApi } from "@/features/sales/api";
+import { CommerceSelect, CommercePagination } from "@/features/sales/controls";
+export function DashboardNotifications() {
+  const { c } = useCommerce();
+  const { markRead, revision, unreadCount } = useNotifications();
+  const router = useRouter();
+  const params = useSearchParams();
+  const filter = params.get("filter") || "",
+    category = params.get("category") || "",
+    page = Math.max(1, Number(params.get("page")) || 1);
+  const [data, setData] = useState<{
+      notifications: Notification[];
+      total: number;
+    } | null>(null),
+    [error, setError] = useState(false),
+    [loading, setLoading] = useState(false),
+    [retry, setRetry] = useState(0);
+  const update = (key: string, value: string) => {
+    const next = new URLSearchParams(params.toString());
+    if (value) next.set(key, value);
+    else next.delete(key);
+    if (key !== "page") next.delete("page");
+    router.replace("/dashboard/notifications?" + next.toString(), {
+      scroll: false,
+    });
+  };
+  useEffect(() => {
+    const abort = new AbortController();
+    setLoading(true);
+    setError(false);
+    commerceApi<{ notifications: Notification[]; total: number }>(
+      `/api/dashboard/notifications?filter=${filter}&category=${category}&page=${page}`,
+      { signal: abort.signal },
+    )
+      .then(setData)
+      .catch(() => {
+        if (!abort.signal.aborted) setError(true);
+      })
+      .finally(() => {
+        if (!abort.signal.aborted) setLoading(false);
+      });
+    return () => abort.abort();
+  }, [filter, category, page, revision, retry]);
   return (
-    <div className="space-y-6">
-      <SectionCard>
-        <SectionHeader
-          title="Notifications"
-          action={
-            <Link href="/dashboard/notifications" className={dashboardSecondaryButtonClassName}>
-              Open Full Page
-              <ExternalLink className="h-4 w-4" />
-            </Link>
-          }
+    <SectionCard>
+      <SectionHeader
+        title={c.notifications}
+        action={
+          <Button
+            variant="outline"
+            disabled={!unreadCount}
+            onClick={() => void markRead()}
+          >
+            {c.markAllRead}
+          </Button>
+        }
+      />
+      <div className="my-5 flex flex-wrap gap-3">
+        <CommerceSelect
+          label={c.status}
+          value={filter}
+          onChange={(v) => update("filter", v)}
+          options={["", "unread", "read"].map((value) => ({
+            value,
+            label: value ? c[value as "unread" | "read"] : c.all,
+          }))}
         />
-
-        <div className="mt-6 grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
-          <div className="space-y-3">
-            {allNotifications.length > 0 ? (
-              allNotifications.map((item) => {
-                const meta = getNotificationMeta(item);
-
-                return (
-                  <article
-                    key={item.id}
-                    className="rounded-[22px] border border-slate-200 bg-white px-5 py-4 shadow-[0_8px_20px_rgba(15,23,42,0.04)]"
-                  >
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="min-w-0">
-                        <div className="flex flex-wrap gap-2">
-                          <span
-                            className={`rounded-full px-2.5 py-1 text-[11px] font-medium ${meta.categoryClassName}`}
-                          >
-                            {meta.categoryLabel}
-                          </span>
-
-                          <span
-                            className={`rounded-full px-2.5 py-1 text-[11px] font-medium ${meta.priorityClassName}`}
-                          >
-                            {meta.priorityLabel}
-                          </span>
-                        </div>
-
-                        <p className="mt-3 text-base font-semibold text-slate-900">
-                          {item.title}
-                        </p>
-
-                        <p className="mt-2 text-sm leading-6 text-slate-500">
-                          {item.description}
-                        </p>
-
-                        <p className="mt-3 text-xs text-slate-400">
-                          {new Date(item.timestamp).toLocaleDateString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                            year: "numeric",
-                          })}
-                        </p>
-                      </div>
-
-                      {item.unread ? (
-                        <span className="mt-1 size-2.5 shrink-0 rounded-full bg-[#4C7D9D]" />
-                      ) : null}
-                    </div>
-                  </article>
-                );
-              })
-            ) : (
-              <div className="rounded-[22px] border border-dashed border-slate-200 bg-white p-6 text-sm text-slate-500">
-                No notifications yet.
-              </div>
-            )}
-          </div>
-
-          <aside className={`${dashboardSubtlePanelClassName} p-5`}>
-            <h3 className="text-lg font-semibold tracking-tight text-slate-900">
-              Preferences
-            </h3>
-            <p className="mt-2 text-sm leading-6 text-slate-500">
-              Adjust how these notification categories appear in this dashboard.
-            </p>
-
-            <div className="mt-4 space-y-3">
-              {[
-                { key: "applicationUpdates" as const, label: "Application updates" },
-                { key: "certificateReminders" as const, label: "Certificate reminders" },
-                { key: "membershipRenewal" as const, label: "Membership renewal" },
-                { key: "eventInvitations" as const, label: "Event invitations" },
-                { key: "supportReplies" as const, label: "Support replies" },
-              ].map((item) => (
-                <button
-                  key={item.key}
-                  type="button"
-                  onClick={() => togglePreference(item.key)}
-                  className="flex w-full items-center justify-between rounded-[20px] border border-slate-200 bg-white px-4 py-4 text-left transition hover:border-[#4C7D9D]/30"
-                >
-                  <span className="text-sm font-medium text-slate-900">
-                    {item.label}
-                  </span>
-
-                  <span
-                    className={`inline-flex rounded-full px-3 py-1 text-[11px] font-medium ${
-                      notificationPreferences[item.key]
-                        ? "bg-[#EAF4FF] text-[#4C7D9D]"
-                        : "bg-slate-100 text-slate-500"
-                    }`}
-                  >
-                    {notificationPreferences[item.key] ? "On" : "Off"}
-                  </span>
-                </button>
-              ))}
-            </div>
-          </aside>
+        <CommerceSelect
+          label={c.category}
+          value={category}
+          onChange={(v) => update("category", v)}
+          options={[
+            "",
+            "membership",
+            "certificate",
+            "content",
+            "admin",
+            "system",
+            "sale",
+            "event",
+          ].map((value) => ({
+            value,
+            label: value ? c[value as keyof typeof c] : c.all,
+          }))}
+        />
+      </div>
+      {loading && <p role="status">{c.loading}</p>}
+      {error && (
+        <p role="alert">
+          {c.error}{" "}
+          <Button onClick={() => setRetry((n) => n + 1)}>{c.retry}</Button>
+        </p>
+      )}
+      <div className="space-y-3">
+        {data?.notifications.map((n) => (
+          <NotificationRow key={n.id} item={n} />
+        ))}
+        {!loading && data?.total === 0 && (
+          <p className="py-12 text-center text-slate-500">
+            {c.noNotifications}
+          </p>
+        )}
+      </div>
+      {data && (
+        <div className="mt-5">
+          <CommercePagination
+            page={page}
+            pageSize={50}
+            total={data.total}
+            onChange={(v) => update("page", String(v))}
+          />
         </div>
-      </SectionCard>
-    </div>
+      )}
+    </SectionCard>
   );
 }

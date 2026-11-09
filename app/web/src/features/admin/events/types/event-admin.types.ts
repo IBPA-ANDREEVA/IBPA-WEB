@@ -3,11 +3,13 @@ import type { ContentImageMetadata } from "@/lib/content-image";
 
 export type AdminEvent = AdminContentItem & {
   type: "events";
+  linkedSaleId?: string | null;
   /** Free-text price label set by admins, e.g. "$25", "Free", "Members: $10". */
   price?: string | null;
 };
 
 export type EventEditorState = {
+  linkedSaleId?: string | null;
   id?: string;
   title: string;
   body: string;

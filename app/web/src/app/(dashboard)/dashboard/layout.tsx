@@ -1,3 +1,5 @@
+import { SalePurchaseProvider } from "@/features/sales/SalePurchaseProvider";
+import { NotificationProvider } from "@/features/notifications/NotificationProvider";
 import { cookies } from "next/headers";
 
 import { AppClerkProvider } from "@/lib/clerk-provider";
@@ -18,7 +20,7 @@ export default async function DashboardLayout({
   return (
     <AppClerkProvider>
       <DashboardI18nProvider initialLocale={initialLocale}>
-        {children}
+        <SalePurchaseProvider><NotificationProvider>{children}</NotificationProvider></SalePurchaseProvider>
       </DashboardI18nProvider>
     </AppClerkProvider>
   );

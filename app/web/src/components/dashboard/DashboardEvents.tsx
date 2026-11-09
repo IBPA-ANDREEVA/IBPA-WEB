@@ -1,5 +1,10 @@
 "use client";
 
+import { SaleCheckoutButton } from "@/features/sales/SalePurchaseProvider";
+import { useCommerce } from "@/features/sales/messages";
+import { DashboardEventDetails } from "@/features/sales/DashboardEventDetails";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
@@ -46,6 +51,7 @@ export function DashboardEvents({
   unregisterDashboardEvent: (eventId: string) => Promise<unknown>;
 }) {
   const { t } = useI18n();
+  const {c}=useCommerce();
   const [submittingId, setSubmittingId] = useState<string | null>(null);
 
   async function handleRegister(eventId: string) {
@@ -92,6 +98,7 @@ export function DashboardEvents({
 
   return (
     <div className="space-y-5">
+      <DashboardEventDetails/>
       <div>
         <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[#21466D]">
           {t.dashboard.events.eyebrow}
@@ -146,7 +153,9 @@ export function DashboardEvents({
                   { kind: "location", label: t.dashboard.events.location, value: locationLabel },
                 ]}
                 actions={
-                  <button
+                 <div className="flex flex-wrap gap-2">
+                  <Button variant="outline" asChild><Link href={`/dashboard?tab=events&event=${item.id}`}>{c.viewDetails}</Link></Button>
+                  {item.linkedSaleId ? (item.linkedSale?.availability ? <span className="text-sm">{item.linkedSale.availability==='ALREADY_PURCHASED'?c.alreadyPurchased:c.unavailable}</span> : <SaleCheckoutButton saleId={item.linkedSaleId}/>) : <button
                     type="button"
                     disabled={itemSubmitting}
                     onClick={() =>
@@ -166,7 +175,8 @@ export function DashboardEvents({
                     {itemRegistered
                       ? t.dashboard.events.unregister
                       : t.dashboard.events.register}
-                  </button>
+                  </button>}
+                 </div>
                 }
                 variant="standard"
               />

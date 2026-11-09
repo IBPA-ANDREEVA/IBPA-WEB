@@ -1,4 +1,6 @@
 "use client";
+import { DashboardNotifications } from "./DashboardNotifications";
+import { DashboardSales } from "@/features/sales/DashboardSales";
 
 import type { Dispatch, SetStateAction } from "react";
 import type { DashboardNotification } from "@/lib/notifications";
@@ -263,23 +265,8 @@ export function DashboardContent(props: Props) {
     case "accountSettings":
       return <DashboardAccountSettings />;
 
-    case "notifications":
-      return (
-        /* <DashboardNotifications
-          allNotifications={allNotifications}
-          getNotificationMeta={getNotificationMeta}
-          notificationPreferences={notificationPreferences}
-          togglePreference={togglePreference}
-        /> */
-        <UnderDevelopmentPage
-          title={t.dashboard.notifications.title}
-          description={t.dashboard.notifications.description}
-          expectedLabel={t.dashboard.notifications.expectedLabel}
-          backLabel={t.dashboard.notifications.backLabel}
-          notifyLabel={t.dashboard.notifications.notifyLabel}
-          items={t.dashboard.notifications.items}
-        />
-      );
+    case "notifications": return <DashboardNotifications />;
+    case "sales": return <DashboardSales />;
 
     case "teamMembers":
       return <DashboardTeamMembers isTeamOwner={isTeamOwner} />;

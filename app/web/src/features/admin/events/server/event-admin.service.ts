@@ -60,6 +60,7 @@ export function toEventEditorState(event?: AdminEvent | null): EventEditorState 
   }
 
   return {
+    linkedSaleId: event.linkedSaleId ?? null,
     body: event.body,
     coverAspect: event.coverAspect ?? event.cover_aspect ?? 16 / 9,
     coverImage: event.coverImage ?? "",

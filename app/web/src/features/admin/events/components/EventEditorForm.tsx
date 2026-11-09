@@ -1,5 +1,6 @@
 "use client";
 
+import { SaleSelector } from "@/features/admin/sales/SaleSelector";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -43,6 +44,7 @@ export function EventEditorForm({
 
   return (
     <form
+      noValidate
       className="flex flex-col gap-5"
       onSubmit={(event) => {
         event.preventDefault();
@@ -159,6 +161,8 @@ export function EventEditorForm({
           />
         </Field>
       </FieldGroup>
+
+      <SaleSelector value={form.linkedSaleId ?? null} onChange={linkedSaleId=>patch({linkedSaleId})}/>
 
       <ContentImageEditor
         key={`${form.id || "new-event"}:${form.coverImage}`}
