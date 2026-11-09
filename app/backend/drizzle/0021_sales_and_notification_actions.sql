@@ -12,6 +12,7 @@ CREATE TABLE ibpa.sales (
  created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now(),
  CHECK (expires_at IS NULL OR starts_at IS NULL OR expires_at > starts_at)
 );
+--> statement-breakpoint
 CREATE INDEX sales_status_created_idx ON ibpa.sales(status, created_at DESC);
 --> statement-breakpoint
 CREATE TABLE ibpa.sale_orders (
@@ -27,22 +28,32 @@ CREATE TABLE ibpa.sale_orders (
  paid_at timestamptz, updated_at timestamptz NOT NULL DEFAULT now(),
  UNIQUE(user_id, request_key)
 );
+--> statement-breakpoint
 CREATE INDEX sale_orders_user_created_idx ON ibpa.sale_orders(user_id, created_at DESC);
+--> statement-breakpoint
 CREATE INDEX sale_orders_sale_status_idx ON ibpa.sale_orders(sale_id,status);
+--> statement-breakpoint
 CREATE UNIQUE INDEX sale_orders_pending_buyer_idx ON ibpa.sale_orders(sale_id,user_id) WHERE status = 'PENDING';
 --> statement-breakpoint
 ALTER TABLE ibpa.events ADD COLUMN linked_sale_id uuid REFERENCES ibpa.sales(id) ON DELETE RESTRICT;
+--> statement-breakpoint
 ALTER TABLE ibpa.notifications ADD COLUMN action_type varchar(20) NOT NULL DEFAULT 'NONE'
  CHECK (action_type IN ('NONE','INTERNAL','EXTERNAL','SALE','EVENT'));
+--> statement-breakpoint
 ALTER TABLE ibpa.notifications ADD COLUMN linked_sale_id uuid REFERENCES ibpa.sales(id) ON DELETE RESTRICT;
+--> statement-breakpoint
 ALTER TABLE ibpa.notifications ADD COLUMN linked_event_id uuid REFERENCES ibpa.events(id) ON DELETE SET NULL;
+--> statement-breakpoint
 ALTER TABLE ibpa.notifications ADD COLUMN category varchar(30) NOT NULL DEFAULT 'admin';
+--> statement-breakpoint
 ALTER TABLE ibpa.notifications ADD COLUMN translations jsonb NOT NULL DEFAULT '{}';
+--> statement-breakpoint
 -- Legacy CTA values are retained; only safe legacy actions are activated.
 UPDATE ibpa.notifications SET action_type = CASE
  WHEN metadata->>'ctaUrl' ~ '^/dashboard([/?#]|$)' AND metadata->>'ctaUrl' !~ '[\\[:cntrl:]]' THEN 'INTERNAL'
  WHEN metadata->>'ctaUrl' ~ '^https?://' AND metadata->>'ctaUrl' !~ '[\\[:cntrl:]]' THEN 'EXTERNAL'
  ELSE 'NONE' END WHERE type = 'DASHBOARD';
+--> statement-breakpoint
 CREATE TABLE ibpa.notification_receipts (
  notification_id uuid NOT NULL REFERENCES ibpa.notifications(id) ON DELETE CASCADE,
  clerk_user_id varchar(255) NOT NULL, read_at timestamptz, toasted_at timestamptz,

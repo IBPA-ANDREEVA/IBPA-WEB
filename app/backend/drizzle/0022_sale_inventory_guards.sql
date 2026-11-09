@@ -8,6 +8,7 @@ BEGIN
  END IF;
  RETURN NEW;
 END $$;
+--> statement-breakpoint
 CREATE TRIGGER sales_inventory_limit BEFORE UPDATE OF quantity_limit ON ibpa.sales
  FOR EACH ROW EXECUTE FUNCTION ibpa.check_sale_limit();
 --> statement-breakpoint
@@ -19,12 +20,17 @@ BEGIN
   INSERT INTO ibpa.event_registrations(event_id,user_id,email,status,source,registered_at)
   SELECT id,NEW.user_id,NEW.buyer_email,'REGISTERED','sale:'||NEW.id::text,coalesce(NEW.paid_at,now())
    FROM ibpa.events WHERE linked_sale_id=NEW.sale_id AND publish_to_dashboard=true
-  ON CONFLICT(event_id,user_id) DO NOTHING;
+  ON CONFLICT(event_id,user_id) DO UPDATE SET status='REGISTERED',source=excluded.source,
+    registered_at=excluded.registered_at,cancelled_at=NULL,updated_at=now()
+    WHERE ibpa.event_registrations.status='CANCELLED';
  ELSIF NEW.status='REFUNDED' AND OLD.status <> 'REFUNDED' THEN
   UPDATE ibpa.event_registrations SET status='CANCELLED',cancelled_at=now(),updated_at=now()
-   WHERE source='sale:'||NEW.id::text AND user_id=NEW.user_id;
+   WHERE user_id=NEW.user_id
+    AND source IN (SELECT 'sale:'||id::text FROM ibpa.sale_orders WHERE user_id=NEW.user_id AND sale_id=NEW.sale_id)
+    AND NOT EXISTS(SELECT 1 FROM ibpa.sale_orders WHERE user_id=NEW.user_id AND sale_id=NEW.sale_id AND status='PAID');
  END IF;
  RETURN NEW;
 END $$;
+--> statement-breakpoint
 CREATE TRIGGER sale_orders_fulfillment AFTER UPDATE OF status ON ibpa.sale_orders
  FOR EACH ROW EXECUTE FUNCTION ibpa.fulfill_sale_events();
