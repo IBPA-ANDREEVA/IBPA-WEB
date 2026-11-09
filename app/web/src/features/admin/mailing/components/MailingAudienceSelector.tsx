@@ -18,6 +18,8 @@ type MailingAudienceSelectorProps = {
   membershipTypes: string[];
   onChange: (draft: MailingDraft) => void;
   recipientCount: number;
+  controlClassName?: string;
+  audienceLabel?: string;
 };
 
 export function MailingAudienceSelector({
@@ -26,6 +28,8 @@ export function MailingAudienceSelector({
   membershipTypes,
   onChange,
   recipientCount,
+  controlClassName,
+  audienceLabel = "Audience",
 }: MailingAudienceSelectorProps) {
   const patch = (next: Partial<MailingDraft>) => onChange({ ...draft, ...next });
   const options = draft.audienceKind === "membership_type" ? membershipTypes : categories;
@@ -39,7 +43,7 @@ export function MailingAudienceSelector({
           }
           value={draft.audienceKind}
         >
-          <SelectTrigger className="h-10 rounded-2xl border-[#D7E5F4] bg-[#F8FBFF] text-[#10203B]">
+          <SelectTrigger aria-label={audienceLabel} className={controlClassName || "h-10 rounded-2xl border-[#D7E5F4] bg-[#F8FBFF] text-[#10203B]"}>
             <SelectValue placeholder="Audience" />
           </SelectTrigger>
           <SelectContent>

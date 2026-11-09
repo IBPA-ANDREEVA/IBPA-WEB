@@ -1,5 +1,7 @@
 import {
   CalendarDays,
+  ShoppingBag,
+  Bell,
   ClipboardList,
   CreditCard,
   LayoutDashboard,
@@ -47,11 +49,13 @@ export const adminNavGroups: AdminNavGroup[] = [
       { href: "/admin/events", label: "Events", icon: CalendarDays },
       { href: "/admin/articles", label: "Articles", icon: Newspaper },
       { href: "/admin/webinars", label: "Webinars", icon: Video },
+      { href: "/admin/notifications", label: "Notifications", icon: Bell },
       { href: "/admin/mailing", label: "Mailing", icon: Mail },
     ],
   },
   {
     items: [
+      { href: "/admin/sales", label: "Sales", icon: ShoppingBag },
       { href: "/admin/payments", label: "Finance", icon: CreditCard },
       { href: "/admin/promo-codes", label: "Promo codes", icon: TicketPercent },
     ],

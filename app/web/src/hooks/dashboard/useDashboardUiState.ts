@@ -1,6 +1,6 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import type {
   SupportMode,
@@ -12,9 +12,13 @@ export function useDashboardUiState() {
   // ?tab=webinars. Search params are available during SSR too, so the initial
   // tab is identical on server and client.
   const searchParams = useSearchParams();
-  const [activeTab, setActiveTab] = useState<TabType>(() =>
-    searchParams?.get("tab") === "webinars" ? "webinars" : "dashboard",
-  );
+  const pathname=usePathname(); const router=useRouter();
+  const routeTab = pathname === '/dashboard/sales' ? 'sales' : pathname === '/dashboard/notifications' ? 'notifications' : searchParams?.get('tab') || 'dashboard';
+  const activeTab = (['dashboard','profile','certificates','billing','sales','events','webinars','directory','support','accountSettings','notifications','teamMembers'].includes(routeTab) ? routeTab : 'dashboard') as TabType;
+  const setActiveTab: React.Dispatch<React.SetStateAction<TabType>> = (value) => {
+    const tab=typeof value==='function'?value(activeTab):value;
+    router.push(tab==='sales'||tab==='notifications'?`/dashboard/${tab}`:`/dashboard?tab=${tab}`);
+  };
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [eventRegistrationFilter, setEventRegistrationFilter] = useState<

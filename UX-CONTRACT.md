@@ -87,3 +87,25 @@ The Zoom Server-to-Server OAuth app owns these granular admin scopes: `user:read
 - Browser: Chrome desktop plus narrow-viewport checks of list overflow, dialogs, player controls, cue seeking, and dirty-state navigation.
 - Integration: authenticated admin session, Zoom Server-to-Server OAuth app, private R2 bucket with playback CORS, and migrated PostgreSQL schema.
 - Failure paths: malformed dates, missing MP4/transcript, Zoom/R2 failures, duplicate import, stale import recovery, invalid VTT, and ETag conflict.
+
+## Dashboard commerce and notifications
+
+The Sales and Notifications feature scope follows the implementation request recorded in `docs/SALES-AND-NOTIFICATIONS.md`; server rules are owned by `features/sales/server`, `features/notifications/server/dashboard-notifications.ts`, and migrations `0021`–`0022` in the backend.
+
+- The existing admin shell and dashboard tab shell own navigation. Sales and Notifications have dedicated, restorable dashboard routes; details use stable IDs in query parameters.
+- Shared Radix Dialog/Popover/Select primitives own focus, Escape, and outside-click behavior. Commerce controls use the business variants in `features/sales/CommerceUi.tsx`, derived from `DashboardShared` and canonical admin components; blue borders and white inputs remain visible in portals. Native `datetime-local` controls follow the browser locale and store UTC instants.
+- `SalePurchaseProvider` owns details, confirmation, Checkout, and verified return states for catalog, notification, and event entry points. Payment return feedback takes priority over automatic detail dialogs, then restores the source context.
+- `NotificationProvider` owns the header feed, unread badge, read acknowledgement, and receipt-backed incoming toasts. Opening details marks the notification read; full-list filters and direct links use the same provider.
+- Sale edits preserve immutable order snapshots and use optimistic versions. Archive is reversible publication control, not record deletion. An interrupted checkout resumes its reserved order; a sold-out item remains resumable by the account holding that reservation.
+- UI copy uses the existing locale provider with EN/RU/UK commerce dictionaries. Admin-authored translations are optional and fall back to the default content. Existing English mailing audience controls retain their established admin behavior.
+- Publication and payment mutations show loading, errors, retry, and completion. Sale editor dismissal warns about unsaved changes. Notification composition warns on page unload. All read and payment authorization is checked by the backend.
+
+### Commerce loading, editing, and overlay behavior
+
+- Initial catalog, order, notification, and selector requests use one labeled app-owned spinner in a reserved content region. The page header, filters and navigation remain available; initial metric values are unknown (`—`), never invented zeros.
+- Refreshes retain the current list and show a small, reserved “Updating…” indicator. Requests cancel on key changes, pagination disables during work, and errors provide a scoped retry. Filtered empty states offer clear filters; empty datasets explain what belongs there.
+- Busy actions retain their label geometry and accessible name, prevent repeated submission, and show a motion-safe spinner. Utility buttons default to `type="button"`; save/preview forms explicitly opt in to submission.
+- The sale editor uses `AdminSheet` with grouped sections, localized close text, first-field focus, first-invalid-field focus, adjacent validation, and a persistent action footer. Save disables the edited fields. Discard keeps the draft until confirmed; close restores focus to the originating control.
+- Notification composition and history are URL-backed views. Switching between them retains the unsent draft. Existing mailing audience controls remain the recipient-selection owner.
+- A purchase opened from notification/event details temporarily hides the source dialog, so only one modal surface is visible. Cancel returns to the source details. Deep notification links show their own loading and retry state.
+- GSAP is limited to scoped 180ms view/confirmation fades with `useGSAP`, cleanup on dependency changes/unmount, and `prefers-reduced-motion` handling. Loading indicators and settled data are never animated as a decorative sequence.

@@ -1,3 +1,5 @@
+import { startSaleReconciliation } from "./features/sales/server/sale-reconciliation";
+import { adminSalesRouter, dashboardSalesRouter } from "./routes/sales";
 import express from "express";
 import cors from "cors";
 import { webhooksRouter } from "./routes/webhooks";
@@ -68,6 +70,8 @@ app.use(express.json());
 
 // Main Domain Routes
 app.use("/api/orders", ordersRouter);
+app.use("/api/dashboard/sales", dashboardSalesRouter);
+app.use("/api/admin/sales", adminSalesRouter);
 app.use("/api/dashboard", dashboardRouter);
 app.use("/api/cards", cardsRouter);
 app.use("/api/mailing", mailingRouter);
@@ -116,9 +120,10 @@ const apiErrorHandler: express.ErrorRequestHandler = (
 app.use(apiErrorHandler);
 
 async function startServer() {
+  const stopReconciliation = startSaleReconciliation();
   app.listen(port, () => {
     console.log(`Backend listening at port ${port}`);
-  });
+  }).on("close", stopReconciliation);
 }
 
 void startServer();

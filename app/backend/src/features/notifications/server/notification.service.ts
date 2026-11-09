@@ -1,6 +1,6 @@
 import crypto from "crypto";
 import { requireDb } from "@/lib/db";
-import { appendNotificationReadBy, deleteCanonicalNotification, insertCanonicalNotification, listCanonicalNotifications } from "./notification.repository";
+import { deleteCanonicalNotification, insertCanonicalNotification, listCanonicalNotifications } from "./notification.repository";
 import { sendCampaignEmails } from "./email.service";
 
 type DbClient = ReturnType<typeof requireDb>;
@@ -47,35 +47,6 @@ export async function sendEmailCampaign(db: DbClient, input: {
   return { count: emails.length };
 }
 
-export async function createDashboardNotification(db: DbClient, input: {
-  title: string;
-  description: string;
-  emails: string[];
-  ctaLabel?: string | null;
-  ctaUrl?: string | null;
-}) {
-  const emails = normalizeEmails(input.emails);
-  if (emails.length === 0) {
-    throw new Error("No valid recipient emails provided.");
-  }
-
-  await insertCanonicalNotification(db, {
-    id: crypto.randomUUID(),
-    title: input.title,
-    message: input.description,
-    type: "DASHBOARD",
-    visibility: emails.length === 1 ? "INDIVIDUAL" : "TARGETED",
-    recipients: { emails },
-    metadata: {
-      ctaLabel: input.ctaLabel ?? null,
-      ctaUrl: input.ctaUrl ?? null,
-      readBy: [],
-    },
-  });
-
-  return { count: emails.length };
-}
-
 export async function listEmailLogs(db: DbClient) {
   const logs = await listCanonicalNotifications(db, { type: "EMAIL", limit: 50 });
   return logs.map((record: any) => ({
@@ -103,18 +74,3 @@ export async function removeEmailLog(db: DbClient, id: string) {
   return deleteCanonicalNotification(db, id);
 }
 
-export async function markNotificationsRead(db: DbClient, params: {
-  notificationIds: string[];
-  email: string;
-}) {
-  const updatedIds: string[] = [];
-
-  for (const id of params.notificationIds) {
-    const updated = await appendNotificationReadBy(db, { id, email: params.email });
-    if (updated) {
-      updatedIds.push(updated.id);
-    }
-  }
-
-  return updatedIds;
-}

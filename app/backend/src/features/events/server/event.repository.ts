@@ -6,6 +6,7 @@ import type { ContentImageMetadata } from "@/features/content/image-metadata";
 type DbClient = ReturnType<typeof requireDb>;
 
 export type EventPersistenceInput = {
+  linkedSaleId?: string | null;
   id: string;
   title: string;
   description: string;
@@ -177,6 +178,7 @@ export async function upsertCanonicalEvent(db: DbClient, input: EventPersistence
     const [updated] = await db
       .update(coreEvents)
       .set({
+        linkedSaleId: input.linkedSaleId === undefined ? existing.linkedSaleId : input.linkedSaleId,
         title: input.title,
         description: input.description,
         coverImage: input.coverImageUrl
@@ -213,6 +215,7 @@ export async function upsertCanonicalEvent(db: DbClient, input: EventPersistence
     .insert(coreEvents)
     .values({
       id: input.id,
+      linkedSaleId: input.linkedSaleId ?? null,
       title: input.title,
       description: input.description,
       coverImage: input.coverImageUrl

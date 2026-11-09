@@ -18,6 +18,11 @@ type AdminSheetProps = {
   sideRail?: ReactNode;
   /** Full-width strip pinned under the header, above the scrolling body. */
   banner?: ReactNode;
+  footer?: ReactNode;
+  closeLabel?: string;
+  closeDisabled?: boolean;
+  onOpenAutoFocus?: React.ComponentProps<typeof DialogPrimitive.Content>["onOpenAutoFocus"];
+  onCloseAutoFocus?: React.ComponentProps<typeof DialogPrimitive.Content>["onCloseAutoFocus"];
   children: ReactNode;
   className?: string;
   size?: "md" | "lg" | "xl";
@@ -40,6 +45,11 @@ export function AdminSheet({
   rightRail,
   sideRail,
   banner,
+  footer,
+  closeLabel = "Close",
+  closeDisabled = false,
+  onOpenAutoFocus,
+  onCloseAutoFocus,
   children,
   className,
   size = "xl",
@@ -62,6 +72,8 @@ export function AdminSheet({
         <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-[#10203B]/18 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:duration-200 data-[state=closed]:duration-150" />
 
         <DialogPrimitive.Content
+          onOpenAutoFocus={onOpenAutoFocus}
+          onCloseAutoFocus={onCloseAutoFocus}
           className={cn(
             "fixed right-2 top-2 z-50 flex h-[calc(100dvh-1rem)] w-[calc(100vw-1rem)] flex-col overflow-hidden rounded-[32px]",
             "border border-white/70 bg-[#F4F7FB] shadow-[0_34px_120px_rgba(15,35,70,0.24)]",
@@ -110,8 +122,9 @@ export function AdminSheet({
               {actions}
 
               <DialogPrimitive.Close
-                aria-label="Close"
-                className="flex size-10 items-center justify-center rounded-full border border-[#D9E4F2] bg-white text-[#6B7C93] shadow-sm transition-all hover:border-[#BDD0E8] hover:text-[#10203B]"
+                aria-label={closeLabel}
+                disabled={closeDisabled}
+                className="flex size-10 items-center justify-center rounded-full border border-[#D9E4F2] bg-white text-[#6B7C93] shadow-sm transition-all hover:border-[#BDD0E8] hover:text-[#10203B] disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <X className="size-4" />
               </DialogPrimitive.Close>
@@ -204,6 +217,11 @@ export function AdminSheet({
               </div>
             ) : null}
           </div>
+          {footer ? (
+            <footer className="shrink-0 border-t border-[#D9E4F2] bg-white px-4 py-4 sm:px-6">
+              {footer}
+            </footer>
+          ) : null}
         </DialogPrimitive.Content>
       </DialogPrimitive.Portal>
     </DialogPrimitive.Root>

@@ -1,4 +1,4 @@
-import { desc, eq, sql } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { requireDb } from "@/lib/db";
 import { coreNotifications } from "@/lib/schema";
 
@@ -69,37 +69,3 @@ export async function deleteCanonicalNotification(db: DbClient, id: string) {
   await db.delete(coreNotifications).where(eq(coreNotifications.id, id));
 }
 
-export async function appendNotificationReadBy(db: DbClient, params: {
-  id: string;
-  email: string;
-}) {
-  const [existing] = await db.select().from(coreNotifications).where(eq(coreNotifications.id, params.id)).limit(1);
-  if (!existing) {
-    return null;
-  }
-
-  const metadata = existing.metadata && typeof existing.metadata === "object" && !Array.isArray(existing.metadata)
-    ? existing.metadata
-    : {};
-  const readBy = Array.isArray((metadata as Record<string, unknown>).readBy)
-    ? ((metadata as Record<string, unknown>).readBy as unknown[]).filter((item): item is string => typeof item === "string")
-    : [];
-  const normalizedEmail = params.email.trim().toLowerCase();
-
-  if (!readBy.includes(normalizedEmail)) {
-    readBy.push(normalizedEmail);
-  }
-
-  const [updated] = await db
-    .update(coreNotifications)
-    .set({
-      metadata: {
-        ...metadata,
-        readBy,
-      },
-    })
-    .where(eq(coreNotifications.id, params.id))
-    .returning();
-
-  return updated ?? existing;
-}

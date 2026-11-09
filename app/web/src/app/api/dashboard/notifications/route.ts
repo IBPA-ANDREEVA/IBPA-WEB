@@ -6,7 +6,7 @@ import { getSafeBackendErrorMessage } from "@/lib/safe-backend-error";
 
 const getApiUrl = () => getServerBackendUrl();
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
     const authData = await auth();
     const { getToken, userId } = authData;
@@ -24,7 +24,7 @@ export async function GET() {
       return NextResponse.json({ error: "Backend URL is not configured." }, { status: 500 });
     }
 
-    const backendUrl = `${getApiUrl()}/api/dashboard/notifications`;
+    const backendUrl = `${getApiUrl()}/api/dashboard/notifications${new URL(req.url).search}`;
     const res = await fetch(backendUrl, {
       headers: { Authorization: `Bearer ${token}` },
       cache: "no-store",
@@ -65,7 +65,7 @@ export async function PATCH(req: Request) {
       return NextResponse.json({ error: "Backend URL is not configured." }, { status: 500 });
     }
 
-    const backendUrl = `${getApiUrl()}/api/dashboard/notifications`;
+    const backendUrl = `${getApiUrl()}/api/dashboard/notifications${new URL(req.url).search}`;
     const res = await fetch(backendUrl, {
       method: "PATCH",
       headers: {

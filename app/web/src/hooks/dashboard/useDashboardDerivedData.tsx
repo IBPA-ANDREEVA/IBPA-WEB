@@ -1,4 +1,6 @@
 "use client";
+import {money} from "@/features/sales/types";
+import { useCommerce } from "@/features/sales/messages";
 
 import {
   Award,
@@ -366,6 +368,7 @@ export function useDashboardDerivedData({
       // Prefer the explicit price field saved in the DB; fall back to
       // scanning the body/ctaLabel for a dollar amount, then a locale default.
       price:
+        (item.linkedSale?.price != null ? money(item.linkedSale.price,item.linkedSale.currency,localeCode) : null) ??
         formatDashboardEventPrice(item.price) ??
         extractPriceFromText(item.body, item.ctaLabel) ??
         (audience === "members" ? dashboard.events.membersRate : "TBD"),
@@ -477,6 +480,7 @@ export function useDashboardDerivedData({
     },
   ];
 
+  const {c}=useCommerce();
   const navItems = [
     {
       key: "dashboard" as const,
@@ -511,6 +515,7 @@ export function useDashboardDerivedData({
       label: dashboard.billing.title,
       icon: <CreditCard className="h-4 w-4" />,
     },
+    {key:"sales" as const,label:c.sales,icon:<CreditCard className="h-4 w-4"/>},
     {
       key: "events" as const,
       label: dashboard.events.eyebrow,

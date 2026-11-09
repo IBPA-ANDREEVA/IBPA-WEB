@@ -15,11 +15,28 @@ type MailingRecipientsResponse = AdminListResponse<MailingRecipientSource> & {
   categories?: string[];
 };
 
+// Audience groups must include every page, not silently stop at 500 people.
+export async function collectAudiencePages<
+  T extends { items?: unknown[]; hasMore?: boolean },
+>(load: (offset: number) => Promise<T>): Promise<T> {
+  const first = await load(0);
+  const items = [...(first.items || [])];
+  let page = first;
+  while (page.hasMore) {
+    page = await load(items.length);
+    if (!page.items?.length)
+      throw new Error("Audience pagination did not advance");
+    items.push(...page.items);
+  }
+  return { ...first, items, hasMore: false } as T;
+}
 export async function listMailingRecipients() {
-  return requestJson<MailingRecipientsResponse>(
-    "/api/cards?purpose=mailing&limit=500",
-    { cache: "no-store" },
-    "Could not load mailing recipients.",
+  return collectAudiencePages((offset) =>
+    requestJson<MailingRecipientsResponse>(
+      `/api/cards?purpose=mailing&limit=500&offset=${offset}`,
+      { cache: "no-store" },
+      "Could not load mailing recipients.",
+    ),
   );
 }
 
@@ -33,15 +50,19 @@ function addEmail(target: Set<string>, email?: string | null) {
 
 export async function listApplicationAudienceEmails() {
   const [memberApplications, partnerApplications] = await Promise.all([
-    requestJson<AdminOrdersResponse>(
-      "/api/orders?limit=500&offset=0",
-      { cache: "no-store" },
-      "Could not load member application audiences.",
+    collectAudiencePages((offset) =>
+      requestJson<AdminOrdersResponse>(
+        `/api/orders?limit=500&offset=${offset}`,
+        { cache: "no-store" },
+        "Could not load member application audiences.",
+      ),
     ),
-    requestJson<AdminPartnerApplicationsResponse>(
-      "/api/admin/partner-applications?limit=500&offset=0",
-      { cache: "no-store" },
-      "Could not load partner application audiences.",
+    collectAudiencePages((offset) =>
+      requestJson<AdminPartnerApplicationsResponse>(
+        `/api/admin/partner-applications?limit=500&offset=${offset}`,
+        { cache: "no-store" },
+        "Could not load partner application audiences.",
+      ),
     ),
   ]);
 
@@ -54,7 +75,10 @@ export async function listApplicationAudienceEmails() {
   for (const application of memberApplications.items ?? []) {
     if (application.status === "rejected") {
       addEmail(statusEmails.rejected, application.email);
-    } else if (application.status === "approved" || application.status === "paid") {
+    } else if (
+      application.status === "approved" ||
+      application.status === "paid"
+    ) {
       addEmail(statusEmails.approved, application.email);
     } else {
       addEmail(statusEmails.pending, application.email);

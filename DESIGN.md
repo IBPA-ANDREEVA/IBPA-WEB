@@ -54,7 +54,7 @@ The public experience takes cues from an international association journal. The 
 
 - **Audience and primary job:** IBPA administrators managing membership, editorial content, communications, finance, and recorded media.
 - **Target market and evidence:** An international beauty-professional association, based on the product identity and current English-language interface.
-- **Locales and language policy:** English is the owned interface language. Russian, English, and Ukrainian may appear as managed subtitle content without changing the admin UI locale.
+- **Locales and language policy:** Legacy administration and mailing audience controls use English. Dashboard commerce and notifications, including their admin editors, follow the existing English, Russian, and Ukrainian locale provider. Admin-authored translations fall back to default content. Subtitle content has its own language selection.
 - **Usage scene:** Desktop-first operational work with responsive access for review on smaller screens; data density is comfortable rather than spreadsheet-dense.
 - **Register:** Hybrid product: expressive public pages and a restrained operational `/admin` register.
 - **Memorable signature:** Media-management screens connect playback time directly to the active transcript cue through a blue timing rail.
@@ -100,13 +100,19 @@ Admin navigation uses the shared animated navy selection indicator. Data lists u
 
 Radix primitives own authored select and dialog behavior. Native English date inputs are acceptable for compact administrative filtering because platform calendar geometry is not part of the product contract. Search always has an owned clear action. Subtitle editing guards newer R2 versions before saving.
 
+### Dashboard commerce variants
+
+`features/sales/CommerceUi.tsx` adapts the maintained `Button`, `DashboardShared` action recipes and admin status badge. Member actions retain dashboard navy (`#10203B`); admin actions retain `#21466D`. Inputs and selects use visible blue borders and white surfaces, including inside portals. Primary controls are at least 44px high; compact row utilities are at least 36px. No global public or admin theme is replaced.
+
+Sales administration uses `AdminMetricCard`, `AdminSectionCard`, `AdminTable` and the existing `AdminSheet`. Its editor scrolls inside the sheet while the header and action footer stay visible. Purchase history uses compact cards in the member dashboard and the canonical table for administration. Notification rows use quiet separators rather than a nested card for every message.
+
 ### Iconography
 
 Lucide is the canonical admin icon family. Icons use a consistent light stroke, typically 16–18px, and never replace a non-universal action label.
 
 ### Motion
 
-Motion explains selection, overlay entry, and active playback state. Routine transitions stay within 150–300ms and all nonessential transforms stop under reduced motion.
+Motion explains selection, overlay entry, and active playback state. Routine transitions stay within 150–300ms and all nonessential transforms stop under reduced motion. Commerce view changes use one scoped 180ms GSAP opacity transition; polling and refreshes do not replay it. Reduced motion skips this transition entirely.
 
 ### Content and data visualization
 

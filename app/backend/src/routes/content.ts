@@ -1,3 +1,4 @@
+import { SaleError } from "../features/sales/server/sale-validation";
 import { Router } from "express";
 import { eq } from "drizzle-orm";
 import { requireDb } from "../lib/db";
@@ -48,6 +49,7 @@ contentRouter.get("/public", async (req, res) => {
     const items = await listPublicPartners(db);
     return res.json({ items });
   } catch (error) {
+    if (error instanceof SaleError) return res.status(error.status).json({code:error.code,error:error.code});
     if (error instanceof Error && error.message.includes("DATABASE_URL")) {
       return res.status(503).json({ error: error.message });
     }
@@ -71,6 +73,7 @@ contentRouter.get("/admin", adminClerkMiddleware, requireAdminAccess, async (_re
 
     res.json({ items });
   } catch (error) {
+    if (error instanceof SaleError) return res.status(error.status).json({code:error.code,error:error.code});
     if (error instanceof Error && error.message.includes("DATABASE_URL")) {
       return res.status(503).json({ error: error.message });
     }
@@ -101,6 +104,7 @@ contentRouter.get("/admin/events/:id/registrations", adminClerkMiddleware, requi
       },
     });
   } catch (error) {
+    if (error instanceof SaleError) return res.status(error.status).json({code:error.code,error:error.code});
     if (error instanceof Error && error.message.includes("DATABASE_URL")) {
       return res.status(503).json({ error: error.message });
     }
@@ -133,6 +137,7 @@ contentRouter.post("/admin", adminClerkMiddleware, requireAdminAccess, async (re
     const item = await createOrUpdatePartner(db, bodyPayload as any);
     return res.json({ item });
   } catch (error) {
+    if (error instanceof SaleError) return res.status(error.status).json({code:error.code,error:error.code});
     if (
       error instanceof Error &&
       (error.message === "Event end date must be after the start date." ||
@@ -178,6 +183,7 @@ contentRouter.patch("/admin/:id", adminClerkMiddleware, requireAdminAccess, asyn
     const item = await createOrUpdatePartner(db, { ...(bodyPayload as any), id });
     return res.json({ item });
   } catch (error) {
+    if (error instanceof SaleError) return res.status(error.status).json({code:error.code,error:error.code});
     if (
       error instanceof Error &&
       (error.message === "Event end date must be after the start date." ||
@@ -244,6 +250,7 @@ contentRouter.delete("/admin/:id", adminClerkMiddleware, requireAdminAccess, asy
 
     return res.json({ success: true });
   } catch (error) {
+    if (error instanceof SaleError) return res.status(error.status).json({code:error.code,error:error.code});
     if (error instanceof Error && error.message.includes("DATABASE_URL")) {
       return res.status(503).json({ error: error.message });
     }

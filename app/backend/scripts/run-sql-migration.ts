@@ -14,22 +14,31 @@ type JournalEntry = {
 };
 
 function getRequireDb() {
-  return (
-    (dbModule as { requireDb?: unknown }).requireDb ??
+  return ((dbModule as { requireDb?: unknown }).requireDb ??
     (dbModule as { default?: { requireDb?: unknown } }).default?.requireDb ??
-    (dbModule as { "module.exports"?: { requireDb?: unknown } })["module.exports"]?.requireDb
-  ) as (() => ReturnType<typeof dbModule.requireDb>);
+    (dbModule as { "module.exports"?: { requireDb?: unknown } })[
+      "module.exports"
+    ]?.requireDb) as () => ReturnType<typeof dbModule.requireDb>;
 }
 
 async function main() {
   const tag = process.argv[2];
 
   if (!tag) {
-    throw new Error("Missing migration tag. Usage: tsx scripts/run-sql-migration.ts <migration-tag>");
+    throw new Error(
+      "Missing migration tag. Usage: tsx scripts/run-sql-migration.ts <migration-tag>",
+    );
   }
 
-  const journalPath = path.resolve(process.cwd(), "drizzle", "meta", "_journal.json");
-  const journal = JSON.parse(fs.readFileSync(journalPath, "utf8")) as { entries: JournalEntry[] };
+  const journalPath = path.resolve(
+    process.cwd(),
+    "drizzle",
+    "meta",
+    "_journal.json",
+  );
+  const journal = JSON.parse(fs.readFileSync(journalPath, "utf8")) as {
+    entries: JournalEntry[];
+  };
   const entry = journal.entries.find((candidate) => candidate.tag === tag);
 
   if (!entry) {
@@ -38,7 +47,10 @@ async function main() {
 
   const sqlPath = path.resolve(process.cwd(), "drizzle", `${tag}.sql`);
   const migrationSql = fs.readFileSync(sqlPath, "utf8");
-  const migrationHash = crypto.createHash("sha256").update(migrationSql).digest("hex");
+  const migrationHash = crypto
+    .createHash("sha256")
+    .update(migrationSql)
+    .digest("hex");
   const statements = migrationSql
     .split("--> statement-breakpoint")
     .map((statement) => statement.trim())
@@ -68,14 +80,15 @@ async function main() {
     return;
   }
 
-  for (const statement of statements) {
-    await db.execute(sql.raw(statement));
-  }
-
-  await db.execute(sql`
+  // Neon HTTP batches run in one transaction: never leave half a migration
+  // installed if a constraint or function definition fails.
+  await db.batch([
+    ...statements.map((statement) => db.execute(sql.raw(statement))),
+    db.execute(sql`
     insert into drizzle.__drizzle_migrations (hash, created_at)
     values (${migrationHash}, ${String(entry.when)})
-  `);
+  `),
+  ]);
 
   console.log(`[Migration] Applied ${tag}.`);
 }

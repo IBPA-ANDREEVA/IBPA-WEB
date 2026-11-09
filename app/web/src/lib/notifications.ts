@@ -11,7 +11,7 @@ export type DashboardNotification = {
   description: string;
   timestamp: string;
   unread: boolean;
-  category?: "membership" | "certificate" | "content" | "admin" | "system";
+  category?: "membership" | "certificate" | "content" | "admin" | "system" | "sale" | "event";
   priority?: "high" | "medium" | "low";
   ctaLabel?: string | null;
   ctaUrl?: string | null;
