@@ -1,3 +1,7 @@
+import { and,eq } from "drizzle-orm";
+import { coreSales,coreSaleOrders } from "../../../lib/schema";
+import { requireUuid, SaleError } from "../../sales/server/sale-validation";
+import { getSale } from "../../sales/server/sale.service";
 import crypto from "crypto";
 import { requireDb } from "@/lib/db";
 import type { CoreEventRegistration } from "@/lib/schema";
@@ -24,6 +28,7 @@ import {
 type DbClient = ReturnType<typeof requireDb>;
 
 type EventPayload = {
+  linkedSaleId?: string | null;
   id?: string;
   title: string;
   body: string;
@@ -63,6 +68,7 @@ function resolveStatus(publishToSite?: boolean, publishToDashboard?: boolean) {
 }
 
 function toCompatibilityShape(item: {
+  linkedSaleId?: string | null;
   id: string;
   title: string;
   description: string;
@@ -87,6 +93,7 @@ function toCompatibilityShape(item: {
   return {
     id: item.id,
     type: "events",
+    linkedSaleId: item.linkedSaleId ?? null,
     title: item.title,
     body: item.description,
     price: item.price ?? null,
@@ -113,6 +120,7 @@ function mapCanonicalEvent(item: Awaited<ReturnType<typeof listCanonicalEvents>>
     id: item.id,
     title: item.title,
     description: item.description,
+    linkedSaleId: item.linkedSaleId,
     price: item.price ?? null,
     coverImageUrl: item.coverImage?.url ?? null,
     coverAspect: item.coverImage?.aspect ?? null,
@@ -136,6 +144,7 @@ export function normalizeEventPayload(payload: EventPayload): EventPersistenceIn
   const imageMetadata = normalizeContentImageMetadata(payload.imageMetadata, payload.coverImage);
   return {
     id,
+    linkedSaleId: payload.linkedSaleId,
     title: payload.title.trim(),
     description: payload.body,
     price: payload.price?.trim() || null,
@@ -215,17 +224,18 @@ export async function listDashboardEventsForUser(
     ]),
   );
 
-  return events.map((item: (typeof events)[number]) => {
+  return Promise.all(events.map(async (item: (typeof events)[number]) => {
     const registration: CoreEventRegistration | null =
       registrationsByEventId.get(item.id) ?? null;
     return {
       ...mapCanonicalEvent(item),
+      linkedSale: item.linkedSaleId ? await getSale(db,item.linkedSaleId,params.userId ?? undefined) : null,
       isRegistered: isActiveRegistration(registration),
       registrationId: registration?.id ?? null,
       registrationStatus: registration?.status ?? null,
       registrationSource: registration?.source ?? null,
     };
-  });
+  }));
 }
 
 export async function registerDashboardEvent(
@@ -243,6 +253,10 @@ export async function registerDashboardEvent(
     throw new Error("Event not found.");
   }
 
+  if (event.linkedSaleId) {
+    const [purchase] = await db.select({id:coreSaleOrders.id}).from(coreSaleOrders).where(and(eq(coreSaleOrders.saleId,event.linkedSaleId),eq(coreSaleOrders.userId,input.userId),eq(coreSaleOrders.status,'PAID'))).limit(1);
+    if (!purchase) throw new SaleError('PAYMENT_REQUIRED',403);
+  }
   const existing = await findEventRegistrationByEventAndUser(db, {
     eventId: input.eventId,
     userId: input.userId,
@@ -310,6 +324,11 @@ export async function listAdminEvents(db: DbClient) {
 }
 
 export async function createOrUpdateEvent(db: DbClient, payload: EventPayload) {
+  if (payload.linkedSaleId != null) {
+    requireUuid(payload.linkedSaleId);
+    const [sale] = await db.select({id:coreSales.id}).from(coreSales).where(eq(coreSales.id,payload.linkedSaleId)).limit(1);
+    if (!sale) throw new SaleError('SALE_NOT_FOUND',400);
+  }
   const normalized = normalizeEventPayload(payload);
 
   const start = normalized.startDate;

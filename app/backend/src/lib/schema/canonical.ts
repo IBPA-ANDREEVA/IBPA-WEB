@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { boolean, index, integer, jsonb, pgEnum, pgSchema, text, timestamp, uniqueIndex, uuid, varchar } from "drizzle-orm/pg-core";
+import { boolean, check, primaryKey, index, integer, jsonb, pgEnum, pgSchema, text, timestamp, uniqueIndex, uuid, varchar } from "drizzle-orm/pg-core";
 import type { ProfileService } from "@/features/profiles/server/profile.types";
 import type { ContentImageMetadata } from "@/features/content/image-metadata";
 
@@ -171,7 +171,15 @@ export const coreSales = ibpa.table("sales", {
   version: integer("version").notNull().default(1),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
-});
+}, table => [
+ index("sales_status_created_idx").on(table.status,table.createdAt),
+ check("sales_price_check",sql`${table.price} >= 50 AND ${table.price} <= 99999999`),
+ check("sales_currency_check",sql`${table.currency} = 'usd'`),
+ check("sales_compare_at_price_check",sql`${table.compareAtPrice} > ${table.price} AND ${table.compareAtPrice} <= 99999999`),
+ check("sales_status_check",sql`${table.status} IN ('DRAFT','PUBLISHED','ARCHIVED')`),
+ check("sales_quantity_limit_check",sql`${table.quantityLimit} > 0`),
+ check("sales_check",sql`${table.expiresAt} IS NULL OR ${table.startsAt} IS NULL OR ${table.expiresAt} > ${table.startsAt}`),
+]);
 export const coreSaleOrders = ibpa.table("sale_orders", {
   id: uuid("id").primaryKey().defaultRandom(),
   saleId: uuid("sale_id").references(() => coreSales.id, { onDelete: "restrict" }).notNull(),
@@ -189,7 +197,18 @@ export const coreSaleOrders = ibpa.table("sale_orders", {
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   paidAt: timestamp("paid_at", { withTimezone: true }),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
-});
+}, table => [
+ index("sale_orders_user_created_idx").on(table.userId,table.createdAt),
+ index("sale_orders_sale_status_idx").on(table.saleId,table.status),
+ uniqueIndex("sale_orders_user_id_request_key_key").on(table.userId,table.requestKey),
+ uniqueIndex("sale_orders_stripe_session_id_key").on(table.stripeSessionId),
+ uniqueIndex("sale_orders_stripe_payment_intent_id_key").on(table.stripePaymentIntentId),
+ uniqueIndex("sale_orders_pending_buyer_idx").on(table.saleId,table.userId).where(sql`${table.status} = 'PENDING'`),
+ check("sale_orders_amount_check",sql`${table.amount} >= 50`),
+ check("sale_orders_currency_check",sql`${table.currency} = 'usd'`),
+ check("sale_orders_status_check",sql`${table.status} IN ('PENDING','PAID','FAILED','CANCELED','REFUNDED')`),
+ check("sale_orders_refunded_amount_check",sql`${table.refundedAmount} >= 0 AND ${table.refundedAmount} <= ${table.amount}`),
+]);
 export type Sale = typeof coreSales.$inferSelect;
 export type SaleOrder = typeof coreSaleOrders.$inferSelect;
 
@@ -408,4 +427,4 @@ export const coreNotificationReceipts = ibpa.table("notification_receipts", {
   clerkUserId: varchar("clerk_user_id", { length: 255 }).notNull(),
   readAt: timestamp("read_at", { withTimezone: true }),
   toastedAt: timestamp("toasted_at", { withTimezone: true }),
-}, table => [uniqueIndex("notification_receipts_owner_idx").on(table.notificationId, table.clerkUserId)]);
+}, table => [primaryKey({columns:[table.notificationId,table.clerkUserId]})]);
