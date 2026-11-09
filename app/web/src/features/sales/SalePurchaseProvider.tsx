@@ -9,7 +9,7 @@ import {
   useEffect,
   type ReactNode,
 } from "react";
-import { useSearchParams, usePathname } from "next/navigation";
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import {
   Dialog,
@@ -98,6 +98,7 @@ export function SalePurchaseProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [reload, setReload] = useState(0);
   const request = useRef<{ sale: string; key: string } | null>(null);
   const previousFocus = useRef<HTMLElement | null>(null);
   const busyRef = useRef(false);
@@ -123,10 +124,10 @@ export function SalePurchaseProvider({ children }: { children: ReactNode }) {
         if (!abort.signal.aborted) setLoading(false);
       });
     return () => abort.abort();
-  }, [id]);
+  }, [id, reload]);
   useEffect(() => {
     const sale = params.get("sale");
-    if (sale) openSale(sale);
+    if (sale && !params.has("order")) openSale(sale);
   }, [params, openSale]);
   async function checkout() {
     if (!item || busyRef.current) return;
@@ -164,7 +165,7 @@ export function SalePurchaseProvider({ children }: { children: ReactNode }) {
   return (
     <Context.Provider value={{ openSale }}>
       {children}
-      <PurchaseReturn />
+      <PurchaseReturn key={params.get("order") || "none"} />
       <Dialog
         open={Boolean(id)}
         onOpenChange={(open) => {
@@ -217,6 +218,17 @@ export function SalePurchaseProvider({ children }: { children: ReactNode }) {
             >
               {c.cancel}
             </Button>
+            {!item && error && (
+              <Button
+                onClick={() => {
+                  setLoading(true);
+                  setError("");
+                  setReload((v) => v + 1);
+                }}
+              >
+                {c.retry}
+              </Button>
+            )}
             {item && (
               <Button
                 disabled={
@@ -254,6 +266,8 @@ export function SaleCheckoutButton({
 }
 function PurchaseReturn() {
   const params = useSearchParams();
+  const router = useRouter(),
+    pathname = usePathname();
   const { c, locale } = useCommerce();
   const id = params.get("order");
   const canceled = params.get("payment") === "canceled";
@@ -298,7 +312,15 @@ function PurchaseReturn() {
     <Dialog
       open
       onOpenChange={(open) => {
-        if (!open) setDismissed(id);
+        if (!open) {
+          setDismissed(id);
+          const next = new URLSearchParams(params.toString());
+          for (const key of ["order", "payment", "session_id"])
+            next.delete(key);
+          router.replace(pathname + (next.size ? "?" + next.toString() : ""), {
+            scroll: false,
+          });
+        }
       }}
     >
       <DialogContent closeLabel={c.close} className="max-w-lg rounded-2xl">

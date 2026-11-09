@@ -482,7 +482,6 @@ export function useDashboardDerivedData({
 
   const {c}=useCommerce();
   const navItems = [
-    {key:"sales" as const,label:c.sales,icon:<CreditCard className="h-4 w-4"/>},
     {
       key: "dashboard" as const,
       label: dashboard.header.title,
@@ -516,6 +515,7 @@ export function useDashboardDerivedData({
       label: dashboard.billing.title,
       icon: <CreditCard className="h-4 w-4" />,
     },
+    {key:"sales" as const,label:c.sales,icon:<CreditCard className="h-4 w-4"/>},
     {
       key: "events" as const,
       label: dashboard.events.eyebrow,

@@ -144,6 +144,15 @@ export function AdminNotificationsPage() {
     eventId,
     translations,
   ]);
+  useEffect(() => {
+    if (!draft.subject && !draft.body) return;
+    const warn = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      event.returnValue = "";
+    };
+    window.addEventListener("beforeunload", warn);
+    return () => window.removeEventListener("beforeunload", warn);
+  }, [draft.subject, draft.body]);
   async function send() {
     if (busy || loading) return;
     setBusy(true);
@@ -240,6 +249,7 @@ export function AdminNotificationsPage() {
           <label className="block space-y-2">
             <span>{c.title}</span>
             <Input
+              className="border-border bg-input-background"
               name="title"
               value={draft.subject}
               onChange={(e) => setDraft({ ...draft, subject: e.target.value })}
@@ -248,7 +258,7 @@ export function AdminNotificationsPage() {
           <label className="block space-y-2">
             <span>{c.description}</span>
             <Textarea
-              className="resize-none"
+              className="resize-none border-border bg-input-background"
               rows={7}
               value={draft.body}
               onChange={(e) => setDraft({ ...draft, body: e.target.value })}
@@ -334,7 +344,7 @@ export function AdminNotificationsPage() {
                       <label key={key} className="block space-y-1">
                         <span>{c[key]}</span>
                         <Textarea
-                          className="resize-none"
+                          className="resize-none border-border bg-input-background"
                           rows={key === "description" ? 4 : 2}
                           value={translations[language]?.[key] || ""}
                           onChange={(e) =>

@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -19,10 +19,16 @@ import {
 export function DashboardEventDetails() {
   const params = useSearchParams();
   const id = params.get("event");
+  return id && !params.has("order") ? <EventDialog key={id} id={id} /> : null;
+}
+function EventDialog({ id }: { id: string }) {
+  const params = useSearchParams(),
+    router = useRouter(),
+    pathname = usePathname();
   const { c, locale } = useCommerce();
   const [event, setEvent] = useState<DashboardContentItem | null>(null),
     [error, setError] = useState(false),
-    [closed, setClosed] = useState<string | null>(null);
+    [retry, setRetry] = useState(0);
   useEffect(() => {
     if (!id) return;
     const abort = new AbortController();
@@ -38,16 +44,29 @@ export function DashboardEventDetails() {
         if (!abort.signal.aborted) setError(true);
       });
     return () => abort.abort();
-  }, [id]);
-  if (!id || closed === id) return null;
+  }, [id, retry]);
   return (
     <Dialog
       open
       onOpenChange={(open) => {
-        if (!open) setClosed(id);
+        if (!open) {
+          const next = new URLSearchParams(params.toString());
+          next.delete("event");
+          router.replace(pathname + (next.size ? "?" + next.toString() : ""), {
+            scroll: false,
+          });
+        }
       }}
     >
       <DialogContent
+        onCloseAutoFocus={(e) => {
+          e.preventDefault();
+          document
+            .querySelector<HTMLAnchorElement>(
+              `a[href="/dashboard?tab=events&event=${CSS.escape(id)}"]`,
+            )
+            ?.focus();
+        }}
         closeLabel={c.close}
         className="max-h-[90dvh] max-w-xl overflow-y-auto"
       >
@@ -89,7 +108,11 @@ export function DashboardEventDetails() {
           </>
         ) : !error ? (
           <p role="status">{c.loading}</p>
-        ) : null}
+        ) : (
+          <Button variant="outline" onClick={() => setRetry((v) => v + 1)}>
+            {c.retry}
+          </Button>
+        )}
       </DialogContent>
     </Dialog>
   );

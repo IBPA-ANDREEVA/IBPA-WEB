@@ -175,7 +175,7 @@ export function SaleEditor({
         <Textarea
           name={key}
           rows={key === "description" ? 8 : 3}
-          className="resize-none"
+          className="resize-none border-border bg-input-background"
           aria-invalid={field === key}
           aria-describedby={field === key ? "sale-error" : undefined}
           value={form[key] || ""}
@@ -183,6 +183,7 @@ export function SaleEditor({
         />
       ) : (
         <Input
+          className="border-border bg-input-background"
           name={key}
           aria-invalid={field === key}
           aria-describedby={field === key ? "sale-error" : undefined}
@@ -274,6 +275,7 @@ export function SaleEditor({
                 <label key={f.name} className="space-y-2">
                   <span>{f.label}</span>
                   <Input
+                    className="border-border bg-input-background"
                     name={f.name}
                     inputMode={
                       f.name === "quantityLimit" ? "numeric" : "decimal"
@@ -301,6 +303,7 @@ export function SaleEditor({
               <label className="space-y-2">
                 <span>{c.startsAt}</span>
                 <Input
+                  className="border-border bg-input-background"
                   name="startsAt"
                   type="datetime-local"
                   value={start}
@@ -313,6 +316,7 @@ export function SaleEditor({
               <label className="space-y-2">
                 <span>{c.expiresAt}</span>
                 <Input
+                  className="border-border bg-input-background"
                   name="expiresAt"
                   type="datetime-local"
                   value={end}
@@ -349,7 +353,7 @@ export function SaleEditor({
                       <label key={key} className="block space-y-1 text-sm">
                         <span>{c[key]}</span>
                         <Textarea
-                          className="resize-none"
+                          className="resize-none border-border bg-input-background"
                           rows={key === "description" ? 5 : 2}
                           value={form.translations[locale]?.[key] || ""}
                           onChange={(e) =>

@@ -1,3 +1,4 @@
+import { startSaleReconciliation } from "./features/sales/server/sale-reconciliation";
 import { adminSalesRouter, dashboardSalesRouter } from "./routes/sales";
 import express from "express";
 import cors from "cors";
@@ -119,9 +120,10 @@ const apiErrorHandler: express.ErrorRequestHandler = (
 app.use(apiErrorHandler);
 
 async function startServer() {
+  const stopReconciliation = startSaleReconciliation();
   app.listen(port, () => {
     console.log(`Backend listening at port ${port}`);
-  });
+  }).on("close", stopReconciliation);
 }
 
 void startServer();

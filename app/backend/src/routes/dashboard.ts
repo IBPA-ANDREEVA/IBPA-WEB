@@ -1380,6 +1380,7 @@ dashboardRouter.post("/events/:id/register", clerkMiddleware(clerkOptions), asyn
       item: registration.event,
     });
   } catch (error) {
+    if(error instanceof SaleError) return res.status(error.status).json({error:error.code,code:error.code});
     console.error("[Dashboard /events/register POST] Error:", error);
     return res.status(
       error instanceof Error && error.message === "Event not found." ? 404 : 500,
@@ -1423,6 +1424,7 @@ dashboardRouter.delete("/events/:id/register", clerkMiddleware(clerkOptions), as
       item: registration.event,
     });
   } catch (error) {
+    if(error instanceof SaleError) return res.status(error.status).json({error:error.code,code:error.code});
     console.error("[Dashboard /events/register DELETE] Error:", error);
     return res.status(
       error instanceof Error && error.message === "Event not found." ? 404 : 500,

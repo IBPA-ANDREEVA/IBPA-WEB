@@ -26,7 +26,10 @@ export function CommerceSelect({
       value={value || "__all"}
       onValueChange={(v) => onChange(v === "__all" ? "" : v)}
     >
-      <SelectTrigger aria-label={label} className="min-w-40">
+      <SelectTrigger
+        aria-label={label}
+        className="min-w-40 border-border bg-input-background"
+      >
         <SelectValue placeholder={label} />
       </SelectTrigger>
       <SelectContent>
@@ -51,6 +54,11 @@ export function CommerceSearch({
   const [draft, setDraft] = useState(value);
   const [composing, setComposing] = useState(false);
   useEffect(() => {
+    // Route back/forward navigation restores the visible search alongside its results.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setDraft(value);
+  }, [value]);
+  useEffect(() => {
     if (composing) return;
     const timer = setTimeout(() => {
       if (value !== draft) onChange(draft);
@@ -63,7 +71,7 @@ export function CommerceSearch({
         ref={ref}
         aria-label={c.search}
         placeholder={c.search}
-        className="pr-12"
+        className="pr-12 border-border bg-input-background"
         value={draft}
         onCompositionStart={() => setComposing(true)}
         onCompositionEnd={() => setComposing(false)}

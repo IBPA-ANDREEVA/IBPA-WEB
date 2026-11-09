@@ -10,7 +10,7 @@ import {
   type ReactNode,
 } from "react";
 import { useUser } from "@clerk/nextjs";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { toast } from "sonner";
 import { Bell } from "lucide-react";
@@ -86,6 +86,8 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
   const { isSignedIn, user } = useUser();
   const { c, locale } = useCommerce();
   const params = useSearchParams();
+  const router = useRouter(),
+    pathname = usePathname();
   const [items, setItems] = useState<Notification[]>([]),
     [unreadCount, setCount] = useState(0),
     [loading, setLoading] = useState(true),
@@ -124,8 +126,10 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
           body: JSON.stringify(ids ? { ids } : { all: true }),
         });
         setRevision((n) => n + 1);
-        const latest = await commerceApi<Feed>("/api/dashboard/notifications");
-        if (generation.current === operation) {
+        const latest = await commerceApi<Feed>(
+          "/api/dashboard/notifications",
+        ).catch(() => null);
+        if (latest && mounted.current && generation.current === operation) {
           setItems(latest.notifications);
           setCount(latest.unreadCount);
         }
@@ -218,7 +222,12 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
   }, [user?.id, refresh]);
   useEffect(() => {
     const id = params.get("notification");
-    if (!id || openedParam.current === id || !isSignedIn) return;
+    if (!id) {
+      openedParam.current = null;
+      return;
+    }
+    if (params.has("order") || openedParam.current === id || !isSignedIn)
+      return;
     openedParam.current = id;
     const abort = new AbortController();
     commerceApi<Feed>(
@@ -255,6 +264,14 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
           if (!value) {
             setSelected(null);
             setDetailError(false);
+            if (params.has("notification")) {
+              const next = new URLSearchParams(params.toString());
+              next.delete("notification");
+              router.replace(
+                pathname + (next.size ? "?" + next.toString() : ""),
+                { scroll: false },
+              );
+            }
           }
         }}
       >
@@ -272,7 +289,9 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
           <DialogDescription>
             {display
               ? new Date(display.timestamp).toLocaleString(locale)
-              : c.error}
+              : detailError
+                ? c.error
+                : ""}
           </DialogDescription>
           {display && (
             <>
@@ -291,7 +310,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
   );
 }
 export function LinkedSale({ id }: { id: string }) {
-  const { c } = useCommerce();
+  const { c, locale } = useCommerce();
   const { openSale } = useSaleCheckout();
   const [item, setItem] = useState<SaleItem | null>(null);
   const [error, setError] = useState(false);
@@ -321,7 +340,7 @@ export function LinkedSale({ id }: { id: string }) {
         </p>
       ) : item ? (
         <>
-          <h3 className="font-semibold">{item.title}</h3>
+          <h3 className="font-semibold">{localizedSale(item, locale).title}</h3>
           <SaleSummary item={item} />
           <div className="flex flex-wrap gap-2">
             <Button variant="outline" onClick={() => openSale(id)}>
