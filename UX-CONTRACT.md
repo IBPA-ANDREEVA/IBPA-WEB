@@ -87,3 +87,15 @@ The Zoom Server-to-Server OAuth app owns these granular admin scopes: `user:read
 - Browser: Chrome desktop plus narrow-viewport checks of list overflow, dialogs, player controls, cue seeking, and dirty-state navigation.
 - Integration: authenticated admin session, Zoom Server-to-Server OAuth app, private R2 bucket with playback CORS, and migrated PostgreSQL schema.
 - Failure paths: malformed dates, missing MP4/transcript, Zoom/R2 failures, duplicate import, stale import recovery, invalid VTT, and ETag conflict.
+
+## Dashboard commerce and notifications
+
+The Sales and Notifications feature scope follows the implementation request recorded in `docs/SALES-AND-NOTIFICATIONS.md`; server rules are owned by `features/sales/server`, `features/notifications/server/dashboard-notifications.ts`, and migrations `0021`–`0022` in the backend.
+
+- The existing admin shell and dashboard tab shell own navigation. Sales and Notifications have dedicated, restorable dashboard routes; details use stable IDs in query parameters.
+- Shared Radix Dialog/Popover/Select primitives own focus, Escape, and outside-click behavior. Commerce inputs use existing `border` and `input-background` tokens so portal content remains visible. Native `datetime-local` controls follow the browser locale and store UTC instants.
+- `SalePurchaseProvider` owns details, confirmation, Checkout, and verified return states for catalog, notification, and event entry points. Payment return feedback takes priority over automatic detail dialogs, then restores the source context.
+- `NotificationProvider` owns the header feed, unread badge, read acknowledgement, and receipt-backed incoming toasts. Opening details marks the notification read; full-list filters and direct links use the same provider.
+- Sale edits preserve immutable order snapshots and use optimistic versions. Archive is reversible publication control, not record deletion. An interrupted checkout resumes its reserved order; a sold-out item remains resumable by the account holding that reservation.
+- UI copy uses the existing locale provider with EN/RU/UK commerce dictionaries. Admin-authored translations are optional and fall back to the default content. Existing English mailing audience controls retain their established admin behavior.
+- Publication and payment mutations show loading, errors, retry, and completion. Sale editor dismissal warns about unsaved changes. Notification composition warns on page unload. All read and payment authorization is checked by the backend.

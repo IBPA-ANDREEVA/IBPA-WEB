@@ -1,6 +1,12 @@
 {
   "profile": "product-admin",
-  "sourceRoots": ["app/web/src/features/admin/webinars"],
+  "sourceRoots": [
+    "app/web/src/features/admin/webinars",
+    "app/web/src/features/sales",
+    "app/web/src/features/notifications",
+    "app/web/src/features/admin/sales",
+    "app/web/src/features/admin/notifications"
+  ],
   "locale": "en-US",
   "canonicalMap": "UX-CONTRACT.md",
   "requiredCapabilities": [
