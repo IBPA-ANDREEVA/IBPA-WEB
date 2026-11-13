@@ -9,7 +9,7 @@ export async function importSourceCertificate(db: ReturnType<typeof import("@/li
     id: params.certificate.id,
     membershipId: params.membershipId,
     certificateNumber: params.certificate.certNumber,
-    certificateUrl: params.certificate.certificateUrl ?? null,
+    certificateUrl: params.certificate.certificateUrl ?? undefined,
     issuedAt: params.certificate.createdAt,
     expiresAt: params.certificate.expiresAt ?? null,
   });
