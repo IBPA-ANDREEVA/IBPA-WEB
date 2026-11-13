@@ -7,219 +7,8 @@ import { ArrowUpRight, FileText, ShieldCheck } from "lucide-react";
 import { ImageWithFallback } from "@/components/figma/ImageWithFallback";
 import { cyrillicDisplay } from "@/lib/cyrillic-fonts";
 import { homeTemplateAccent, homeTemplateDisplay } from "@/lib/home-template-fonts";
+import { documentHref, documentLocale, documents } from "@/lib/association-documents";
 import { useI18n } from "@/lib/i18n";
-
-type DocumentEntry = {
-  slug: string;
-  title: {
-    en: string;
-    ru: string;
-    uk: string;
-  };
-  description: {
-    en: string;
-    ru: string;
-    uk: string;
-  };
-};
-
-const documents: DocumentEntry[] = [
-  {
-    slug: "professional-standards.pdf",
-    title: {
-      en: "Professional Standards",
-      ru: "Профессиональные стандарты",
-      uk: "Професійні стандарти",
-    },
-    description: {
-      en: "Core professional expectations, quality benchmarks, and the framework that supports ethical practice across the beauty industry.",
-      ru: "Базовый документ с профессиональными ожиданиями, критериями качества и основой ответственной работы в индустрии красоты.",
-      uk: "Базовий документ із професійними очікуваннями, критеріями якості та основою відповідальної роботи в індустрії краси.",
-    },
-  },
-  {
-    slug: "code-of-ethics.pdf",
-    title: {
-      en: "Code of Ethics",
-      ru: "Кодекс этики",
-      uk: "Кодекс етики",
-    },
-    description: {
-      en: "Guiding principles for professional conduct, respectful communication, client care, and ethical representation.",
-      ru: "Принципы профессиональной этики, уважительной коммуникации, заботы о клиентах и корректного позиционирования.",
-      uk: "Принципи професійної етики, шанобливої комунікації, турботи про клієнтів і коректного позиціонування.",
-    },
-  },
-  {
-    slug: "membership-policy.pdf",
-    title: {
-      en: "Membership Policy",
-      ru: "Политика участия",
-      uk: "Політика членства",
-    },
-    description: {
-      en: "Membership framework, eligibility logic, expectations for participants, and baseline policy structure.",
-      ru: "Политика участия, логика допуска, ожидания к участникам и базовая структура правил сообщества.",
-      uk: "Політика участі, логіка допуску, очікування до учасників і базова структура правил спільноти.",
-    },
-  },
-  {
-    slug: "membership-agreement.pdf",
-    title: {
-      en: "Membership Agreement",
-      ru: "Соглашение об участии",
-      uk: "Угода про членство",
-    },
-    description: {
-      en: "Agreement covering participant responsibilities, association expectations, and accepted use of membership status.",
-      ru: "Соглашение с обязанностями участника, ожиданиями ассоциации и правилами использования статуса.",
-      uk: "Угода з обов’язками учасника, очікуваннями асоціації та правилами використання статусу.",
-    },
-  },
-  {
-    slug: "membership-review-procedure.pdf",
-    title: {
-      en: "Membership Review Procedure",
-      ru: "Процедура рассмотрения заявок",
-      uk: "Процедура розгляду заявок",
-    },
-    description: {
-      en: "Review process, evaluation flow, and the internal structure used to assess applications and supporting materials.",
-      ru: "Процедура рассмотрения заявок, этапы оценки и внутренняя логика проверки анкет и приложенных материалов.",
-      uk: "Процедура розгляду заявок, етапи оцінювання та внутрішня логіка перевірки анкет і доданих матеріалів.",
-    },
-  },
-  {
-    slug: "awards-and-recognition-policy.pdf",
-    title: {
-      en: "Awards & Recognition Policy",
-      ru: "Политика наград и признания",
-      uk: "Політика нагород і визнання",
-    },
-    description: {
-      en: "Recognition criteria, honorary distinctions, and the principles used to acknowledge contribution and excellence.",
-      ru: "Критерии признания, почетные статусы и принципы, по которым отмечаются вклад и профессиональное качество.",
-      uk: "Критерії визнання, почесні статуси та принципи, за якими відзначаються внесок і професійна якість.",
-    },
-  },
-  {
-    slug: "governance-policy.pdf",
-    title: {
-      en: "Governance Policy",
-      ru: "Политика управления",
-      uk: "Політика управління",
-    },
-    description: {
-      en: "Association governance principles, decision-making structure, and the baseline operating framework.",
-      ru: "Принципы управления ассоциацией, структура принятия решений и общая модель внутренней работы.",
-      uk: "Принципи управління асоціацією, структура ухвалення рішень і загальна модель внутрішньої роботи.",
-    },
-  },
-  {
-    slug: "board-officers-and-committee-governance-policy.pdf",
-    title: {
-      en: "Board, Officers & Committee Governance Policy",
-      ru: "Политика управления советом, офицерами и комитетами",
-      uk: "Політика управління радою, офіцерами та комітетами",
-    },
-    description: {
-      en: "Roles, authority lines, and governance responsibilities for directors, officers, and committee leadership.",
-      ru: "Роли, зоны ответственности и линия полномочий для директоров, должностных лиц и руководителей комитетов.",
-      uk: "Ролі, зони відповідальності та лінія повноважень для директорів, посадових осіб і керівників комітетів.",
-    },
-  },
-  {
-    slug: "committee-charters-policy.pdf",
-    title: {
-      en: "Committee Charters Policy",
-      ru: "Политика комитетов и рабочих групп",
-      uk: "Політика комітетів і робочих груп",
-    },
-    description: {
-      en: "Committee mandates, scope of work, and how special working groups operate within the association.",
-      ru: "Мандаты комитетов, круг задач и порядок работы профильных рабочих групп внутри ассоциации.",
-      uk: "Мандати комітетів, коло завдань і порядок роботи профільних робочих груп усередині асоціації.",
-    },
-  },
-  {
-    slug: "conflict-of-interest-policy.pdf",
-    title: {
-      en: "Conflict of Interest Policy",
-      ru: "Политика конфликта интересов",
-      uk: "Політика конфлікту інтересів",
-    },
-    description: {
-      en: "Standards for identifying, disclosing, and managing personal or business conflicts that may affect decisions.",
-      ru: "Правила выявления, раскрытия и урегулирования личных и деловых конфликтов интересов.",
-      uk: "Правила виявлення, розкриття та врегулювання особистих і ділових конфліктів інтересів.",
-    },
-  },
-  {
-    slug: "record-retention-policy.pdf",
-    title: {
-      en: "Record Retention Policy",
-      ru: "Политика хранения документов",
-      uk: "Політика зберігання документів",
-    },
-    description: {
-      en: "Document retention expectations, storage logic, and internal reference rules for organizational records.",
-      ru: "Политика хранения документов, логика архивирования и внутренние правила работы с организационными данными.",
-      uk: "Політика зберігання документів, логіка архівування та внутрішні правила роботи з організаційними даними.",
-    },
-  },
-  {
-    slug: "bylaws.pdf",
-    title: {
-      en: "Bylaws",
-      ru: "Устав",
-      uk: "Статут",
-    },
-    description: {
-      en: "Formal governing rules of the association, including structure, authority, voting, and foundational procedures.",
-      ru: "Формальные учредительные правила ассоциации: структура, полномочия, голосование и базовые процедуры.",
-      uk: "Формальні установчі правила асоціації: структура, повноваження, голосування та базові процедури.",
-    },
-  },
-  {
-    slug: "privacy-policy.pdf",
-    title: {
-      en: "Privacy Policy",
-      ru: "Политика конфиденциальности",
-      uk: "Політика конфіденційності",
-    },
-    description: {
-      en: "Privacy notice outlining how information may be collected, stored, processed, and protected.",
-      ru: "Политика конфиденциальности с описанием того, как данные могут собираться, храниться, обрабатываться и защищаться.",
-      uk: "Політика конфіденційності з описом того, як дані можуть збиратися, зберігатися, оброблятися та захищатися.",
-    },
-  },
-  {
-    slug: "terms-of-use.pdf",
-    title: {
-      en: "Terms of Use",
-      ru: "Условия использования",
-      uk: "Умови використання",
-    },
-    description: {
-      en: "Platform and website usage terms, including user responsibilities, limitations, and general conditions.",
-      ru: "Условия использования сайта и платформы, включая обязанности пользователей, ограничения и общие положения.",
-      uk: "Умови використання сайту та платформи, включно з обов’язками користувачів, обмеженнями та загальними положеннями.",
-    },
-  },
-  {
-    slug: "cancellation-policy-ibpa.pdf",
-    title: {
-      en: "Cancellation Policy",
-      ru: "Политика отмены",
-      uk: "Політика скасування",
-    },
-    description: {
-      en: "Cancellation, refund, and policy handling guidance for association-related payments and participation.",
-      ru: "Правила отмены, возврата и обработки платежей и участия, связанных с ассоциацией.",
-      uk: "Правила скасування, повернення та обробки платежів і участі, пов’язаних з асоціацією.",
-    },
-  },
-];
 
 export default function Standards() {
   const { locale } = useI18n();
@@ -328,9 +117,9 @@ export default function Standards() {
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             {documents.map((document, index) => {
-              const title = document.title[locale as "en" | "ru" | "uk"] ?? document.title.en;
-              const description = document.description[locale as "en" | "ru" | "uk"] ?? document.description.en;
-              const href = `/documents/${document.slug}`;
+              const title = document.title[locale];
+              const description = document.description[locale];
+              const href = documentHref(document.slug, locale);
 
               return (
                 <motion.div
@@ -346,7 +135,7 @@ export default function Standards() {
                       <FileText size={24} />
                     </div>
                     <span className={`text-[10px] uppercase text-slate-300 ${uiClassName}`}>
-                      PDF
+                      PDF · {documentLocale(locale).toUpperCase()}
                     </span>
                   </div>
 
@@ -360,6 +149,7 @@ export default function Standards() {
                   <div className="mt-8">
                     <Link
                       href={href}
+                      aria-label={`${copy.cta}: ${title} (PDF · ${documentLocale(locale).toUpperCase()})`}
                       target="_blank"
                       rel="noreferrer"
                       className={`inline-flex items-center gap-3 text-sm uppercase text-slate-900 transition-colors hover:text-[#72A0C1] ${uiClassName}`}
