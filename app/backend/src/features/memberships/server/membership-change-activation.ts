@@ -203,26 +203,38 @@ export async function activateMembershipChange(
   });
 
   // 2. Certificate and admin certificates follow the member to the new id.
-  if (previousCertificate) {
+  //    A membership holds at most one certificate (ibpa_certificates_membership_uidx),
+  //    so a row already issued for the new membership (an admin upload or another
+  //    writer that ran first) is folded into the carried-over one before the move.
+  const [newMembershipCertificate] = await db
+    .select()
+    .from(coreCertificates)
+    .where(eq(coreCertificates.membershipId, applicationId))
+    .limit(1);
+  if (previousCertificate && previousCertificate.id !== newMembershipCertificate?.id) {
+    if (newMembershipCertificate) {
+      await db.delete(coreCertificates).where(eq(coreCertificates.id, newMembershipCertificate.id));
+    }
     await db
       .update(coreCertificates)
-      .set({ membershipId: applicationId, expiresAt: baseMembership.expiresAt })
+      .set({
+        membershipId: applicationId,
+        expiresAt: baseMembership.expiresAt,
+        certificateUrl: previousCertificate.certificateUrl ?? newMembershipCertificate?.certificateUrl ?? null,
+      })
       .where(eq(coreCertificates.id, previousCertificate.id));
-  } else {
-    const [existingCertificate] = await db
-      .select()
-      .from(coreCertificates)
-      .where(eq(coreCertificates.membershipId, applicationId))
-      .limit(1);
-    if (!existingCertificate) {
-      await db.insert(coreCertificates).values({
+  } else if (!newMembershipCertificate) {
+    await db
+      .insert(coreCertificates)
+      .values({
         id: crypto.randomUUID(),
         membershipId: applicationId,
         certificateNumber,
         issuedAt: paidAt,
         expiresAt: baseMembership.expiresAt,
-      });
-    }
+      })
+      // A concurrent activation may have inserted it first; either row is valid.
+      .onConflictDoNothing();
   }
   if (previousMembership) {
     await db

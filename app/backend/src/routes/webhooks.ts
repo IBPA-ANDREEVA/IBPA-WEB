@@ -240,7 +240,6 @@ async function ensurePaidApplication(applicationId: string, stripeSessionId: str
     id: applicationId,
     membershipId: applicationId,
     certificateNumber,
-    certificateUrl: null,
     issuedAt: new Date(),
     expiresAt,
   });
