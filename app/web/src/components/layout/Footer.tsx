@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Instagram, Mail, MapPin, Phone } from "lucide-react";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { ImageWithFallback } from "@/components/figma/ImageWithFallback";
+import { documentHref } from "@/lib/association-documents";
 import { useI18n } from "@/lib/i18n";
 
 export const Footer = () => {
@@ -112,9 +113,9 @@ export const Footer = () => {
   ];
 
   const legalLinks = [
-    { name: copy.privacy, href: "/privacy" },
-    { name: copy.terms, href: "/terms" },
-    { name: copy.cancellation, href: "/cancellation-policy" },
+    { name: copy.privacy, href: documentHref("privacy-policy.pdf", locale) },
+    { name: copy.terms, href: documentHref("terms-of-use.pdf", locale) },
+    { name: copy.cancellation, href: documentHref("cancellation-policy-ibpa.pdf", locale) },
   ];
 
   return (
@@ -208,9 +209,9 @@ export const Footer = () => {
               <ul className="space-y-3">
                 {legalLinks.map((link) => (
                   <li key={link.name}>
-                    <Link href={link.href} className={`text-sm text-slate-300 transition-colors hover:text-white ${bodyClassName}`}>
+                    <a href={link.href} className={`text-sm text-slate-300 transition-colors hover:text-white ${bodyClassName}`}>
                       {link.name}
-                    </Link>
+                    </a>
                   </li>
                 ))}
               </ul>

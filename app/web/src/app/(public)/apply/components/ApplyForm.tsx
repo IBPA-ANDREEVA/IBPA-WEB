@@ -1681,6 +1681,16 @@ export function ApplyForm({ change }: { change?: MembershipChangeContext }) {
           </div>
           </>
           )}
+          <div className="space-y-3 rounded-[36px] border border-slate-100 bg-white p-8 text-sm text-slate-600">
+            <h3 className="font-semibold text-slate-900">
+              {isRu ? "Вопросы по заявке?" : isUk ? "Запитання щодо заявки?" : "Questions about your application?"}
+            </h3>
+            <address className="space-y-2 not-italic">
+              <p><a className="underline underline-offset-2" href="tel:+12795297117">+1 (279) 529-7117</a></p>
+              <p><a className="break-words underline underline-offset-2" href="mailto:support@ibpassociations.org">support@ibpassociations.org</a></p>
+              <p>1220 Melody Ln, Suite 110, Roseville, CA 95678</p>
+            </address>
+          </div>
         </aside>
       </div>
 

@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import type { ReactNode } from "react";
 import type { UseFormRegister } from "react-hook-form";
+import { documentHref, documentLocale, documents, type DocumentSlug } from "@/lib/association-documents";
 import type { MembershipCategory } from "@/lib/membership";
 import { PromoCodeField } from "./PromoCodeField";
 
@@ -40,6 +41,17 @@ export function ConfirmStep({
   hidePromoCode = false,
 }: ConfirmStepProps) {
   const t = (en: string, ru: string, uk: string) => (isRu ? ru : isUk ? uk : en);
+  const locale = isRu ? "ru" : isUk ? "uk" : "en";
+  const documentLink = (slug: DocumentSlug) => (
+    <a
+      href={documentHref(slug, locale)}
+      target="_blank"
+      rel="noreferrer"
+      className="underline underline-offset-2 hover:text-black"
+    >
+      {documents.find((document) => document.slug === slug)?.title[locale]} (PDF · {documentLocale(locale).toUpperCase()})
+    </a>
+  );
   const isOrganization = selectedCategory === "Business" || selectedCategory === "Brand";
 
   return (
@@ -137,12 +149,19 @@ export function ConfirmStep({
             : t("I agree to comply with IBPA professional standards.", "Я согласен(а) соблюдать профессиональные стандарты IBPA.", "Я погоджуюся дотримуватися професійних стандартів IBPA.")}</span>
         </label>
         {renderFieldError("agreeStandards")}
+        <ul className="space-y-2 pl-7 text-sm text-slate-700">
+          <li>{documentLink("code-of-ethics.pdf")}</li>
+          <li>{documentLink("professional-standards.pdf")}</li>
+          <li>{documentLink("membership-agreement.pdf")}</li>
+          <li>{documentLink("terms-of-use.pdf")}</li>
+        </ul>
 
         <label className="flex items-start gap-3 text-sm text-slate-700">
           <input type="checkbox" {...register("privacyConsent", { required: true })} className="mt-1 accent-black" />
           <span>{t("I consent to personal data processing for membership review.", "Я даю согласие на обработку персональных данных для рассмотрения заявки.", "Я надаю згоду на обробку персональних даних для розгляду заявки.")}</span>
         </label>
         {renderFieldError("privacyConsent")}
+        <p className="pl-7 text-sm text-slate-700">{documentLink("privacy-policy.pdf")}</p>
       </div>
 
       {!isOrganization && <div className="grid gap-6 md:grid-cols-2">
