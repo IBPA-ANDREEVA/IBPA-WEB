@@ -20,6 +20,12 @@ export type PageSeo = {
  * Do not repeat those phrases on the other pages.
  */
 export const PAGE_SEO = {
+  beautyGivesBack: {
+    path: "/beauty-gives-back",
+    title: "Beauty Gives Back — Thanksgiving Edition 2026",
+    description: "Offer or find free professional support with IBPA’s Beauty Gives Back initiative. Join the beauty community from November 24 to December 6, 2026.",
+    breadcrumb: "Beauty Gives Back",
+  },
   home: {
     path: "/",
     // Rendered with `absoluteTitle`: the full brand name must stay in the title.
@@ -135,10 +141,11 @@ export const PAGE_SEO = {
   },
 } as const satisfies Record<string, PageSeo>;
 
-export type LocalizedPageSeoKey = "home" | "about" | "membership" | "standards" | "events";
+export type LocalizedPageSeoKey = "home" | "about" | "membership" | "standards" | "events" | "beautyGivesBack";
 
 const LOCALIZED_CORE_PAGE_SEO = {
   en: {
+    beautyGivesBack: PAGE_SEO.beautyGivesBack,
     home: PAGE_SEO.home,
     about: PAGE_SEO.about,
     membership: PAGE_SEO.membership,
@@ -146,6 +153,7 @@ const LOCALIZED_CORE_PAGE_SEO = {
     events: PAGE_SEO.events,
   },
   ru: {
+    beautyGivesBack: { ...PAGE_SEO.beautyGivesBack, description: "Бесплатная профессиональная взаимопомощь в индустрии красоты. Предложите помощь или оставьте запрос в Beauty Gives Back, 24 ноября — 6 декабря 2026." },
     home: {
       path: "/",
       title: "Международная ассоциация beauty-профессионалов | IBPA",
@@ -183,6 +191,7 @@ const LOCALIZED_CORE_PAGE_SEO = {
     },
   },
   uk: {
+    beautyGivesBack: { ...PAGE_SEO.beautyGivesBack, description: "Безкоштовна професійна взаємодопомога в індустрії краси. Запропонуйте допомогу або залиште запит у Beauty Gives Back, 24 листопада — 6 грудня 2026." },
     home: {
       path: "/",
       title: "Міжнародна асоціація beauty-професіоналів | IBPA",

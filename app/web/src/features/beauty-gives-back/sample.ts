@@ -1,0 +1,58 @@
+import type { Listing } from "./catalog";
+
+// Original demonstration records. Loaded only by explicit ?preview=1.
+export const SAMPLE_LISTINGS: Listing[] = [
+  {
+    id: "BG-001",
+    type: "offer",
+    title: "Бесплатный разбор портфолио",
+    description:
+      "Посмотрю ваши работы по наращиванию ресниц и подскажу, что усилить перед поиском работы или участием в чемпионате.",
+    name: "Юлия",
+    city: "Сакраменто",
+    country: "США",
+    specialization: "Ресницы",
+    format: "онлайн",
+    language: "русский",
+    spots: "5",
+    telegram: "primer_telegram",
+    instagram: "primer.instagram",
+    status: "open",
+    sample: true,
+  },
+  {
+    id: "BG-002",
+    type: "request",
+    title: "Ищу наставника по развитию салона",
+    description:
+      "Открываю первый кабинет, нужен час разговора с владелицей салона о ценах и поиске клиентов.",
+    name: "",
+    city: "Майами",
+    country: "США",
+    specialization: "Брови",
+    format: "онлайн",
+    language: "русский",
+    spots: "",
+    telegram: "primer_telegram",
+    instagram: "",
+    status: "open",
+    sample: true,
+  },
+  {
+    id: "BG-003",
+    type: "offer",
+    title: "Место на базовом курсе маникюра",
+    description: "Дарю одно место на очном обучении для начинающего мастера.",
+    name: "",
+    city: "Лос-Анджелес",
+    country: "США",
+    specialization: "Ногти",
+    format: "офлайн",
+    language: "русский, английский",
+    spots: "1",
+    telegram: "",
+    instagram: "primer.instagram",
+    status: "in_progress",
+    sample: true,
+  },
+];
