@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { CampaignBanner } from "@/features/beauty-gives-back/CampaignBanner";
 import { Hero } from "@/components/landing/Hero";
 import { AboutSection } from "@/components/landing/AboutSection";
 import { BrandTickerSection } from "@/components/landing/BrandTickerSection";
@@ -33,6 +34,7 @@ export default async function Home() {
       <JsonLd data={organizationJsonLd()} />
       <JsonLd data={websiteJsonLd(locale)} />
       <Hero locale={locale} />
+      <CampaignBanner locale={locale} />
       <AboutSection />
       <BrandTickerSection locale={locale} />
       

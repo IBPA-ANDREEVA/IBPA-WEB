@@ -128,3 +128,9 @@ The homepage partner showcase uses the public site's Cormorant display typograph
 - **Do:** Keep media state honest: only show tracks and renditions that exist.
 - **Don't:** Add unrelated metrics, oversized headers, or ornamental animation to operational routes.
 - **Don't:** expose provider secrets, permanent media URLs, or color-only state.
+
+## Beauty Gives Back public campaign
+
+`/beauty-gives-back` follows the supplied November 2026 campaign references: navy `#071933`, muted blue `#72A0C1`, white cards, `#EFF3F7` sections and `#D4E0F0` borders. Its scoped CSS module reuses the public font variables, Cormorant editorial headings, Marck Script accent, existing main hero photography, Navbar, Footer, SectionPattern, ImageWithFallback, Radix Select and Sonner. The shared header uses its readable treatment on this route. The homepage gains a compact banner without navigation expansion.
+
+The catalog is a public, moderated read-only dataset with URL-backed filters, twelve-card progressive disclosure, full-dataset statistics, and explicit loading/empty/error states. EN/RU/UK static copy follows the existing locale cookie/provider; listing text is never translated. Only `?preview=1` shows the original sample records, with conspicuous notices and non-navigating contact buttons. Production never falls back to samples.

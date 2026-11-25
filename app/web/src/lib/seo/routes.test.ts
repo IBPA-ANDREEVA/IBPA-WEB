@@ -153,7 +153,7 @@ test("sitemap includes only canonical site-published records and never member pr
   const entries = buildSitemapEntries(news, [event, event]);
   const urls = entries.map((entry) => entry.url);
 
-  assert.equal(entries.length, 24, "16 static + 7 canonical news + 1 event");
+  assert.equal(entries.length, INDEXABLE_ROUTES.length + 8, "static routes + 7 canonical news + 1 event");
   assert.equal(new Set(urls).size, urls.length, "sitemap URLs must be unique");
   assert.ok(urls.every((url) => url.startsWith("https://www.ibpassociations.org/")));
   assert.ok(!urls.some((url) => url.includes("duplicate-news") || url.includes("draft-news")));

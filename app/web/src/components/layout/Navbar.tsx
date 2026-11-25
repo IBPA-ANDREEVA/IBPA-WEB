@@ -52,7 +52,7 @@ export const Navbar = ({ dashboardHref = "/dashboard" }: NavbarProps) => {
   ];
   const desktopNavLinks = navLinks.filter((link) => link.href !== "/governance");
 
-  const useReadableHeader = scrolled || isMembersPage;
+  const useReadableHeader = scrolled || isMembersPage || pathname === "/beauty-gives-back";
   const useReadableTextColors = useReadableHeader || isReadableTextPage;
   const useDarkLogo = useReadableHeader || isReadableTextPage;
   const navShellClassName = useReadableHeader

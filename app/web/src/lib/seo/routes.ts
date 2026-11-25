@@ -17,6 +17,7 @@ export const INDEXABLE_ROUTES: readonly IndexableRoute[] = [
   { path: "/standards" },
   { path: "/governance" },
   { path: "/members" },
+  { path: "/beauty-gives-back", lastModified: "2026-11-24" },
   { path: "/events" },
   { path: "/news" },
   { path: "/partnership" },
